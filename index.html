@@ -94,30 +94,31 @@ h1{margin:0;font:400 24px/1 'Gamja Flower','Jua',sans-serif;display:flex;align-i
 .board small{display:block;font:11px/15px 'Jua',sans-serif}
 .plate{font:400 12px/16px 'Jua',sans-serif;background:#FFF4F7;border:2px solid #C8325F;color:#8F1F44;border-radius:6px;padding:1px 6px;white-space:nowrap;text-align:center}
 .plate.vac{background:#F1F5F9;border-color:#7D8AA6;color:#44506B}
-.joy{position:absolute;left:12px;bottom:calc(var(--sh,90px) + 20px);width:108px;height:108px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.8);z-index:8;touch-action:none}
+.joy{position:absolute;left:12px;bottom:calc(var(--sh,90px) + 70px);width:108px;height:108px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.8);z-index:8;touch-action:none}
 .joy .knob{position:absolute;left:28px;top:28px;width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid var(--line);box-shadow:0 3px 0 rgba(0,0,0,.25)}
 .joy[hidden],.acts[hidden],.tobtn[hidden],.chatbar[hidden],.emopick[hidden],.toast[hidden],.datebar[hidden]{display:none}
-.acts{position:absolute;right:10px;bottom:calc(var(--sh,90px) + 20px);display:flex;flex-direction:column;gap:7px;z-index:8}
+.acts{position:absolute;right:10px;bottom:calc(var(--sh,90px) + 70px);display:flex;flex-direction:column;gap:7px;z-index:8}
 .ab{width:48px;height:48px;border-radius:14px;border:3px solid var(--line);background:#fff;font-size:21px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.2);position:relative}
 .ab:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
 .ab .dot{position:absolute;right:-4px;top:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--heart);color:#fff;font:12px/18px 'Jua',sans-serif;padding:0 4px}
 .ab .dot[hidden]{display:none}
-.emopick{position:absolute;right:66px;bottom:calc(var(--sh,90px) + 130px);z-index:9;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px;display:grid;grid-template-columns:repeat(4,44px);gap:4px}
+.emopick{position:absolute;right:66px;bottom:calc(var(--sh,90px) + 150px);z-index:9;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px;display:grid;grid-template-columns:repeat(4,44px);gap:4px}
 .emopick button{width:44px;height:44px;border:0;background:#F1F5F9;border-radius:10px;font-size:22px;cursor:pointer}
-.chatbar{position:absolute;left:8px;right:8px;bottom:calc(var(--sh,90px) + 16px);z-index:9;display:flex;gap:6px;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px}
-.chatbar input{flex:1;height:44px;border:2px solid #9AA6BF;border-radius:10px;padding:0 10px;font:inherit;font-size:16px}
-.tobtn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--sh,90px) + 20px);z-index:8;min-height:40px;padding:0 12px;border-radius:12px;border:3px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
+.chatbar{position:absolute;left:8px;right:8px;bottom:calc(var(--sh,90px) + 14px);z-index:9;display:flex;align-items:center;gap:6px;background:#FFF4F8;border:3px solid #E8578A;border-radius:999px;padding:4px 4px 4px 10px;box-shadow:0 3px 0 rgba(232,87,138,.35)}.chatbar .chi{font-size:18px}.chatbar .btn{min-height:36px;border-radius:999px;font-size:14px;padding:0 14px;border-width:2.5px}
+.chatbar input{flex:1;min-width:0;height:36px;border:0;background:transparent;padding:0 4px;font:inherit;font-size:16px;outline:none}
+.tobtn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--sh,90px) + 70px);z-index:8;min-height:40px;padding:0 12px;border-radius:12px;border:3px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
 .toast{position:absolute;left:50%;top:calc(96px + env(safe-area-inset-top));transform:translateX(-50%);z-index:9;font-size:13px;background:rgba(30,42,68,.86);color:#fff;border-radius:999px;padding:4px 14px;max-width:92%;text-align:center;pointer-events:none}
 .datebar{position:absolute;left:50%;top:calc(128px + env(safe-area-inset-top));transform:translateX(-50%);z-index:8;font:400 13px/18px 'Jua',sans-serif;background:#FFE3EC;color:#8F1F44;border:2px solid #F0558A;border-radius:999px;padding:3px 12px;white-space:nowrap;pointer-events:none}
 .sheet{position:absolute;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:10}
-.cardin{background:rgba(255,255,255,.95);border:3px solid var(--line);border-radius:18px;padding:10px 13px;display:flex;flex-direction:column;gap:6px;box-shadow:0 4px 0 rgba(30,42,68,.3);max-height:46vh;overflow:auto}
+.cardin{background:rgba(255,255,255,.95);border:3px solid var(--line);border-radius:16px;padding:7px 11px;display:flex;flex-direction:column;gap:4px;box-shadow:0 4px 0 rgba(30,42,68,.3);max-height:32vh;overflow:auto}
+.sheet .btn{min-height:34px;font-size:13.5px;padding:0 10px;border-width:2.5px;border-radius:10px;box-shadow:0 2px 0 #7A1E3D}.sheet .btn.ghost{box-shadow:0 2px 0 #9AA6BF}.sheet .actions{gap:5px}.sheet .foot{font-size:10px;margin:0}.sheet .hearts{font-size:12px}.sheet .note{font-size:12px;padding:3px 8px}.sheet .why span{font-size:11px}
 .crow{display:flex;align-items:center;gap:8px}.crow .ct{flex:1}
-.tog{flex:none;width:40px;height:34px;border-radius:10px;border:2.5px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
+.tog{flex:none;width:36px;height:28px;border-radius:10px;border:2.5px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
 .tog:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
 .sheet.min .cd,.sheet.min .why,.sheet.min .note,.sheet.min .actions,.sheet.min .foot{display:none}
 .sheet.min .hearts{font-size:13px}
-.ct{font:400 22px/1.2 'Gamja Flower','Jua',sans-serif;color:var(--pink)}
-.cd{font-size:14px;line-height:20px;color:var(--sub)}
+.ct{font:400 18px/1.2 'Gamja Flower','Jua',sans-serif;color:var(--pink)}
+.cd{font-size:12.5px;line-height:17px;color:var(--sub)}
 .hearts{font-size:15px;letter-spacing:1px}
 .hearts[hidden]{display:none}
 .why{display:flex;flex-wrap:wrap;gap:4px}.why:empty{display:none}.why span{font-size:12px;background:#FFE3EC;color:#8F1F44;border-radius:6px;padding:1px 6px}.why span.neg{background:#EEF1F5;color:#44506B}
@@ -241,6 +242,13 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .in.bad,.apg:has(.bad){outline:3px solid #E0443F;outline-offset:2px;animation:shake .4s}
 #pm.bad,#am.bad{outline:3px solid #E0443F}
 @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.gmk{transform:rotateZ(-45deg) rotateX(-60deg) translateZ(220px)!important;background:none;border:0;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;opacity:0;transition:opacity .5s;pointer-events:none!important;z-index:3}
+.gmk.on{opacity:1;pointer-events:auto!important}
+.gmk .gl{font:400 14px/1.15 'Jua',sans-serif;background:#fff;border:2.5px solid #E8578A;color:#C8325F;border-radius:14px;padding:4px 12px;white-space:nowrap;box-shadow:0 3px 0 rgba(232,87,138,.35);text-align:center}
+.gmk .gl small{display:block;font-size:10.5px;color:var(--sub)}
+.gmk .ga{font-size:18px;line-height:18px;color:#E8578A;text-shadow:0 2px 0 #fff;animation:gbob .9s ease-in-out infinite}
+.gmk.on .gl{animation:gpop .5s ease-out}
+@keyframes gbob{50%{transform:translateY(6px)}}@keyframes gpop{0%{transform:scale(.6)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -257,13 +265,12 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 <div class="joy" id="joy" hidden aria-label="이동 조이스틱"><div class="knob" id="knob"></div></div>
 <div class="acts" id="acts" hidden>
 <button class="ab" type="button" id="bEmo" aria-label="감정표현">😊</button>
-<button class="ab" type="button" id="bChat" aria-label="말하기">💬</button>
 <button class="ab" type="button" id="bThrow" aria-label="눈덩이 던지기">⛄</button>
 <button class="ab" type="button" id="bBag" aria-label="가방">🎒</button>
 <button class="ab" type="button" id="bMis" aria-label="오늘의 미션">📜<span class="dot" id="misDot" hidden></span></button>
 </div>
 <div class="emopick" id="emopick" hidden></div>
-<form class="chatbar" id="chatbar" hidden><input id="chatIn" maxlength="40" autocomplete="off" placeholder="말풍선으로 보낼 말 (40자)" aria-label="말하기"><button class="btn" type="submit">보내기</button></form>
+<form class="chatbar" id="chatbar" hidden><span class="chi" aria-hidden="true">💬</span><input id="chatIn" maxlength="40" autocomplete="off" enterkeyhint="send" placeholder="주민들에게 말 걸기 (40자)" aria-label="채팅 입력"><button class="btn" type="submit">보내기</button></form>
 <button class="tobtn" id="tome" type="button" hidden>내 캐릭터로</button>
 </div>
 <header class="hud">
@@ -1005,8 +1012,9 @@ function buildWorld() {
   for (let i = 0, n = 0; n < 22 && i < 1200; i++) { const x = 80 + rd() * (MAPW - 160), y = 800 + rd() * (MAPH - 900); if ((x > 1100 || y > 1500) && freeAt(x, y)) { o.push(pine(x, y, .95 + rd() * .3)); n++; } }
   o.push(`<div class="arena" style="left:${ARENA.x - ARENA.r}px;top:${ARENA.y - ARENA.r}px;width:${ARENA.r * 2}px;height:${ARENA.r * 2}px"></div>`);
   o.push(st(ARENA.x + 70, ARENA.y + 120, 130, 26, '<div class="board">⛄ 눈싸움 광장</div>'));
-  o.push(st(330, 470, 110, 26, '<div class="board">🎣 얼음낚시</div>'));
+  o.push(st(170, 475, 110, 26, '<div class="board">🎣 얼음낚시</div>'));
   o.push(pochaZone()); o.push(tapgolZone());
+  o.push(gameMarkers());
   o.push('<div id="items" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   o.push('<div id="people" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   $('world').innerHTML = o.join('');
@@ -1332,7 +1340,6 @@ function frameInner(t) {
     me.x = clamp(me.x + wx * k * SPEED * dt, 30, MAPW - 30);
     me.y = clamp(me.y + wy * k * SPEED * dt, 470, MAPH - 20);
     me.moving = true; cam.free = false; me.fx = wx; me.fy = wy;
-    if (startMove && sheetOpen && !sel && !nearHouse() && !SPOTS.some((q) => Math.hypot(q.x - me.x, q.y - me.y) < q.r)) { sheetOpen = false; renderCard(); }
     if (vx < -0.1) me.left = true; else if (vx > 0.1) me.left = false;
     if (startMove) { me.movedAt = Date.now(); if (myG) savePos(t, true); }
     if (t - me.lastSave > SAVE_MS) savePos(t);
@@ -1410,7 +1417,7 @@ function frameInner(t) {
     if (sel && sel.id) { const p = posOf(sel.id); k += p && dist(p, me) <= RANGE ? 'R' : 'r'; }
     const sp = coupleOf.has(myId) ? SPOTS.find((s) => Math.hypot(s.x - me.x, s.y - me.y) < s.r) : null; k += sp ? sp.id : '-';
     const hs = nearHouse(); k += hs ? hs.id : '-'; k += inZone('pocha', me) ? 'P' : 'p'; k += inZone('tapgol', me) ? 'T' : 't'; k += nearSea() ? 'S' : 's'; k += inArena(me) ? 'A' : 'a';
-    if (k !== uiKey) { const arrive = (sp && !uiKey.includes(sp.id)) || (hs && !uiKey.includes(hs.id)) || (k.includes('P') && !uiKey.includes('P')) || (k.includes('T') && !uiKey.includes('T')) || (k.includes('S') && !uiKey.includes('S')) || (k.includes('A') && !uiKey.includes('A')); uiKey = k; if (arrive) sheetOpen = true; renderCard(); }
+    if (k !== uiKey) { const arrive = (sp && !uiKey.includes(sp.id)) || (hs && !uiKey.includes(hs.id)) || (k.includes('P') && !uiKey.includes('P')) || (k.includes('T') && !uiKey.includes('T')) || (k.includes('S') && !uiKey.includes('S')) || (k.includes('A') && !uiKey.includes('A')); uiKey = k; renderCard(); }
   }
 }
 let errShown = 0;
@@ -1916,7 +1923,35 @@ function sbResults() {
   else $('sbMsg').textContent = top && top[1] > 0 ? `${residents.get(top[0])?.nick || '주민'}님이 우승했어요!` : '아무도 맞히지 못했어요. 다음엔 더 가까이!';
   whenFree(() => openDlg('sbD'));
 }
-function gamesTick() { huntTick(); sbTick(); choTick(); }
+/* ---------- 미니게임 위치 표시 (가까이 가면 화살표 + 이름) ---------- */
+const GAME_MARKS = [
+  { id: 'fish', x: 170, y: 520, lift: 40, t: '🎣 얼음낚시', d: '바다 앞에서 낚시해요' },
+  { id: 'arena', x: ARENA.x, y: ARENA.y, lift: 30, t: '⛄ 눈싸움 대전', d: '2명 이상 모이면 시작' },
+  { id: 'soju', x: ZONES.pocha.x, y: ZONES.pocha.y, lift: 175, t: '🍶 소주 데이트', d: '짝과 함께 와요' },
+  { id: 'omok', x: ZONES.tapgol.x, y: ZONES.tapgol.y, lift: 245, t: '♟ 오목', d: '주민 또는 컴퓨터와 대결' },
+  { id: 'couple', x: 600, y: 905, lift: 30, t: '💕 커플 게임', d: '초성게임 · 빼빼로게임' },
+  { id: 'treasure', x: 700, y: 1300, lift: 30, t: '🗺 보물찾기', d: '탐지기를 켜고 찾아요' }
+];
+function gameMarkers() {
+  return GAME_MARKS.map((g) => `<button type="button" class="st gmk" id="gm-${g.id}" data-gm="${g.id}" style="left:${g.x - 90}px;top:${g.y - g.lift - 76}px;width:180px;height:${g.lift + 76}px" aria-label="${g.t}, ${g.d}"><span class="gl">${g.t}<small>${g.d}</small></span><span class="ga" aria-hidden="true">▼</span></button>`).join('');
+}
+let gmLast = 0;
+function markTick(now) {
+  if (now - gmLast < 250) return; gmLast = now;
+  const m = mine();
+  GAME_MARKS.forEach((g) => { const el = document.getElementById('gm-' + g.id); if (!el) return; const near = !!m && Math.hypot(me.x - g.x, me.y - g.y) < 340; el.classList.toggle('on', near); });
+}
+function useMarker(id) {
+  const pid = partnerIdOf(myId);
+  if (!mine()) { toast('마을에 입장하면 게임을 할 수 있어요'); return; }
+  if (id === 'fish') { if (nearSea()) openFishing(); else toast('얼음 바다 바로 앞까지 가면 낚시할 수 있어요 🎣'); }
+  if (id === 'arena') { if (!inArena(me)) toast('파란 점선 동그라미 안으로 들어가 보세요 ⛄'); else { const n = arenaCount(); if (sbOn()) toast('눈싸움이 진행 중이에요!'); else if (n >= 2) sbStart(); else toast(`2명 이상 모이면 시작할 수 있어요 (지금 ${n}명)`); } }
+  if (id === 'soju') { if (!pid) toast('짝이 생기면 소주 데이트를 할 수 있어요 🍶'); else if (!inZone('pocha', me)) toast('포장마차 안으로 들어가 보세요'); else { write({ soju: { with: pid, at: Date.now() } }).catch(() => {}); affAdd(3); } }
+  if (id === 'omok') { if (!inZone('tapgol', me)) toast('탑골공원 안으로 들어가 보세요 ♟'); else { openOmok('ai'); toast('주민을 누르면 오목 대결 신청도 할 수 있어요'); } }
+  if (id === 'couple') { if (!pid) toast('짝이 생기면 초성게임·빼빼로게임을 할 수 있어요 💕'); else { sel = { id: pid }; sheetOpen = true; uiKey = ''; syncPeople(); renderCard(); toast('아래 카드에서 게임을 골라요'); } }
+  if (id === 'treasure') { if (!hunt.on) { hunt.on = true; hunt.sig = ''; toast('보물 탐지기를 켰어요! 화면 위 표시를 보며 찾아보세요 🗺'); } else toast('화면 위 탐지기가 뜨거워질 때까지 걸어가 보세요'); huntTick(); renderCard(); }
+}
+function gamesTick() { huntTick(); sbTick(); choTick(); markTick(performance.now()); }
 
 function showAsk(title, desc, btns, grid = false) {
   $('askT').textContent = title; $('askD').textContent = desc;
@@ -2060,7 +2095,7 @@ function renderCard() {
   const ct = $('ct'), cd = $('cd'), why = $('why'), act = $('actions'), note = $('note'), hearts2 = $('hearts');
   ct.style.color = 'var(--pink)'; why.innerHTML = ''; act.innerHTML = ''; hearts2.hidden = true;
   note.hidden = !notice; note.textContent = notice;
-  if (notice && notice !== renderCard.lastNotice) sheetOpen = true; renderCard.lastNotice = notice;
+  renderCard.lastNotice = notice;
   $('sheet').classList.toggle('min', !sheetOpen); $('tog').textContent = sheetOpen ? '▼' : '▲'; $('tog').setAttribute('aria-expanded', sheetOpen); $('tog').setAttribute('aria-label', sheetOpen ? '정보 접기' : '정보 펼치기');
   const m = mine();
   const tags = (list) => { why.innerHTML = list.map(([t, g]) => `<span class="${g ? '' : 'neg'}">${esc(t)}</span>`).join(''); };
@@ -2310,7 +2345,7 @@ $('misL').addEventListener('click', (e) => {
 document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => b.closest('dialog').close()));
 ['bag','mis','alb','cfm','dlg','ask','room','omok','truth','choD','pprD','fishD','dex','sbD'].forEach((id) => $(id).addEventListener('close', () => setTimeout(showIncoming, 300)));
 $('emopick').innerHTML = EMOS.map((e) => `<button type="button" data-emo="${e}" aria-label="${e}">${e}</button>`).join('');
-$('bEmo').addEventListener('click', () => { $('emopick').hidden = !$('emopick').hidden; $('chatbar').hidden = true; });
+$('bEmo').addEventListener('click', () => { $('emopick').hidden = !$('emopick').hidden; });
 $('emopick').addEventListener('click', (e) => {
   const k = e.target.closest('[data-emo]')?.dataset.emo; if (!k) return;
   $('emopick').hidden = true; showBubble(myId, k, true);
@@ -2318,14 +2353,13 @@ $('emopick').addEventListener('click', (e) => {
   misAdd('emote', 1);
   if (k === '❤️' && partnerIdOf(myId)) { const pd = posOf(partnerIdOf(myId)); if (pd && dist(pd, me) < 80 && Date.now() - (affAdd.lastHeart || 0) > 60000) { affAdd.lastHeart = Date.now(); affAdd(1); } }
 });
-$('bChat').addEventListener('click', () => { $('chatbar').hidden = !$('chatbar').hidden; $('emopick').hidden = true; if (!$('chatbar').hidden) $('chatIn').focus(); });
 let lastSay = 0;
 $('chatbar').addEventListener('submit', (e) => {
   e.preventDefault(); const raw = $('chatIn').value.trim(); if (!raw) return;
   if (Date.now() - lastSay < 1500) { toast('조금만 천천히 말해 주세요'); return; }
   lastSay = Date.now(); const t = filt(raw.slice(0, 40));
   showBubble(myId, t, false); write({ say: { t, at: Date.now() } }).catch(() => {});
-  $('chatIn').value = ''; $('chatbar').hidden = true; misAdd('chat', 1);
+  $('chatIn').value = ''; $('chatIn').blur(); misAdd('chat', 1);
 });
 let lastThrow = 0;
 $('bThrow').addEventListener('click', () => {
@@ -2352,6 +2386,7 @@ vp.addEventListener('pointermove', (e) => {
 window.addEventListener('pointerup', () => { setTimeout(() => { drag = null; }, 0); });
 world.addEventListener('click', (e) => {
   if (drag && drag.moved) return;
+  const gmk = e.target.closest('[data-gm]'); if (gmk) { useMarker(gmk.dataset.gm); return; }
   if (e.target.closest('[data-obj="well"]')) { wish++; sel = { obj: 'well' }; sheetOpen = true; notice = ''; syncPeople(); renderCard(); misAdd('wish', 1); return; }
   const pt = e.target.closest('.pet'); if (pt) { const p = pets.find((x) => x.id === pt.dataset.pet); const b = document.createElement('span'); b.className = 'bub'; b.style.bottom = '40px'; b.textContent = p.say[Math.floor(Math.random() * p.say.length)]; pt.appendChild(b); setTimeout(() => b.remove(), 2500); return; }
   const b = e.target.closest('.res'); if (!b) return;
@@ -2490,7 +2525,7 @@ function onData(list, definitive) {
   $('joy').hidden = !m; $('acts').hidden = !m;
   for (const step of [computeCouples, syncPeople, syncItems]) { try { step(); } catch (e) { reportErr(e); } }
   firstData = false; try { renderCard(); } catch (e) { reportErr(e); }
-  if (!m) { $('emopick').hidden = true; $('chatbar').hidden = true; }
+  $('chatbar').hidden = !m; if (!m) $('emopick').hidden = true;
   for (const step of [updateMisDot, omokSync, duelSync]) { try { step(); } catch (e) { reportErr(e); } }
   if (definitive) reconcile();
 }
