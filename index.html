@@ -90,8 +90,8 @@ h1{margin:0;font:400 24px/1 'Gamja Flower','Jua',sans-serif;display:flex;align-i
 .item{position:absolute;left:0;top:0;width:28px;height:30px;transform-origin:50% 100%;pointer-events:none}
 .pet{position:absolute;left:0;top:0;transform-origin:50% 100%;background:none;border:0;padding:0;cursor:pointer}
 .pet.left .px{transform:scaleX(-1)}
-.board{position:relative;font:400 16px/18px 'Gamja Flower','Jua',sans-serif;background:repeating-linear-gradient(#9C6B42 0 5px,#8A5A33 5px 6px,#94633C 6px 11px,#7E522E 11px 12px);border:2px solid #3E2614;border-radius:5px;padding:3px 8px;color:#FFEBD0;text-align:center;white-space:nowrap}
-.board small{display:block;font:11px/15px 'Jua',sans-serif}
+.board{position:relative;font:400 14px/17px 'Jua',sans-serif;background:#FFFFFF;border:2.5px solid #E8578A;border-radius:12px;padding:3px 10px;color:#1E2A44;text-align:center;white-space:nowrap;box-shadow:0 3px 0 rgba(232,87,138,.4)}
+.board small{display:block;font:10.5px/14px 'Jua',sans-serif;color:var(--sub)}
 .plate{font:400 12px/16px 'Jua',sans-serif;background:#FFF4F7;border:2px solid #C8325F;color:#8F1F44;border-radius:6px;padding:1px 6px;white-space:nowrap;text-align:center}
 .plate.vac{background:#F1F5F9;border-color:#7D8AA6;color:#44506B}
 .joy{position:absolute;left:12px;bottom:calc(var(--sh,90px) + 70px);width:108px;height:108px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.8);z-index:8;touch-action:none}
@@ -237,8 +237,7 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .arena{position:absolute;border:4px dashed rgba(91,141,239,.55);border-radius:50%;background:rgba(214,231,255,.35);pointer-events:none}
 .trow{display:flex;align-items:center;gap:4px;flex-wrap:nowrap}.trow .tcell{width:48px;min-width:0;padding:0 4px;text-align:center;font-size:18px}.trow span{font:400 15px 'Jua',sans-serif}.apg{display:inline-flex;margin-left:4px;border:2px solid var(--line);border-radius:999px;overflow:hidden}.ap{display:flex;align-items:center;gap:2px;padding:4px 8px;font:400 13px 'Jua',sans-serif;cursor:pointer;background:#fff;white-space:nowrap;min-height:32px}.ap+.ap{border-left:2px solid var(--line)}.ap input{width:14px;height:14px;margin:0;accent-color:#E8578A}.ap:has(input:checked){background:#FFE6F0;color:#C8325F}
 .hint{display:block;font-size:12px;color:var(--sub);margin-top:2px}.hint.ok{color:#2E8A5C}
-.board::before{content:'';position:absolute;left:-3px;right:-3px;top:-6px;height:8px;background:#fff;border-radius:8px 8px 4px 4px;box-shadow:0 1px 0 #C9DAEC}
-.board::after{content:'';position:absolute;inset:2px;pointer-events:none;background:radial-gradient(circle at 4px 4px,#C9A27E 1.3px,transparent 1.7px),radial-gradient(circle at calc(100% - 4px) 4px,#C9A27E 1.3px,transparent 1.7px),radial-gradient(circle at 4px calc(100% - 4px),#C9A27E 1.3px,transparent 1.7px),radial-gradient(circle at calc(100% - 4px) calc(100% - 4px),#C9A27E 1.3px,transparent 1.7px)}
+.board::before{content:'';position:absolute;left:6px;right:6px;top:-6px;height:6px;background:#fff;border-radius:6px 6px 2px 2px;box-shadow:0 -1px 0 #D3E3F2}
 .in.bad,.apg:has(.bad){outline:3px solid #E0443F;outline-offset:2px;animation:shake .4s}
 #pm.bad,#am.bad{outline:3px solid #E0443F}
 @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
@@ -249,6 +248,12 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .gmk .ga{font-size:18px;line-height:18px;color:#E8578A;text-shadow:0 2px 0 #fff;animation:gbob .9s ease-in-out infinite}
 .gmk.on .gl{animation:gpop .5s ease-out}
 @keyframes gbob{50%{transform:translateY(6px)}}@keyframes gpop{0%{transform:scale(.6)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+.banner{right:106px!important}
+.mmap{position:absolute;right:10px;top:calc(84px + env(safe-area-inset-top));width:88px;height:88px;border-radius:50%;padding:0;border:3px solid var(--line);background:#FFFAF5;box-shadow:0 3px 0 rgba(30,42,68,.25);z-index:9;overflow:hidden;pointer-events:none}
+.mmap.big{width:min(230px,62vw);height:min(230px,62vw)}
+.mmap svg{width:100%;height:100%;display:block}
+.mmap:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -278,6 +283,7 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 <div class="stats"><button type="button" id="snd" class="sndb" aria-label="소리 끄기">🔊</button><span id="stR">주민 0</span><span class="c" id="stC">커플 0</span><span id="stS">솔로 0</span></div>
 </header>
 <p class="banner" id="banner" hidden></p>
+<div class="mmap" id="mmap" hidden role="img" aria-label="미니맵: 가운데 분홍 점이 나, 하트가 내 짝"><svg viewBox="0 0 100 100" id="mmSvg" aria-hidden="true"></svg></div>
 <div class="sheet" id="sheet" aria-live="polite">
 <div class="cardin">
 <div class="crow"><div class="ct" id="ct">마을을 불러오는 중이에요</div><button class="tog" id="tog" type="button" aria-expanded="true" aria-label="정보 접기">▼</button></div>
@@ -932,6 +938,8 @@ function tapWall() {
 
 function buildWorld() {
   const o = ['<div class="far"></div><div class="ground"></div>'];
+  const zoneTint = (x, y, rx, ry, c, bd) => `<div class="fl" style="left:${x - rx}px;top:${y - ry}px;width:${rx * 2}px;height:${ry * 2}px;border-radius:50%;background:radial-gradient(closest-side,${c} 0 72%,${c}00 100%);border:3px dashed ${bd};opacity:.95"></div>`;
+  o.push(zoneTint(170, 560, 150, 110, '#BFE6F5', '#7FC4E4') + zoneTint(ZONES.pocha.x, ZONES.pocha.y, 210, 170, '#FFD3CC', '#F29B8E') + zoneTint(ZONES.tapgol.x, ZONES.tapgol.y, 280, 200, '#E6DCF7', '#B9A3F0') + zoneTint(850, 1360, 150, 120, '#FFE2C4', '#F2B27A') + zoneTint(550, 760, 190, 150, '#D5F0E0', '#8FD6B8') + zoneTint(600, 905, 90, 60, '#FFE6F0', '#F7A8C6'));
   // 북쪽 얼음 바다 (물·얼음 조각·물개)
   o.push('<div class="fl" style="left:-40px;top:140px;width:1730px;height:300px;background:#B5E1F2;background-image:linear-gradient(90deg,rgba(255,255,255,.35) 2px,transparent 2px),linear-gradient(rgba(255,255,255,.25) 2px,transparent 2px);background-size:60px 100%,100% 46px;box-shadow:inset 0 -14px 24px rgba(120,170,210,.25)"></div>');
   o.push('<svg class="fl" style="left:-40px;top:400px" width="1730" height="70" viewBox="0 0 1180 70" preserveAspectRatio="none"><path d="M0 30 Q40 10 80 28 T160 26 T240 30 T320 22 T400 30 T480 24 T560 30 T640 22 T720 30 T800 24 T880 30 T960 22 T1040 30 T1120 24 T1180 30 V70 H0Z" fill="#FFF6F1"/><path d="M0 30 Q40 10 80 28 T160 26 T240 30 T320 22 T400 30 T480 24 T560 30 T640 22 T720 30 T800 24 T880 30 T960 22 T1040 30 T1120 24 T1180 30" stroke="#C7D9EC" stroke-width="6" fill="none"/></svg>');
@@ -1003,13 +1011,13 @@ function buildWorld() {
   o.push(heartArch(1150, 1520)); o.push(iceSwan(1560, 1880)); o.push(iceHeart(380, 2050));
   // ---- 소복한 눈: 길 양옆 눈 둑 + 흩어진 눈 둔덕 ----
   const doors = HOUSES.map((h) => h.x + 24);
-  for (let x = 10; x < MAPW; x += 62) { if (Math.abs(x - 550) < 60 || Math.abs(x - 1320) < 60) continue; if (!doors.some((d2) => Math.abs(d2 - x) < 70)) o.push(drift(x, 668, 70, 22)); o.push(drift(x + 30, 748, 70, 22)); o.push(drift(x + 10, 1618, 66, 20)); o.push(drift(x + 40, 1698, 66, 20)); }
-  for (let y = 480; y < MAPH; y += 64) { if (Math.abs(y - 705) < 60 || Math.abs(y - 1655) < 60) continue; o.push(drift(512, y, 26, 54)); o.push(drift(590, y + 30, 26, 54)); if (y > 720 && y < 1600) { o.push(drift(1282, y + 10, 26, 54)); o.push(drift(1360, y + 40, 26, 54)); } }
-  const busy = [...HOUSES.map((h) => [h.x - 110, h.y - 110, h.x + 140, h.y + 140]), [380, 560, 720, 860], [90, 1090, 400, 1280], [ZONES.pocha.x - 190, ZONES.pocha.y - 130, ZONES.pocha.x + 200, ZONES.pocha.y + 130], [ZONES.tapgol.x - 240, ZONES.tapgol.y - 140, ZONES.tapgol.x + 260, ZONES.tapgol.y + 150], [ARENA.x - ARENA.r, ARENA.y - ARENA.r, ARENA.x + ARENA.r, ARENA.y + ARENA.r], [740, 1260, 980, 1460], [860, 1380, 1120, 1600], [1080, 1440, 1230, 1580], [1130, 1750, 1550, 2020], [480, 640, 1700, 760], [480, 1590, 1700, 1720], [490, 440, 610, 2260], [1260, 690, 1380, 1700]];
+  for (let x = 10; x < MAPW; x += 96) { if (Math.abs(x - 550) < 60 || Math.abs(x - 1320) < 60) continue; if (!doors.some((d2) => Math.abs(d2 - x) < 70)) o.push(drift(x, 668, 70, 22)); o.push(drift(x + 30, 748, 70, 22)); o.push(drift(x + 10, 1618, 66, 20)); o.push(drift(x + 40, 1698, 66, 20)); }
+  for (let y = 480; y < MAPH; y += 100) { if (Math.abs(y - 705) < 60 || Math.abs(y - 1655) < 60) continue; o.push(drift(512, y, 26, 54)); o.push(drift(590, y + 30, 26, 54)); if (y > 720 && y < 1600) { o.push(drift(1282, y + 10, 26, 54)); o.push(drift(1360, y + 40, 26, 54)); } }
+  const busy = [...HOUSES.map((h) => [h.x - 110, h.y - 110, h.x + 140, h.y + 140]), [380, 560, 720, 860], [90, 1090, 400, 1280], [ZONES.pocha.x - 190, ZONES.pocha.y - 130, ZONES.pocha.x + 200, ZONES.pocha.y + 130], [ZONES.tapgol.x - 240, ZONES.tapgol.y - 140, ZONES.tapgol.x + 260, ZONES.tapgol.y + 150], [ARENA.x - ARENA.r, ARENA.y - ARENA.r, ARENA.x + ARENA.r, ARENA.y + ARENA.r], [740, 1260, 980, 1460], [860, 1380, 1120, 1600], [20, 440, 360, 680], [480, 820, 720, 980], [1080, 1440, 1230, 1580], [1130, 1750, 1550, 2020], [480, 640, 1700, 760], [480, 1590, 1700, 1720], [490, 440, 610, 2260], [1260, 690, 1380, 1700]];
   const freeAt = (x, y) => y > 500 && !busy.some(([a1, b1, c1, d1]) => x > a1 && x < c1 && y > b1 && y < d1);
   const rd = seeded(73);
-  for (let i = 0, n = 0; n < 70 && i < 1200; i++) { const x = 40 + rd() * (MAPW - 80), y = 500 + rd() * (MAPH - 540); if (freeAt(x, y)) { o.push(drift(x, y, 60 + rd() * 90, 24 + rd() * 22)); n++; } }
-  for (let i = 0, n = 0; n < 22 && i < 1200; i++) { const x = 80 + rd() * (MAPW - 160), y = 800 + rd() * (MAPH - 900); if ((x > 1100 || y > 1500) && freeAt(x, y)) { o.push(pine(x, y, .95 + rd() * .3)); n++; } }
+  for (let i = 0, n = 0; n < 34 && i < 1200; i++) { const x = 40 + rd() * (MAPW - 80), y = 500 + rd() * (MAPH - 540); if (freeAt(x, y)) { o.push(drift(x, y, 60 + rd() * 90, 24 + rd() * 22)); n++; } }
+  for (let i = 0, n = 0; n < 12 && i < 1200; i++) { const x = 80 + rd() * (MAPW - 160), y = 800 + rd() * (MAPH - 900); if ((x > 1100 || y > 1500) && freeAt(x, y)) { o.push(pine(x, y, .95 + rd() * .3)); n++; } }
   o.push(`<div class="arena" style="left:${ARENA.x - ARENA.r}px;top:${ARENA.y - ARENA.r}px;width:${ARENA.r * 2}px;height:${ARENA.r * 2}px"></div>`);
   o.push(st(ARENA.x + 70, ARENA.y + 120, 130, 26, '<div class="board">⛄ 눈싸움 광장</div>'));
   o.push(st(170, 475, 110, 26, '<div class="board">🎣 얼음낚시</div>'));
@@ -1557,6 +1565,8 @@ function renderOmok() {
   const lastIdx = (bl.length > wh.length ? bl[bl.length - 1] : wh[wh.length - 1]);
   $('ohead').innerHTML = `<span class="${turn === 1 && !w ? 'turn' : ''}"><i class="stone b"></i>${esc(names[0])}</span><b>VS</b><span class="${turn === 2 && !w ? 'turn' : ''}"><i class="stone w"></i>${esc(names[1])}</span>`;
   const stars = [48, 56, 112, 168, 176];
+  const sigO = bd.join('') + canPlay + w + lastIdx; omokView.canPlay = canPlay && !w; omokView.myC = myC; omokView.count = bl.length + wh.length; $('ostat').textContent = status;
+  if (omokView.sig === sigO) return; omokView.sig = sigO;
   $('obrd').innerHTML = bd.map((v, i) => { const x = i % N, y = Math.floor(i / N); return `<button type="button" data-i="${i}" class="${x === 0 ? 'e0' : x === 14 ? 'e14' : ''} ${y === 0 ? 'r0' : y === 14 ? 'r14' : ''}${stars.includes(i) ? ' dot' : ''}" aria-label="가로 ${x + 1}, 세로 ${y + 1}${v ? (v === 1 ? ', 흑돌' : ', 백돌') : ''}"${!canPlay || v || w ? ' tabindex="-1"' : ''}>${stars.includes(i) && !v ? '<b></b>' : ''}${v ? `<i class="${v === 1 ? 'b' : 'w'}${i === lastIdx ? ' last' : ''}"></i>` : ''}</button>`; }).join('');
   $('ostat').textContent = status;
   omokView.canPlay = canPlay && !w; omokView.myC = myC; omokView.count = bl.length + wh.length;
@@ -1687,6 +1697,8 @@ function renderCho() {
   const left = Math.max(0, CHO_SEC - Math.floor((Date.now() - view.cho.t) / 1000));
   let st2 = res.over ? (res.draw ? `🤝 무승부! ${res.why}` : res.win ? `🎉 이겼어요! ${res.why}` : `😢 졌어요. ${res.why}`) : s.oppEnd ? '상대가 게임을 나갔어요.' : myTurn ? `내 차례예요 · ${left}초` : `${esc(s.o.nick)}님 차례예요…`;
   const lastOpp = !myTurn ? -1 : oppW.length - 1;
+  const sigC = [q, mineW.join(), oppW.join(), s.d.veto, s.od.veto, s.d.lose, s.od.lose, s.oppEnd, myTurn].join('|');
+  if (view.cho.sig === sigC) return; view.cho.sig = sigC;
   box.innerHTML = `<div class="cq" aria-label="초성 ${esc(q)}">${[...q].map((c) => `<span>${c}</span>`).join('')}</div>
     <div class="cbar"><i style="width:${res.over || !myTurn ? 0 : (left / CHO_SEC) * 100}%"></i></div>
     <ol class="clist">${seq.map(([isMine, w, i]) => `<li class="${isMine ? 'me' : ''}${(isMine ? s.od.veto : s.d.veto) === i ? ' veto' : ''}"><b>${isMine ? '나' : esc(s.o.nick)}</b>${esc(w)}${!isMine && i === lastOpp && !res.over ? ' <button type="button" class="vbtn" data-veto="' + i + '">🙅 이의</button>' : ''}</li>`).join('') || '<li class="empty">첫 단어를 기다리는 중이에요</li>'}</ol>
@@ -1761,6 +1773,7 @@ function renderPpr() {
   const stick = Array.from({ length: PPR_LEN }, (_, i) => { const x0 = 40 + i * seg, eaten = i < sim.prog[0] || i >= PPR_LEN - sim.prog[1]; return eaten ? '' : `<rect x="${x0}" y="35" width="${seg + .5}" height="10" fill="${i === 0 || i === PPR_LEN - 1 ? '#F4D7A1' : '#6B3A24'}"/>${i > 0 && i < PPR_LEN - 1 ? `<rect x="${x0 + 2}" y="37" width="${seg - 4}" height="2" fill="#8A5236"/>` : ''}`; }).join('');
   const gauge = (i) => `<div class="pg"><span>${esc(names[i])}${i === me2 ? ' (나)' : ''}</span><div class="pgb"><i style="width:${Math.min(100, sim.heart[i])}%;background:${sim.heart[i] > 75 ? '#E0443F' : sim.heart[i] > 50 ? '#F08A4B' : '#F0709A'}"></i></div><b>💓 ${sim.heart[i]}</b></div>`;
   const status = res.over ? (res.kiss ? `💋 ${res.why}` : res.win ? `🎉 이겼어요! ${res.why}` : `😳 졌어요. ${res.why}`) : s.oppEnd ? '상대가 게임을 나갔어요.' : myTurn ? '내 차례예요. 얼마나 먹을까요?' : `${esc(s.o.nick)}님 차례예요… 두근두근`;
+  const sigP = [s.d.bites.join(), s.od.bites.join(), s.d.quit, s.od.quit, s.oppEnd].join('|'); if (view.ppr && view.ppr.sig === sigP && !res.over) return; if (view.ppr) view.ppr.sig = sigP;
   box.innerHTML = `<svg viewBox="0 0 ${W} 80" class="pstick" role="img" aria-label="남은 빼빼로 ${PPR_LEN - sim.prog[0] - sim.prog[1]}칸">${stick}${face(lx - 18, 0)}${face(rx + 18, 1)}${res.kiss ? `<text x="${W / 2}" y="22" text-anchor="middle" font-size="22">💋</text>` : ''}</svg>${gauge(0)}${gauge(1)}<p class="cd" style="text-align:center;margin:4px 0 0">${status}</p>`;
   $('pprBtns').hidden = !(myTurn && !res.over && !s.oppEnd);
   $('pprRest').textContent = `숨 고르기 (${sim.rest[me2]}번)`; $('pprRest').disabled = sim.rest[me2] <= 0;
@@ -1929,8 +1942,7 @@ const GAME_MARKS = [
   { id: 'arena', x: ARENA.x, y: ARENA.y, lift: 30, t: '⛄ 눈싸움 대전', d: '2명 이상 모이면 시작' },
   { id: 'soju', x: ZONES.pocha.x, y: ZONES.pocha.y, lift: 175, t: '🍶 소주 데이트', d: '짝과 함께 와요' },
   { id: 'omok', x: ZONES.tapgol.x, y: ZONES.tapgol.y, lift: 245, t: '♟ 오목', d: '주민 또는 컴퓨터와 대결' },
-  { id: 'couple', x: 600, y: 905, lift: 30, t: '💕 커플 게임', d: '초성게임 · 빼빼로게임' },
-  { id: 'treasure', x: 700, y: 1300, lift: 30, t: '🗺 보물찾기', d: '탐지기를 켜고 찾아요' }
+  { id: 'couple', x: 600, y: 905, lift: 30, t: '💕 커플 게임', d: '초성게임 · 빼빼로게임' }
 ];
 function gameMarkers() {
   return GAME_MARKS.map((g) => `<button type="button" class="st gmk" id="gm-${g.id}" data-gm="${g.id}" style="left:${g.x - 90}px;top:${g.y - g.lift - 76}px;width:180px;height:${g.lift + 76}px" aria-label="${g.t}, ${g.d}"><span class="gl">${g.t}<small>${g.d}</small></span><span class="ga" aria-hidden="true">▼</span></button>`).join('');
@@ -1951,7 +1963,39 @@ function useMarker(id) {
   if (id === 'couple') { if (!pid) toast('짝이 생기면 초성게임·빼빼로게임을 할 수 있어요 💕'); else { sel = { id: pid }; sheetOpen = true; uiKey = ''; syncPeople(); renderCard(); toast('아래 카드에서 게임을 골라요'); } }
   if (id === 'treasure') { if (!hunt.on) { hunt.on = true; hunt.sig = ''; toast('보물 탐지기를 켰어요! 화면 위 표시를 보며 찾아보세요 🗺'); } else toast('화면 위 탐지기가 뜨거워질 때까지 걸어가 보세요'); huntTick(); renderCard(); }
 }
-function gamesTick() { huntTick(); sbTick(); choTick(); markTick(performance.now()); }
+/* ---------- 미니맵 (보기 전용, 내 화면 방향 그대로) ---------- */
+const MM_ZONES = [
+  { x: 170, y: 520, e: '🎣', n: '얼음낚시', c: '#BFE6F5', ly: -8 }, { x: ARENA.x, y: ARENA.y, e: '⛄', n: '눈싸움', c: '#D6E7FF' },
+  { x: ZONES.pocha.x, y: ZONES.pocha.y, e: '🍶', n: '포장마차', c: '#FFD3CC' }, { x: ZONES.tapgol.x, y: ZONES.tapgol.y, e: '♟', n: '탑골공원', c: '#E6DCF7' },
+  { x: 550, y: 760, e: '🎄', n: '트리', c: '#D5F0E0', lx: 9, ly: 1 }, { x: 850, y: 1360, e: '🔥', n: '모닥불', c: '#FFE2C4' }, { x: 1340, y: 1885, e: '⛸', n: '스케이트장', c: '#DDF1FB' }, { x: 1180, y: 525, e: '🧊', n: '이글루', c: '#E9F3FB' }
+];
+let mmBig = false, mmLast = 0;
+function mmStatic() {
+  let g = `<rect x="-60" y="-300" width="${MAPW + 120}" height="${470 + 300}" fill="#B5E1F2"/>`;
+  g += `<rect x="0" y="470" width="${MAPW}" height="${MAPH - 470}" fill="#FFFFFF"/>`;
+  g += `<rect x="-10" y="676" width="${MAPW + 20}" height="58" fill="#EBD8CC"/><rect x="-10" y="1626" width="${MAPW + 20}" height="58" fill="#EBD8CC"/><rect x="521" y="440" width="58" height="${MAPH - 420}" fill="#EBD8CC"/><rect x="1291" y="700" width="58" height="990" fill="#EBD8CC"/>`;
+  MM_ZONES.forEach((z) => { g += `<circle cx="${z.x}" cy="${z.y}" r="150" fill="${z.c}"/>`; });
+  g += `<ellipse cx="245" cy="1185" rx="145" ry="80" fill="#9FD0F0"/>`;
+  HOUSES.forEach((h) => { g += `<rect x="${h.x - 60}" y="${h.y - 60}" width="130" height="130" rx="20" fill="${(HOUSE_STYLE[h.id] || {}).rc || '#F29BBC'}" opacity=".85"/>`; });
+  return g;
+}
+const mmStaticSvg = mmStatic();
+function mmProj(x, y, k) { const dx = x - me.x, dy = y - me.y; return [50 + (dx - dy) * .7071 * k, 50 + (dx + dy) * .3536 * k]; }
+function mmTick(now) {
+  const el = $('mmap'), m = mine(); el.hidden = !m; if (!m || now - mmLast < 200) return; mmLast = now;
+  const R2 = mmBig ? 1100 : 620, k = 46 / R2;
+  const a = k * .7071, b = k * .3536, e = 50 - (a * me.x - a * me.y), f = 50 - (b * me.x + b * me.y);
+  let o = `<defs><clipPath id="mmc"><circle cx="50" cy="50" r="49"/></clipPath></defs><g clip-path="url(#mmc)"><rect width="100" height="100" fill="#FFF4EE"/><g transform="matrix(${a.toFixed(5)},${b.toFixed(5)},${(-a).toFixed(5)},${b.toFixed(5)},${e.toFixed(2)},${f.toFixed(2)})">${mmStaticSvg}</g>`;
+  const pid = partnerIdOf(myId);
+  for (const r of residents.values()) { if (isMe(r.id) || !online(r)) continue; const p = posOf(r.id) || r; const [sx, sy] = mmProj(p.x, p.y, k); if (Math.hypot(sx - 50, sy - 50) > 47) continue; o += r.id === pid ? `<text x="${sx.toFixed(1)}" y="${(sy + 3).toFixed(1)}" font-size="9" text-anchor="middle">💗</text>` : `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="1.9" fill="#8C7AE0" stroke="#fff" stroke-width=".6"/>`; }
+  MM_ZONES.forEach((z) => { let [sx, sy] = mmProj(z.x, z.y, k); const d = Math.hypot(sx - 50, sy - 50), out = d > 40; if (out) { sx = 50 + (sx - 50) / d * 40; sy = 50 + (sy - 50) / d * 40; }
+    o += `<text x="${sx.toFixed(1)}" y="${(sy + 4).toFixed(1)}" font-size="${out ? 8 : mmBig ? 10 : 12}" text-anchor="middle" opacity="${out ? .75 : 1}">${z.e}</text>`;
+    if (mmBig && !out) o += `<text x="${(sx + (z.lx || 0)).toFixed(1)}" y="${(sy + 11 + (z.ly || 0) * (z.ly < 0 ? 1.4 : 1)).toFixed(1)}" text-anchor="${z.lx ? 'start' : 'middle'}" font-size="4.6" font-family="Jua,sans-serif" fill="#1E2A44" stroke="#fff" stroke-width="1.2" paint-order="stroke">${z.n}</text>`; });
+  o += `<circle cx="50" cy="50" r="4.2" fill="#E8578A" stroke="#fff" stroke-width="1.6"/><circle cx="50" cy="50" r="7" fill="none" stroke="#E8578A" stroke-width="1" opacity=".6"><animate attributeName="r" values="4;9;4" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0;.7" dur="1.6s" repeatCount="indefinite"/></circle>`;
+  o += '</g>';
+  $('mmSvg').innerHTML = o;
+}
+function gamesTick() { sbTick(); choTick(); const nw = performance.now(); markTick(nw); mmTick(nw); }
 
 function showAsk(title, desc, btns, grid = false) {
   $('askT').textContent = title; $('askD').textContent = desc;
@@ -2163,7 +2207,6 @@ function renderCard() {
     if (inZone('tapgol', me)) { if (!myC) cd.textContent = '탑골공원이에요. 주민을 눌러 오목 대결을 신청하거나 컴퓨터와 연습해 보세요.'; const lg = liveGame(); if (lg && !lg.wait && omokBusy()) btn('omokOpen', '♟ 오목판 열기', 'home'); btn('omokAI', '🤖 컴퓨터와 오목', 'ghost'); }
     if (nearSea()) { cd.textContent = '얼음 바다 앞이에요. 얼음 구멍에서 낚시를 해 볼까요? 🎣'; btn('fish', '🎣 얼음낚시', 'home'); btn('dex', '🐟 도감', 'ghost'); }
     if (inArena(me)) { const n = arenaCount(); if (!sbOn()) { cd.textContent = `눈싸움 광장이에요. 2명 이상 모이면 눈싸움 대전을 열 수 있어요. (지금 ${n}명)`; btn('sbStart', `⛄ 눈싸움 대전 열기 (${n}명)`, 'home', n < 2); } }
-    btn('hunt', hunt.on ? '🗺 보물찾기 끄기' : '🗺 보물찾기', 'ghost');
     btn('edit', '내 정보', 'ghost'); btn('leave', leaving ? '정말 나갈래요' : '마을 나가기', 'ghost');
   } else {
     ct.textContent = '궁합 마을에 오신 걸 환영해요';
