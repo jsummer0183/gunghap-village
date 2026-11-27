@@ -7,86 +7,109 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
 <style>
-/* VOICE: 눈 내리는 저녁, 불 켜진 작은 마을을 산책하다 마음에 드는 이웃에게 고백하는 설렘
-   IDEA: 위에서 내려다본 겨울 마을 모형. 내 캐릭터를 조이스틱으로 움직인다
-   PICTURE: 화면보다 큰 눈 마을 지도 자체가 주인공, 카메라가 나를 따라온다
-   COLOUR and TYPE: 눈 흰색·얼음 하늘색 바탕, 따뜻한 창문 노랑, 하트 핑크 / Jua + Gowun Dodum
-   LAYOUT: 위 상태줄, 가운데 큰 지도(조이스틱 겹침), 아래 정보 카드 */
-:root{color-scheme:light;--ink:#1E2A44;--sub:#44506B;--pink:#C8325F;--heart:#F0558A;--line:#1E2A44;--snow:#EEF4FB;--ice:#CFE4F5}
+/* VOICE: 눈 내리는 저녁 마을에서 이웃과 놀고, 짝과 손잡고 걷는 설렘
+   IDEA: 비스듬히 내려다보는 겨울 마을 디오라마. 땅은 눕고 사람과 나무는 서 있다
+   PICTURE: 원근감 있는 눈 마을 지도 자체가 주인공, 카메라가 나를 따라온다
+   COLOUR and TYPE: 눈 흰색·얼음 하늘색, 창문 노랑, 고백 커플 핑크·사주 커플 주황 / Jua + Gowun Dodum
+   LAYOUT: 위 상태줄, 가운데 3D 지도(조이스틱·행동 버튼 겹침), 아래 정보 카드 */
+:root{color-scheme:light;--ink:#1E2A44;--sub:#44506B;--pink:#C8325F;--heart:#F0558A;--saju:#E58A1F;--line:#1E2A44;--snow:#EEF4FB}
 *{box-sizing:border-box;min-width:0}
 html,body{height:100%}
 body{margin:0;background:#22304F;color:var(--ink);font:16px/1.5 'Gowun Dodum',sans-serif;overflow-x:clip}
 .app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:#2B3A5E}
-header{padding:calc(12px + env(safe-area-inset-top)) 14px 8px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff}
-h1{margin:0;font:400 26px/1.05 'Jua',sans-serif;display:flex;align-items:center;gap:6px}
-.stats{display:flex;gap:5px;font-size:13px;flex-wrap:wrap;justify-content:flex-end}
-.stats span{border-radius:8px;padding:2px 8px;background:#3E5080}
+header{padding:calc(10px + env(safe-area-inset-top)) 12px 6px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff}
+h1{margin:0;font:400 24px/1.05 'Jua',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.stats{display:flex;gap:4px;font-size:12px;flex-wrap:wrap;justify-content:flex-end}
+.stats span{border-radius:8px;padding:2px 7px;background:#3E5080}
 .stats .c{background:#7A2A4F}
-.banner{margin:0 12px 8px;padding:8px 12px;border-radius:12px;background:#FFF6D6;border:2px solid #C9A227;font-size:14px;line-height:20px}
+.banner{margin:0 10px 6px;padding:7px 11px;border-radius:12px;background:#FFF6D6;border:2px solid #C9A227;font-size:13px;line-height:19px}
 .banner[hidden]{display:none}
-.vp{position:relative;margin:0 10px;height:min(560px,calc(100vh - 290px));min-height:360px;border:3px solid var(--line);border-radius:18px;overflow:hidden;background:var(--snow);touch-action:none;isolation:isolate}
-.world{position:absolute;left:0;top:0;width:1100px;height:1500px;will-change:transform;background-color:var(--snow);background-image:radial-gradient(#DCE7F3 1.4px,transparent 1.6px),radial-gradient(#FFFFFF 2px,transparent 2.2px);background-size:34px 34px,52px 52px;background-position:0 0,17px 26px}
-.o{position:absolute}
-.path{position:absolute;background:#C9D6E4;border:3px solid #B3C3D6}
-.plaza{position:absolute;border-radius:50%;background:#D8E3EF;border:4px solid #B3C3D6}
-.sh{position:absolute;border-radius:50%;background:rgba(40,60,100,.18)}
-.glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(255,206,92,.5),rgba(255,206,92,0));pointer-events:none}
+.vp{position:relative;margin:0 8px;height:min(600px,calc(100vh - 330px));min-height:360px;border:3px solid var(--line);border-radius:18px;overflow:hidden;background:#DCE7F3;touch-action:none;perspective:900px;perspective-origin:50% 20%;isolation:isolate}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(35deg);transform-origin:50% 62%}
+.world{position:absolute;left:0;top:0;width:1100px;height:1500px;transform-style:preserve-3d}
+.far{position:absolute;left:-1600px;top:-1600px;width:4300px;height:4700px;background-color:#E6EEF8;background-image:radial-gradient(#D6E2EF 1.6px,transparent 1.8px);background-size:30px 30px}
+.ground{position:absolute;left:0;top:0;width:1100px;height:1500px;background-color:var(--snow);background-image:radial-gradient(#DAE6F2 1.6px,transparent 1.8px),radial-gradient(#FFFFFF 2.4px,transparent 2.6px);background-size:30px 30px,46px 46px;background-position:0 0,15px 23px;box-shadow:0 0 0 18px #D3DFEC}
+.fl{position:absolute;pointer-events:none}
+.path{position:absolute;background:#C5D3E2;border:3px solid #ABBDD2;pointer-events:none}
+.st{position:absolute;transform-origin:50% 100%;transform:rotateX(-35deg);pointer-events:none}
+.st.tap{pointer-events:auto}
+.shd{position:absolute;border-radius:50%;background:rgba(40,60,100,.22);pointer-events:none}
+.pool{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.45),rgba(255,214,110,0));pointer-events:none}
+.fog{position:absolute;left:0;right:0;top:0;height:34%;background:linear-gradient(#EEF3FA,rgba(238,243,250,0));pointer-events:none;z-index:5}
+.vig{position:absolute;inset:0;box-shadow:inset 0 0 60px rgba(30,42,68,.28);pointer-events:none;z-index:5}
 @keyframes tw{0%,100%{opacity:1}50%{opacity:.25}}
 .tw{animation:tw 1.6s ease-in-out infinite}
 @keyframes puff{0%{transform:translate(0,0) scale(.6);opacity:.8}100%{transform:translate(10px,-40px) scale(1.4);opacity:0}}
 .puff{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;animation:puff 3s ease-out infinite}
 @keyframes flick{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.15) translateY(-1px)}}
-.flame{transform-origin:bottom;animation:flick .5s ease-in-out infinite}
-@keyframes fall{from{transform:translate(0,-20px)}to{transform:translate(24px,600px)}}
-.snow{position:absolute;inset:0;pointer-events:none;z-index:3000;overflow:hidden}
-.snow i{position:absolute;top:0;border-radius:50%;background:#fff;opacity:.9;animation:fall linear infinite;box-shadow:0 0 2px rgba(80,110,160,.5)}
+.flame{transform-origin:bottom;transform-box:fill-box;animation:flick .5s ease-in-out infinite}
+@keyframes fall{from{transform:translate(0,-20px)}to{transform:translate(24px,640px)}}
+.snow{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.snow i{position:absolute;top:0;border-radius:50%;background:#fff;opacity:.95;animation:fall linear infinite;box-shadow:0 0 2px rgba(80,110,160,.5)}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 .bob{animation:bob 1.6s ease-in-out infinite}
 @keyframes walk{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-2px) rotate(-3deg)}75%{transform:translateY(-2px) rotate(3deg)}}
 .res.walking .px{animation:walk .36s linear infinite}
+@keyframes pop{0%{transform:translateX(-50%) scale(.4);opacity:0}15%{transform:translateX(-50%) scale(1.1);opacity:1}25%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1);opacity:1}}
+@keyframes fw{0%{transform:scale(.2);opacity:1}100%{transform:scale(1.6);opacity:0}}
 @media (prefers-reduced-motion:reduce){.tw,.puff,.flame,.bob,.res.walking .px{animation:none}.snow{display:none}}
 .px{display:block;filter:drop-shadow(1px 0 0 #1E2A44) drop-shadow(-1px 0 0 #1E2A44) drop-shadow(0 1px 0 #1E2A44) drop-shadow(0 -1px 0 #1E2A44)}
-.res{position:absolute;left:0;top:0;width:44px;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+.res{position:absolute;left:0;top:0;width:44px;height:70px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;transform-origin:50% 100%}
 .res .fig{position:relative;width:36px;height:48px}
 .res.left .fig{transform:scaleX(-1)}
-.res .sh{left:3px;bottom:-4px;width:30px;height:8px}
-.tag{font-size:12px;line-height:17px;padding:0 6px;border-radius:999px;background:#fff;border:1.5px solid var(--line);white-space:nowrap;max-width:76px;overflow:hidden;text-overflow:ellipsis}
+.res .snowman{display:none}
+.res.frozen .fig>svg{display:none}.res.frozen .snowman{display:block}
+.tag{font-size:12px;line-height:17px;padding:0 6px;border-radius:999px;background:#fff;border:1.5px solid var(--line);white-space:nowrap;max-width:80px;overflow:hidden;text-overflow:ellipsis}
 .res.me .tag{background:#FFD84D;font-weight:700}
-.res.cp .tag{background:#FFD2E1}
-.res.me.cp .tag{background:linear-gradient(90deg,#FFD84D 50%,#FFD2E1 50%)}
-.res.sel .tag{outline:3px solid var(--heart);outline-offset:1px}
+.res.love .tag{box-shadow:0 0 0 2px #F0558A}
+.res.saju .tag{box-shadow:0 0 0 2px #E58A1F}
+.res.sel .tag{outline:3px solid #2457C5;outline-offset:2px}
 .res:focus-visible{outline:3px solid #2457C5;outline-offset:2px;border-radius:10px}
-.wait{position:absolute;left:30px;top:-12px;font-size:16px}
-.badge{position:absolute;left:0;top:0;display:flex;align-items:center;gap:2px;pointer-events:none}
-.badge b{font:400 13px/18px 'Jua',sans-serif;background:#fff;color:var(--pink);border:1.5px solid var(--heart);border-radius:6px;padding:0 4px}
+.bub{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);background:#fff;border:2px solid var(--line);border-radius:12px;padding:3px 8px;font-size:13px;line-height:18px;max-width:170px;width:max-content;word-break:keep-all;overflow-wrap:anywhere;animation:pop 3s ease-out forwards;pointer-events:none;text-align:center}
+.bub::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-6px;border:6px solid transparent;border-top-color:var(--line)}
+.bub.emo{font-size:24px;line-height:28px;padding:2px 6px}
+.mark{position:absolute;right:-6px;top:6px;font-size:16px;pointer-events:none}
+.cbadge{position:absolute;left:0;top:0;width:110px;height:60px;transform-origin:50% 100%;pointer-events:none}
+.cbadge .ttl{position:absolute;left:0;right:0;margin:0 auto;width:max-content;top:0;font:400 11px/15px 'Jua',sans-serif;white-space:nowrap;background:#fff;border-radius:6px;padding:0 5px;border:1.5px solid}
+.cbadge b{position:absolute;left:62px;top:24px;font:400 13px/18px 'Jua',sans-serif;background:#fff;border-radius:6px;padding:0 4px;border:1.5px solid}
+.fwk{position:absolute;width:10px;height:10px;border-radius:50%;animation:fw 1.4s ease-out infinite}
+.ball{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #9FB4CC;transform-origin:50% 100%;pointer-events:none}
+.item{position:absolute;left:0;top:0;width:28px;height:30px;transform-origin:50% 100%;pointer-events:none}
 .board{font:400 14px/17px 'Jua',sans-serif;background:#8A5A33;border:2px solid #3E2614;border-radius:5px;padding:3px 8px;color:#FFEBD0;text-align:center;white-space:nowrap}
 .board small{display:block;font:12px/15px 'Gowun Dodum',sans-serif}
-.tapobj{background:none;border:0;padding:0;cursor:pointer}
-.tapobj:focus-visible{outline:3px solid #2457C5;outline-offset:2px;border-radius:10px}
-.joy{position:absolute;left:14px;bottom:14px;width:112px;height:112px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.75);z-index:4000;touch-action:none}
-.joy .knob{position:absolute;left:30px;top:30px;width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid var(--line);box-shadow:0 3px 0 rgba(0,0,0,.25)}
-.joy[hidden]{display:none}
-.tobtn{position:absolute;right:12px;bottom:14px;z-index:4000;min-height:44px;padding:0 12px;border-radius:12px;border:3px solid var(--line);background:#fff;font:400 15px 'Jua',sans-serif;cursor:pointer}
-.tobtn[hidden]{display:none}
-.hint[hidden]{display:none}.hint{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:4000;font-size:13px;background:rgba(30,42,68,.75);color:#fff;border-radius:999px;padding:3px 12px;white-space:nowrap;pointer-events:none}
-.card{padding:10px 10px calc(10px + env(safe-area-inset-bottom))}
-.cardin{background:#fff;border:3px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
-.ct{font:400 20px/1.25 'Jua',sans-serif;color:var(--pink)}
+.joy{position:absolute;left:12px;bottom:12px;width:108px;height:108px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.8);z-index:8;touch-action:none}
+.joy .knob{position:absolute;left:28px;top:28px;width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid var(--line);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.joy[hidden],.acts[hidden],.tobtn[hidden],.chatbar[hidden],.emopick[hidden],.toast[hidden]{display:none}
+.acts{position:absolute;right:10px;bottom:12px;display:flex;flex-direction:column;gap:7px;z-index:8}
+.ab{width:48px;height:48px;border-radius:14px;border:3px solid var(--line);background:#fff;font-size:21px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.2);position:relative}
+.ab:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
+.ab .dot{position:absolute;right:-4px;top:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--heart);color:#fff;font:12px/18px 'Jua',sans-serif;padding:0 4px}
+.emopick{position:absolute;right:66px;bottom:140px;z-index:9;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px;display:grid;grid-template-columns:repeat(4,44px);gap:4px}
+.emopick button{width:44px;height:44px;border:0;background:#F1F5F9;border-radius:10px;font-size:22px;cursor:pointer}
+.chatbar{position:absolute;left:8px;right:8px;bottom:8px;z-index:9;display:flex;gap:6px;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px}
+.chatbar input{flex:1;height:44px;border:2px solid #9AA6BF;border-radius:10px;padding:0 10px;font:inherit;font-size:16px}
+.tobtn{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;z-index:8;min-height:40px;padding:0 12px;border-radius:12px;border:3px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
+.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:9;font-size:13px;background:rgba(30,42,68,.86);color:#fff;border-radius:999px;padding:4px 14px;max-width:92%;text-align:center;pointer-events:none}
+.card{padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+.cardin{background:#fff;border:3px solid var(--line);border-radius:16px;padding:10px 13px;display:flex;flex-direction:column;gap:6px}
+.ct{font:400 19px/1.25 'Jua',sans-serif;color:var(--pink)}
 .cd{font-size:14px;line-height:20px;color:var(--sub)}
+.hearts{font-size:15px;letter-spacing:1px}
 .why{display:flex;flex-wrap:wrap;gap:4px}.why:empty{display:none}.why span{font-size:12px;background:#FFE3EC;color:#8F1F44;border-radius:6px;padding:1px 6px}.why span.neg{background:#EEF1F5;color:#44506B}
 .note{font-size:13px;background:#FFE3EC;color:#8F1F44;border-radius:8px;padding:6px 8px}
 .note[hidden]{display:none}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.actions:empty{display:none}
-.btn{min-height:44px;border-radius:12px;border:3px solid var(--line);background:var(--pink);color:#fff;font:400 17px 'Jua',sans-serif;padding:0 14px;cursor:pointer;box-shadow:0 3px 0 #7A1E3D}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.actions:empty{display:none}
+.btn{min-height:44px;border-radius:12px;border:3px solid var(--line);background:var(--pink);color:#fff;font:400 16px 'Jua',sans-serif;padding:0 13px;cursor:pointer;box-shadow:0 3px 0 #7A1E3D}
 .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #7A1E3D}
 .btn.ghost{background:#fff;color:var(--ink);font-size:15px;box-shadow:0 3px 0 #9AA6BF}
+.btn.saju{background:var(--saju);box-shadow:0 3px 0 #8F520F}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
 .btn:focus-visible,.sw:focus-visible{outline:3px solid #2457C5;outline-offset:3px}
 .foot{font-size:12px;color:#C9D3EA;padding:0 16px 10px;text-align:center}
 dialog{border:3px solid var(--line);border-radius:18px;padding:0;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px)}
 dialog::backdrop{background:rgba(20,28,50,.55)}
-.dl{padding:18px;display:flex;flex-direction:column;gap:12px}
-.dl h2{margin:0;font:400 24px 'Jua',sans-serif}
+.dl{padding:16px;display:flex;flex-direction:column;gap:12px}
+.dl h2{margin:0;font:400 23px 'Jua',sans-serif}
 .f{display:flex;flex-direction:column;gap:4px}
 .f label,.f .lb{font-size:14px;font-weight:700}
 .in{height:48px;border:2px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;font-size:16px;color:var(--ink);background:#fff;width:100%}
@@ -99,27 +122,47 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .preview{display:flex;justify-content:center;padding:8px;background:var(--snow);border-radius:12px;height:96px}
 .priv{margin:0;font-size:13px;line-height:19px;color:var(--sub);background:#F1F5F9;border-radius:8px;padding:8px 10px}
 .err{color:#B42318;font-size:14px;min-height:20px;margin:0}
-.big{font:400 40px/1 'Jua',sans-serif;color:var(--pink);text-align:center}
+.big{font:400 38px/1 'Jua',sans-serif;color:var(--pink);text-align:center}
+.list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.list li{display:flex;align-items:center;gap:10px;background:#F4F7FB;border-radius:12px;padding:8px 10px}
+.list .grow{flex:1}
+.bar{height:8px;border-radius:4px;background:#DCE4EE;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--heart)}
+.album{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.photo{background:#fff;border:2px solid var(--line);border-radius:10px;padding:6px 6px 8px;box-shadow:0 3px 0 #9AA6BF}
+.photo .pic{position:relative;height:96px;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;gap:0}
+.photo p{margin:4px 0 0;font-size:12px;line-height:16px;text-align:center}
+.empty{font-size:14px;color:var(--sub);text-align:center;padding:16px}
 </style>
 </head>
 <body>
 <div class="app">
 <header>
-<h1><svg width="24" height="24" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="#F0558A"/><rect x="4" y="0" width="2" height="1" fill="#F0558A"/><rect x="0" y="1" width="7" height="2" fill="#F0558A"/><rect x="1" y="3" width="5" height="1" fill="#F0558A"/><rect x="2" y="4" width="3" height="1" fill="#F0558A"/><rect x="3" y="5" width="1" height="1" fill="#F0558A"/><rect x="1" y="1" width="1" height="1" fill="#FFD2E1"/></svg>궁합 마을</h1>
-<div class="stats"><span id="stR">주민 0명</span><span class="c" id="stC">커플 0쌍</span><span id="stS">솔로 0명</span></div>
+<h1><svg width="22" height="22" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="#F0558A"/><rect x="4" y="0" width="2" height="1" fill="#F0558A"/><rect x="0" y="1" width="7" height="2" fill="#F0558A"/><rect x="1" y="3" width="5" height="1" fill="#F0558A"/><rect x="2" y="4" width="3" height="1" fill="#F0558A"/><rect x="3" y="5" width="1" height="1" fill="#F0558A"/><rect x="1" y="1" width="1" height="1" fill="#FFD2E1"/></svg>궁합 마을</h1>
+<div class="stats"><span id="stR">주민 0</span><span class="c" id="stC">커플 0</span><span id="stS">솔로 0</span></div>
 </header>
 <p class="banner" id="banner" hidden></p>
 <div class="vp" id="vp" aria-label="겨울 궁합 마을 지도">
-<div class="world" id="world"></div>
+<div class="tilt" id="tilt"><div class="world" id="world"></div></div>
+<div class="fog" aria-hidden="true"></div><div class="vig" aria-hidden="true"></div>
 <div class="snow" id="snow" aria-hidden="true"></div>
-<div class="hint" id="hint" hidden>조이스틱으로 움직여 보세요</div>
+<div class="toast" id="toast" hidden></div>
 <div class="joy" id="joy" hidden aria-label="이동 조이스틱"><div class="knob" id="knob"></div></div>
+<div class="acts" id="acts" hidden>
+<button class="ab" type="button" id="bEmo" aria-label="감정표현">😊</button>
+<button class="ab" type="button" id="bChat" aria-label="말하기">💬</button>
+<button class="ab" type="button" id="bThrow" aria-label="눈덩이 던지기">⛄</button>
+<button class="ab" type="button" id="bBag" aria-label="가방">🎒</button>
+<button class="ab" type="button" id="bMis" aria-label="오늘의 미션">📜<span class="dot" id="misDot" hidden></span></button>
+</div>
+<div class="emopick" id="emopick" hidden></div>
+<form class="chatbar" id="chatbar" hidden><input id="chatIn" maxlength="40" autocomplete="off" placeholder="말풍선으로 보낼 말 (40자)" aria-label="말하기"><button class="btn" type="submit">보내기</button></form>
 <button class="tobtn" id="tome" type="button" hidden>내 캐릭터로</button>
 </div>
 <div class="card" aria-live="polite">
 <div class="cardin">
 <div class="ct" id="ct">마을을 불러오는 중이에요</div>
 <div class="cd" id="cd">잠시만 기다려 주세요.</div>
+<div class="hearts" id="hearts" hidden></div>
 <div class="why" id="why"></div>
 <div class="note" id="note" hidden></div>
 <div class="actions" id="actions"></div>
@@ -156,6 +199,10 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 </div>
 </dialog>
 
+<dialog id="bag" aria-labelledby="bagT"><div class="dl"><h2 id="bagT">가방</h2><p class="cd" id="bagD" style="margin:0"></p><ul class="list" id="bagL"></ul><div class="actions"><button class="btn ghost" type="button" data-close>닫기</button></div></div></dialog>
+<dialog id="mis" aria-labelledby="misT"><div class="dl"><h2 id="misT">오늘의 미션</h2><p class="cd" style="margin:0">미션을 깨면 선물상자를 받아요. 매일 새 미션이 나와요.</p><ul class="list" id="misL"></ul><div class="actions"><button class="btn ghost" type="button" data-close>닫기</button></div></div></dialog>
+<dialog id="alb" aria-labelledby="albT"><div class="dl"><h2 id="albT">커플 앨범</h2><div class="album" id="albL"></div><div class="actions"><button class="btn ghost" type="button" data-close>닫기</button></div></div></dialog>
+
 <script type="module">
 /* =====================================================================
    Firebase 설정값 (조약돌님 프로젝트: LOVEillage)
@@ -172,14 +219,30 @@ const FIREBASE_VERSION = '12.12.0';
 /* 주소 끝에 ?demo 를 붙이면 Firebase 없이 예시 주민으로 미리보기 */
 const DEMO = new URLSearchParams(location.search).has('demo') || !FIREBASE_CONFIG.apiKey;
 
-const MAPW = 1100, MAPH = 1500, SPEED = 150, RANGE = 140, SAVE_MS = 2500;
-const SPAWN = { x: 850, y: 1378 };
+const MAPW = 1100, MAPH = 1500, SPEED = 150, RANGE = 140, SAVE_MS = 2500, THRESHOLD = 70, TILT = 35;
+const SPAWN = { x: 850, y: 1385 };
 const HAIR = ['#2B2233','#5B3A29','#8A5A2B','#D9A441','#E07AA0','#7C8CF0'];
 const SHIRT = ['#5B8DEF','#F0709A','#4FBF88','#F2C14E','#9C7CF0','#F08A4B','#8CC63F','#4CC3D9'];
 const STYLES = ['짧은 머리','긴 머리','양갈래','털모자'];
+const EMOS = ['❤️','😄','😳','😢','😤','👋','✨','🎉'];
+const ITEMS = { snow: '눈꽃 결정', cocoa: '핫초코', mitten: '벙어리장갑', gift: '선물상자' };
+const SPOTS = [
+  { id: 'tree', name: '크리스마스트리 앞', x: 550, y: 790, r: 120, bg: '#2F6E4E' },
+  { id: 'pond', name: '얼음 연못', x: 245, y: 1150, r: 140, bg: '#8FC1E6' },
+  { id: 'fire', name: '모닥불 캠프', x: 850, y: 1300, r: 110, bg: '#F08A4B' },
+  { id: 'well', name: '소원 우물', x: 345, y: 985, r: 80, bg: '#7D869C' }
+];
+const MISSIONS = {
+  emote: ['감정표현 3번 하기', 3], chat: ['말풍선 2번 보내기', 2], hit: ['눈덩이 2번 맞히기', 2],
+  pick: ['아이템 5개 줍기', 5], gift: ['선물 1번 하기', 1], wish: ['소원 우물에 동전 던지기', 1], walk: ['마을 산책 1분 하기', 60]
+};
+const BAD = ['씨발','시발','ㅅㅂ','ㅆㅂ','병신','ㅂㅅ','개새','좆','지랄','니애미','fuck','shit','bitch'];
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
+const eul = (w) => { const c = w.charCodeAt(w.length - 1) - 0xAC00; return w + (c >= 0 && c <= 11171 && c % 28 ? '을' : '를'); };
+const filt = (t) => { let s = t; for (const w of BAD) s = s.split(w).join('♡'.repeat(w.length)); return s; };
 
 /* ---------- 사주 계산 (화면에는 용어를 보여주지 않음) ---------- */
 const SE = [0,0,1,1,2,2,3,3,4,4], BE = [4,2,0,0,2,1,1,2,3,3,2,4];
@@ -200,6 +263,7 @@ function pillars(y, m, d, hh) {
 const rel = (a, b) => a === b ? 'same' : ((a + 1) % 5 === b || (b + 1) % 5 === a) ? 'gen' : 'ctl';
 function counts(p) { const c = [0,0,0,0,0]; for (const k of ['y','m','d','h']) { if (!p[k]) continue; c[SE[p[k][0]]]++; c[BE[p[k][1]]]++; } return c; }
 const bkind = (a, b) => (a + b) % 12 === 1 ? 'hap' : (a !== b && a % 4 === b % 4) ? 'sam' : Math.abs(a - b) === 6 ? 'chung' : '';
+const MC = new Map();
 function match(A, B) {
   let s = 60; const why = [];
   const sa = A.d[0], sb = B.d[0];
@@ -216,6 +280,7 @@ function match(A, B) {
   s += (A.d[0] * 7 + A.d[1] * 3 + A.y[1] * 5 + B.d[0] * 7 + B.d[1] * 3 + B.y[1] * 5) % 4;
   return { score: Math.max(35, Math.min(99, Math.round(s))), why };
 }
+const scoreOf = (a, b) => { const k = a.id < b.id ? a.id + '|' + b.id : b.id + '|' + a.id; if (!MC.has(k)) MC.set(k, match(a.p, b.p)); return MC.get(k); };
 const scoreLabel = (s) => s >= 85 ? '찰떡궁합' : s >= 75 ? '잘 맞는 편' : s >= 65 ? '무난해요' : '노력이 필요해요';
 
 /* ---------- 그림 ---------- */
@@ -227,95 +292,143 @@ function sprite(look) {
   if (st === 3) h += `<rect x="2" y="0" width="8" height="3" fill="${shirt}"/><rect x="1" y="3" width="10" height="1" fill="#fff"/><rect x="5" y="-1" width="2" height="1" fill="#fff"/><rect x="3" y="1" width="1" height="2" fill="#000" opacity=".15"/><rect x="6" y="1" width="1" height="2" fill="#000" opacity=".15"/>`;
   return `<svg class="px" width="36" height="48" viewBox="0 -1 12 17" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="4" width="8" height="5" fill="#FFE0C7"/><rect x="9" y="4" width="1" height="5" fill="#000" opacity=".08"/>${h}<rect x="4" y="6" width="1" height="2" fill="#1E2A44"/><rect x="7" y="6" width="1" height="2" fill="#1E2A44"/><rect x="4" y="6" width="1" height="1" fill="#fff" opacity=".6"/><rect x="7" y="6" width="1" height="1" fill="#fff" opacity=".6"/><rect x="3" y="8" width="1" height="1" fill="#FF9DB8"/><rect x="8" y="8" width="1" height="1" fill="#FF9DB8"/><rect x="3" y="9" width="6" height="4" fill="${shirt}"/><rect x="7" y="9" width="2" height="4" fill="#000" opacity=".15"/><rect x="3" y="9" width="6" height="1" fill="#E35D6A"/><rect x="7" y="10" width="1" height="2" fill="#E35D6A"/><rect x="2" y="10" width="1" height="2" fill="${shirt}"/><rect x="9" y="10" width="1" height="2" fill="${shirt}"/><rect x="4" y="13" width="1" height="2" fill="#3B4466"/><rect x="7" y="13" width="1" height="2" fill="#3B4466"/><rect x="3" y="15" width="2" height="1" fill="#1E2A44"/><rect x="7" y="15" width="2" height="1" fill="#1E2A44"/></svg>`;
 }
-const HEART = (w) => `<svg width="${w}" height="${Math.round(w * 6 / 7)}" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="#F0558A"/><rect x="4" y="0" width="2" height="1" fill="#F0558A"/><rect x="0" y="1" width="7" height="2" fill="#F0558A"/><rect x="1" y="3" width="5" height="1" fill="#F0558A"/><rect x="2" y="4" width="3" height="1" fill="#F0558A"/><rect x="3" y="5" width="1" height="1" fill="#F0558A"/><rect x="1" y="1" width="1" height="1" fill="#FFD2E1"/></svg>`;
+const SNOWMAN_SM = '<svg class="px snowman" width="36" height="48" viewBox="0 0 36 48" aria-hidden="true"><circle cx="18" cy="35" r="12" fill="#fff"/><circle cx="18" cy="16" r="9" fill="#fff"/><circle cx="15" cy="14" r="1.3" fill="#1E2A44"/><circle cx="21" cy="14" r="1.3" fill="#1E2A44"/><polygon points="18,17 25,18 18,19" fill="#F08A4B"/><rect x="10" y="23" width="16" height="3" fill="#E35D6A"/></svg>';
+const HEART = (w, c = '#F0558A', hi = '#FFD2E1') => `<svg width="${w}" height="${Math.round(w * 6 / 7)}" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="${c}"/><rect x="4" y="0" width="2" height="1" fill="${c}"/><rect x="0" y="1" width="7" height="2" fill="${c}"/><rect x="1" y="3" width="5" height="1" fill="${c}"/><rect x="2" y="4" width="3" height="1" fill="${c}"/><rect x="3" y="5" width="1" height="1" fill="${c}"/><rect x="1" y="1" width="1" height="1" fill="${hi}"/></svg>`;
+const ITEM_SVG = {
+  snow: '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><g stroke="#5FA8E8" stroke-width="3" stroke-linecap="round"><path d="M13 2v22M3.5 7.5l19 11M3.5 18.5l19-11"/></g><g stroke="#fff" stroke-width="1.2" stroke-linecap="round"><path d="M13 3v20M4.5 8l17 10M4.5 18l17-10"/></g><circle cx="13" cy="13" r="3" fill="#BFE3FF"/></svg>',
+  cocoa: '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M8 4c-2 2 2 3 0 5M13 3c-2 2 2 3 0 5" stroke="#fff" stroke-width="2" fill="none"/><rect x="4" y="10" width="15" height="13" rx="3" fill="#E35D6A" stroke="#1E2A44" stroke-width="1.5"/><path d="M19 13h2a3 3 0 0 1 0 6h-2" stroke="#1E2A44" stroke-width="1.5" fill="none"/><rect x="5" y="11" width="13" height="3" fill="#7A4A2A"/></svg>',
+  mitten: '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M7 22V9a5 5 0 0 1 10 0v4l3-2a2 2 0 0 1 2 3l-5 5v3z" fill="#5B8DEF" stroke="#1E2A44" stroke-width="1.5"/><rect x="6" y="19" width="12" height="5" rx="1" fill="#fff" stroke="#1E2A44" stroke-width="1.5"/></svg>',
+  gift: '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="10" width="20" height="13" fill="#F0558A" stroke="#1E2A44" stroke-width="1.5"/><rect x="2" y="7" width="22" height="5" fill="#F0558A" stroke="#1E2A44" stroke-width="1.5"/><rect x="11" y="7" width="4" height="16" fill="#FFD84D"/><path d="M13 7C9 1 5 4 9 7M13 7c4-6 8-3 4 0" stroke="#FFD84D" stroke-width="2.4" fill="none"/></svg>'
+};
 function seeded(n) { let x = n; return () => { x = (x * 9301 + 49297) % 233280; return x / 233280; }; }
+// 서 있는 물체(빌보드)와 땅 위 그림자
+const st = (x, y, w, h, inner, extra = '') => `<div class="st" ${extra} style="left:${Math.round(x - w / 2)}px;top:${Math.round(y - h)}px;width:${w}px;height:${h}px">${inner}</div>`;
+const shd = (x, y, w, h, op = '') => `<div class="shd" style="left:${Math.round(x - w / 2 + w * .12)}px;top:${Math.round(y - h / 2 - 2)}px;width:${w}px;height:${h}px${op ? ';background:' + op : ''}"></div>`;
 
 function pine(x, y, s = 1) {
-  const w = Math.round(44 * s), h = Math.round(62 * s);
-  return `<div class="o" style="left:${x - w / 2}px;top:${y - h}px;z-index:${y}"><span class="sh" style="left:${w * .1}px;bottom:-4px;width:${w * .8}px;height:${10 * s}px"></span><svg class="px" width="${w}" height="${h}" viewBox="0 0 44 62" style="position:relative"><rect x="19" y="50" width="6" height="12" fill="#6B4423"/><polygon points="22,2 40,30 4,30" fill="#2F6E4E"/><polygon points="22,14 44,48 0,48" fill="#2A6347"/><polygon points="22,2 30,14 14,14" fill="#fff"/><polygon points="22,14 33,30 11,30 16,26 22,28 28,25" fill="#fff"/><polygon points="6,46 0,48 44,48 38,46 30,49 22,46 14,49" fill="#fff"/><polygon points="22,14 44,48 22,48" fill="#000" opacity=".1"/></svg></div>`;
+  const w = Math.round(46 * s), h = Math.round(70 * s);
+  return shd(x + 8 * s, y, w * 1.1, 14 * s) + st(x, y, w, h, `<svg width="${w}" height="${h}" viewBox="0 0 46 70"><rect x="20" y="56" width="6" height="14" fill="#6B4423" stroke="#3E2614" stroke-width="1"/><polygon points="23,2 42,32 4,32" fill="#2F6E4E" stroke="#1C4430" stroke-width="1.5"/><polygon points="23,16 46,54 0,54" fill="#2A6347" stroke="#1C4430" stroke-width="1.5"/><polygon points="23,16 46,54 23,54" fill="#1F4F38"/><polygon points="23,2 31,14 15,14" fill="#fff"/><polygon points="23,16 34,32 12,32 17,28 23,30 29,27" fill="#fff"/><polygon points="6,52 0,54 46,54 40,52 31,55 23,52 15,55" fill="#fff"/></svg>`);
 }
 function house(x, y, wall, roof) {
-  return `<div class="o" style="left:${x}px;top:${y}px;z-index:${y + 104}"><span class="glow" style="left:-10px;top:40px;width:140px;height:90px"></span><span class="sh" style="left:6px;bottom:-6px;width:112px;height:16px"></span><svg class="px" width="120" height="112" viewBox="0 0 60 56" style="position:relative"><rect x="44" y="2" width="5" height="12" fill="#8A5A4F"/><rect x="43" y="1" width="7" height="2" fill="#fff"/><rect x="6" y="26" width="30" height="26" fill="${wall[0]}"/><polygon points="36,26 54,20 54,46 36,52" fill="${wall[1]}"/><polygon points="21,8 39,2 58,22 40,28" fill="${roof[1]}"/><polygon points="2,28 21,8 40,28" fill="${roof[0]}"/><polygon points="2,28 21,8 40,28 36,28 21,12 6,28" fill="#fff"/><polygon points="21,8 39,2 42,5 24,11" fill="#fff"/><polygon points="40,28 58,22 58,24 40,30" fill="#fff"/><rect x="17" y="38" width="8" height="14" rx="1" fill="#5A3A24"/><rect x="23" y="44" width="1" height="1" fill="#F2C14E"/><rect x="9" y="31" width="6" height="6" fill="#FFD66B"/><rect x="11.5" y="31" width="1" height="6" fill="#C9962E"/><polygon points="42,30 48,28 48,34 42,36" fill="#FFD66B"/><rect x="7" y="51" width="30" height="2" fill="#fff"/></svg><span class="puff" style="left:92px;top:-6px"></span><span class="puff" style="left:92px;top:-6px;animation-delay:1.5s"></span></div>`;
+  // x,y = 집 앞쪽 바닥 가운데
+  return `<div class="pool" style="left:${x - 90}px;top:${y - 30}px;width:180px;height:90px"></div>` + shd(x + 16, y - 6, 150, 34) + st(x, y + 2, 130, 128, `<svg width="130" height="128" viewBox="0 0 65 64"><rect x="47" y="4" width="6" height="14" fill="#8A5A4F" stroke="#3E2614"/><rect x="46" y="3" width="8" height="2" fill="#fff"/><rect x="6" y="30" width="34" height="30" fill="${wall[0]}" stroke="#1E2A44" stroke-width="1"/><polygon points="40,30 60,23 60,52 40,60" fill="${wall[1]}" stroke="#1E2A44" stroke-width="1"/><polygon points="22,9 42,2 63,25 42,32" fill="${roof[1]}" stroke="#1E2A44" stroke-width="1"/><polygon points="1,32 22,9 44,32" fill="${roof[0]}" stroke="#1E2A44" stroke-width="1"/><polygon points="1,32 22,9 44,32 40,32 22,13 5,32" fill="#fff"/><polygon points="22,9 42,2 45,5 25,12" fill="#fff"/><polygon points="44,32 63,25 63,27 44,34" fill="#fff"/><rect x="18" y="43" width="10" height="17" rx="1" fill="#5A3A24"/><rect x="25" y="51" width="1.5" height="1.5" fill="#F2C14E"/><rect x="9" y="36" width="7" height="7" fill="#FFD66B" stroke="#7A5A1E" stroke-width=".6"/><rect x="12" y="36" width="1" height="7" fill="#C9962E"/><polygon points="45,35 53,32 53,40 45,43" fill="#FFD66B" stroke="#7A5A1E" stroke-width=".6"/><rect x="5" y="59" width="36" height="3" fill="#fff"/><polygon points="40,61 60,53 60,55 40,63" fill="#fff"/></svg><span class="puff" style="left:98px;top:-4px"></span><span class="puff" style="left:98px;top:-4px;animation-delay:1.5s"></span>`);
 }
-function snowman(x, y) { return `<div class="o" style="left:${x - 20}px;top:${y - 54}px;z-index:${y}"><span class="sh" style="left:2px;bottom:-4px;width:36px;height:9px"></span><svg class="px" width="40" height="54" viewBox="0 0 40 54" style="position:relative"><circle cx="20" cy="40" r="14" fill="#fff"/><circle cx="20" cy="18" r="10" fill="#fff"/><path d="M26 40a14 14 0 0 1-12 13" stroke="#D3E0EE" stroke-width="3" fill="none"/><rect x="12" y="2" width="16" height="9" fill="#2B2233"/><rect x="9" y="10" width="22" height="2" fill="#2B2233"/><circle cx="16" cy="16" r="1.4" fill="#1E2A44"/><circle cx="24" cy="16" r="1.4" fill="#1E2A44"/><polygon points="20,19 28,21 20,22" fill="#F08A4B"/><rect x="10" y="26" width="20" height="4" fill="#E35D6A"/><rect x="24" y="28" width="4" height="9" fill="#E35D6A"/><circle cx="20" cy="36" r="1.5" fill="#1E2A44"/><circle cx="20" cy="42" r="1.5" fill="#1E2A44"/></svg></div>`; }
-function lamp(x, y) { return `<div class="o" style="left:${x - 8}px;top:${y - 58}px;z-index:${y}"><span class="glow" style="left:-30px;top:-26px;width:76px;height:76px"></span><svg class="px" width="16" height="58" viewBox="0 0 8 29" shape-rendering="crispEdges" style="position:relative"><rect x="3" y="6" width="2" height="22" fill="#2E3A5C"/><rect x="1" y="28" width="6" height="1" fill="#2E3A5C"/><rect x="1" y="1" width="6" height="5" fill="#FFE59A"/><rect x="0" y="0" width="8" height="1" fill="#2E3A5C"/><rect x="0" y="-1" width="8" height="1" fill="#fff"/><rect x="2" y="2" width="2" height="2" fill="#fff"/></svg></div>`; }
-function bench(x, y) { return `<div class="o" style="left:${x - 30}px;top:${y - 26}px;z-index:${y}"><svg class="px" width="60" height="26" viewBox="0 0 60 26"><rect x="4" y="4" width="52" height="5" fill="#9C6B42"/><rect x="4" y="2" width="52" height="3" fill="#fff"/><rect x="2" y="12" width="56" height="5" fill="#B07C4E"/><rect x="2" y="11" width="56" height="2" fill="#fff"/><rect x="6" y="17" width="4" height="9" fill="#5A3A24"/><rect x="50" y="17" width="4" height="9" fill="#5A3A24"/></svg></div>`; }
-function gift(x, y, c) { return `<div class="o" style="left:${x}px;top:${y - 18}px;z-index:${y}"><svg class="px" width="20" height="18" viewBox="0 0 20 18"><rect x="1" y="6" width="18" height="12" fill="${c}"/><rect x="0" y="4" width="20" height="4" fill="${c}"/><rect x="8" y="4" width="4" height="14" fill="#fff"/><path d="M10 4 C6 -1 3 2 7 4 M10 4 C14 -1 17 2 13 4" stroke="#fff" stroke-width="2" fill="none"/></svg></div>`; }
+function snowman(x, y) { return shd(x + 6, y, 40, 11) + st(x, y, 40, 56, '<svg width="40" height="56" viewBox="0 0 40 56"><circle cx="20" cy="42" r="14" fill="#fff" stroke="#AFC2D8" stroke-width="1.5"/><circle cx="20" cy="20" r="10" fill="#fff" stroke="#AFC2D8" stroke-width="1.5"/><path d="M27 42a14 14 0 0 1-13 13" stroke="#D3E0EE" stroke-width="3" fill="none"/><rect x="12" y="3" width="16" height="9" fill="#2B2233"/><rect x="9" y="11" width="22" height="2" fill="#2B2233"/><circle cx="16" cy="18" r="1.4" fill="#1E2A44"/><circle cx="24" cy="18" r="1.4" fill="#1E2A44"/><polygon points="20,21 28,23 20,24" fill="#F08A4B"/><rect x="10" y="28" width="20" height="4" fill="#E35D6A"/><rect x="24" y="30" width="4" height="9" fill="#E35D6A"/><circle cx="20" cy="38" r="1.5" fill="#1E2A44"/><circle cx="20" cy="44" r="1.5" fill="#1E2A44"/></svg>'); }
+function lamp(x, y) { return `<div class="pool" style="left:${x - 46}px;top:${y - 34}px;width:92px;height:66px"></div>` + shd(x + 10, y, 22, 7) + st(x, y, 18, 62, '<span style="position:absolute;left:-22px;top:-20px;width:62px;height:62px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.6),rgba(255,214,110,0))"></span><svg width="18" height="62" viewBox="0 0 8 28" shape-rendering="crispEdges" style="position:relative"><rect x="3" y="6" width="2" height="21" fill="#2E3A5C"/><rect x="1" y="27" width="6" height="1" fill="#2E3A5C"/><rect x="1" y="1" width="6" height="5" fill="#FFE59A"/><rect x="0" y="0" width="8" height="1" fill="#2E3A5C"/><rect x="2" y="2" width="2" height="2" fill="#fff"/></svg>'); }
+function bench(x, y) { return shd(x + 6, y, 64, 12) + st(x, y, 64, 30, '<svg width="64" height="30" viewBox="0 0 64 30"><rect x="4" y="4" width="56" height="6" fill="#9C6B42" stroke="#3E2614"/><rect x="4" y="2" width="56" height="3" fill="#fff"/><rect x="2" y="13" width="60" height="6" fill="#B07C4E" stroke="#3E2614"/><rect x="2" y="12" width="60" height="2" fill="#fff"/><rect x="6" y="19" width="5" height="11" fill="#5A3A24"/><rect x="53" y="19" width="5" height="11" fill="#5A3A24"/></svg>'); }
+function fence(x1, x2, y) { let s = ''; for (let x = x1; x <= x2; x += 28) s += st(x, y, 30, 26, '<svg width="30" height="26" viewBox="0 0 30 26"><rect x="0" y="9" width="30" height="4" fill="#9C6B42"/><rect x="0" y="17" width="30" height="4" fill="#9C6B42"/><rect x="3" y="3" width="6" height="23" fill="#B07C4E" stroke="#3E2614"/><rect x="3" y="1" width="6" height="3" fill="#fff"/><rect x="21" y="3" width="6" height="23" fill="#B07C4E" stroke="#3E2614"/><rect x="21" y="1" width="6" height="3" fill="#fff"/></svg>'); return s; }
+function gift(x, y, c) { return shd(x + 3, y, 22, 6) + st(x, y, 22, 20, `<svg width="22" height="20" viewBox="0 0 20 18"><rect x="1" y="6" width="18" height="12" fill="${c}" stroke="#1E2A44"/><rect x="0" y="4" width="20" height="4" fill="${c}" stroke="#1E2A44"/><rect x="8" y="4" width="4" height="14" fill="#fff"/><path d="M10 4 C6 -1 3 2 7 4 M10 4 C14 -1 17 2 13 4" stroke="#fff" stroke-width="2" fill="none"/></svg>`); }
+function cliff(x1, x2, y) { // 언덕 단차: 윗면(땅)과 앞면(세운 벽)
+  const w = x2 - x1;
+  return `<div class="fl" style="left:${x1}px;top:${y - 40}px;width:${w}px;height:40px;background:#F6FAFE"></div>` + `<div class="st" style="left:${x1}px;top:${y - 34}px;width:${w}px;height:34px;background:linear-gradient(#fff 0 6px,#C9D7E6 6px 100%);border-bottom:3px solid #9FB4CC;background-image:linear-gradient(#fff 0 6px,transparent 6px),repeating-linear-gradient(90deg,#C3D2E2 0 46px,#B6C7DA 46px 48px);"></div>` + `<div class="shd" style="left:${x1}px;top:${y}px;width:${w}px;height:16px;border-radius:0;background:linear-gradient(rgba(40,60,100,.18),rgba(40,60,100,0))"></div>`;
+}
 
 function buildWorld() {
-  const o = [];
+  const o = ['<div class="far"></div><div class="ground"></div>'];
+  // 북쪽 언덕(집 동네)은 살짝 높게
+  o.push(cliff(0, 500, 470)); o.push(cliff(600, 1100, 470));
+  o.push(st(550, 470, 100, 34, '<svg width="100" height="34" viewBox="0 0 100 34"><rect x="0" y="0" width="100" height="34" fill="#B9C9DA"/><g fill="#D8E3EF" stroke="#9FB4CC"><rect x="0" y="0" width="100" height="8"/><rect x="0" y="8" width="100" height="9"/><rect x="0" y="17" width="100" height="8"/><rect x="0" y="25" width="100" height="9"/></g></svg>'));
   // 길과 광장
-  o.push('<div class="path" style="left:-10px;top:678px;width:1120px;height:54px;border-left:0;border-right:0"></div>');
-  o.push('<div class="path" style="left:523px;top:-10px;width:54px;height:1520px;border-top:0;border-bottom:0"></div>');
-  o.push('<div class="plaza" style="left:405px;top:560px;width:290px;height:290px"></div>');
-  o.push('<div class="path" style="left:780px;top:1180px;width:150px;height:150px;border-radius:50%;background:#D8E3EF"></div>');
-  // 얼어붙은 연못
-  o.push(`<div class="o" style="left:110px;top:1080px;z-index:1"><svg width="270" height="150" viewBox="0 0 270 150"><ellipse cx="135" cy="78" rx="133" ry="70" fill="#9FC7E8"/><ellipse cx="135" cy="72" rx="124" ry="62" fill="#CFE6F7"/><path d="M60 70 q40 -30 80 0 t80 0" stroke="#fff" stroke-width="3" fill="none" opacity=".9"/><path d="M90 95 q30 18 70 2" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><ellipse cx="190" cy="52" rx="16" ry="5" fill="#fff" opacity=".8"/></svg></div>`);
-  o.push('<div class="o board" style="left:190px;top:1050px;z-index:1080">얼음 연못</div>');
+  o.push('<div class="path" style="left:-10px;top:676px;width:1120px;height:58px;border-left:0;border-right:0"></div>');
+  o.push('<div class="path" style="left:521px;top:-10px;width:58px;height:1520px;border-top:0;border-bottom:0"></div>');
+  o.push('<div class="path" style="left:395px;top:560px;width:310px;height:300px;border-radius:50%;background:#D5E0EC"></div>');
+  o.push('<div class="path" style="left:770px;top:1215px;width:170px;height:150px;border-radius:50%;background:#D5E0EC"></div>');
+  // 얼음 연못 (깊이감: 둑 + 얼음면)
+  o.push('<div class="fl" style="left:100px;top:1075px;width:290px;height:160px;border-radius:50%;background:#9FB4CC"></div><div class="fl" style="left:110px;top:1080px;width:270px;height:146px;border-radius:50%;background:#8EC0E8;box-shadow:inset 0 10px 18px rgba(30,60,110,.35)"></div><div class="fl" style="left:125px;top:1092px;width:240px;height:120px;border-radius:50%;background:#CDE6F8"></div>');
+  o.push('<svg class="fl" style="left:125px;top:1092px" width="240" height="120" viewBox="0 0 240 120"><path d="M40 60 q40 -30 80 0 t80 0" stroke="#fff" stroke-width="3" fill="none"/><path d="M70 85 q30 18 70 2" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><ellipse cx="170" cy="36" rx="18" ry="5" fill="#fff" opacity=".9"/></svg>');
+  o.push(fence(110, 380, 1070));
+  o.push(st(245, 1062, 92, 26, '<div class="board">얼음 연못</div>'));
   // 크리스마스트리
   const lights = [[50,40,'#FFD84D'],[34,62,'#F0558A'],[66,66,'#5B8DEF'],[28,88,'#FFD84D'],[58,92,'#4FBF88'],[44,110,'#F0558A'],[76,112,'#FFD84D'],[22,118,'#5B8DEF']];
-  o.push(`<div class="o" style="left:490px;top:560px;z-index:705"><span class="glow" style="left:-40px;top:20px;width:200px;height:160px;background:radial-gradient(closest-side,rgba(255,216,77,.35),rgba(255,216,77,0))"></span><span class="sh" style="left:14px;bottom:-6px;width:92px;height:16px"></span><svg class="px" width="120" height="146" viewBox="0 0 100 122" style="position:relative"><rect x="44" y="104" width="12" height="16" fill="#6B4423"/><polygon points="50,8 72,44 28,44" fill="#2F7A50"/><polygon points="50,28 82,76 18,76" fill="#2A6E48"/><polygon points="50,52 92,108 8,108" fill="#256542"/><polygon points="50,8 58,22 42,22" fill="#fff"/><polygon points="8,108 92,108 86,104 70,107 50,103 30,107 14,104" fill="#fff"/><polygon points="50,8 92,108 50,108" fill="#000" opacity=".1"/><polygon points="50,0 53,6 59,6 54,10 56,16 50,12 44,16 46,10 41,6 47,6" fill="#FFD84D"/></svg>${lights.map(([lx, ly, c], i) => `<span class="tw" style="position:absolute;left:${lx * 1.2 - 4}px;top:${ly * 1.2 - 4}px;width:8px;height:8px;border-radius:50%;background:${c};box-shadow:0 0 6px ${c};animation-delay:${(i * .2).toFixed(1)}s"></span>`).join('')}</div>`);
-  [[470,712,'#F0558A'],[600,716,'#5B8DEF'],[505,722,'#F2C14E'],[574,724,'#4FBF88']].forEach(([x, y, c]) => o.push(gift(x, y, c)));
-  // 집
-  o.push(house(110, 250, ['#FFF3D6','#E5CFA2'], ['#E04A6E','#A8325C']));
-  o.push(house(320, 170, ['#EEF0FF','#C5C9EE'], ['#5C7FD6','#3F5FB0']));
-  o.push(house(660, 170, ['#FFF7E8','#E8D3A8'], ['#E58A3A','#B8682A']));
-  o.push(house(880, 250, ['#F3FFF4','#C8E5CB'], ['#3E9C6A','#2C7550']));
-  o.push(house(120, 820, ['#FFF0F3','#EAC7CF'], ['#9C7CF0','#7457C9']));
-  o.push(house(870, 820, ['#FFF7E0','#EAD9A8'], ['#D64545','#A23232']));
-  o.push('<div class="o board" style="left:595px;top:470px;z-index:500">궁합 마을<small>마음에 드는 이웃에게 고백해 보세요</small></div>');
-  // 가로등·벤치·눈사람·우체통
-  [[420,640],[680,640],[420,800],[680,800],[540,420],[540,1000],[300,690],[800,690]].forEach(([x, y]) => o.push(lamp(x, y)));
-  o.push(bench(390, 560)); o.push(bench(720, 880)); o.push(bench(300, 1280));
-  o.push(snowman(290, 580)); o.push(snowman(820, 580)); o.push(snowman(470, 1060));
-  o.push(`<div class="o" style="left:615px;top:546px;z-index:584"><svg class="px" width="26" height="40" viewBox="0 0 24 38"><rect x="10" y="16" width="4" height="22" fill="#6B4423"/><rect x="2" y="4" width="18" height="13" rx="3" fill="#E04A7E"/><rect x="2" y="2" width="18" height="3" rx="1" fill="#fff"/><polygon points="20,6 23,5 23,15 20,17" fill="#A8325C"/><circle cx="11" cy="12" r="2" fill="#fff"/></svg></div>`);
-  o.push('<div class="o" style="left:600px;top:1100px;z-index:1120"><svg class="px" width="56" height="26" viewBox="0 0 56 26"><rect x="6" y="6" width="40" height="10" rx="3" fill="#D64545"/><rect x="6" y="4" width="40" height="3" fill="#fff"/><path d="M2 20 H48 Q54 20 54 14" stroke="#8A5A33" stroke-width="3" fill="none"/><rect x="12" y="16" width="3" height="5" fill="#8A5A33"/><rect x="36" y="16" width="3" height="5" fill="#8A5A33"/></svg></div>');
-  // 소원 우물
-  o.push(`<button class="o tapobj" data-obj="well" style="left:320px;top:920px;z-index:982" aria-label="소원 우물, 눌러서 동전 던지기"><span class="sh" style="left:2px;bottom:16px;width:44px;height:10px"></span><svg class="px" width="48" height="60" viewBox="0 0 42 56" style="position:relative;display:block"><rect x="6" y="10" width="3" height="28" fill="#6B4423"/><rect x="33" y="10" width="3" height="28" fill="#6B4423"/><polygon points="1,12 21,1 41,12 37,16 5,16" fill="#9C4F45"/><polygon points="1,12 21,1 41,12 38,13 21,4 4,13" fill="#fff"/><rect x="20.5" y="16" width="1" height="9" fill="#8A7A66"/><rect x="18" y="24" width="6" height="6" fill="#8A5A33"/><rect x="4" y="34" width="34" height="16" fill="#9AA3B8"/><ellipse cx="21" cy="50" rx="17" ry="5" fill="#7D869C"/><rect x="4" y="40" width="34" height="1.5" fill="#7D869C"/><ellipse cx="21" cy="34" rx="17" ry="6" fill="#fff"/><ellipse cx="21" cy="34" rx="12" ry="3.5" fill="#7FC4F2"/></svg><span class="tag" style="display:block;margin:2px auto 0;width:max-content;max-width:none">소원 우물</span></button>`);
-  // 솔로 캠프 (모닥불)
-  o.push(`<div class="o" style="left:826px;top:1226px;z-index:1270"><span class="glow" style="left:-50px;top:-40px;width:150px;height:130px;background:radial-gradient(closest-side,rgba(255,150,60,.45),rgba(255,150,60,0))"></span><svg width="50" height="46" viewBox="0 0 50 46" style="position:relative"><rect x="6" y="36" width="38" height="6" rx="3" fill="#6B4423" transform="rotate(12 25 39)"/><rect x="6" y="36" width="38" height="6" rx="3" fill="#7A5030" transform="rotate(-12 25 39)"/><g class="flame"><path d="M25 4 C34 16 38 24 32 34 H18 C12 24 16 16 25 4Z" fill="#F08A4B"/><path d="M25 14 C30 22 31 27 28 34 H22 C19 27 20 22 25 14Z" fill="#FFD84D"/></g></svg></div>`);
-  [[770,1260],[920,1250],[800,1320],[900,1325]].forEach(([x, y], i) => o.push(`<div class="o" style="left:${x - 18}px;top:${y - 10}px;z-index:${y - 30}"><svg width="36" height="14" viewBox="0 0 36 14"><rect x="0" y="2" width="36" height="10" rx="5" fill="#8A5A33"/><ellipse cx="4" cy="7" rx="3" ry="5" fill="#C99A66"/><rect x="6" y="0" width="26" height="3" rx="1.5" fill="#fff"/></svg></div>`));
-  o.push(`<div class="o board" style="left:790px;top:1150px;z-index:1180">솔로존 · 모닥불 캠프<small>새 주민은 여기서 시작해요</small></div>`);
-  // 숲 테두리
+  o.push('<div class="pool" style="left:430px;top:650px;width:240px;height:150px;background:radial-gradient(closest-side,rgba(255,216,77,.4),rgba(255,216,77,0))"></div>');
+  o.push(shd(575, 712, 130, 30));
+  o.push(st(550, 712, 120, 150, `<svg width="120" height="150" viewBox="0 0 100 125"><rect x="44" y="106" width="12" height="18" fill="#6B4423" stroke="#3E2614"/><polygon points="50,8 72,44 28,44" fill="#2F7A50" stroke="#1C4430"/><polygon points="50,28 82,76 18,76" fill="#2A6E48" stroke="#1C4430"/><polygon points="50,52 92,108 8,108" fill="#256542" stroke="#1C4430"/><polygon points="50,8 92,108 50,108" fill="#000" opacity=".12"/><polygon points="50,8 58,22 42,22" fill="#fff"/><polygon points="8,108 92,108 86,104 70,107 50,103 30,107 14,104" fill="#fff"/><polygon points="50,0 53,6 59,6 54,10 56,16 50,12 44,16 46,10 41,6 47,6" fill="#FFD84D" stroke="#B8862E"/></svg>${lights.map(([lx, ly, c], i) => `<span class="tw" style="position:absolute;left:${lx * 1.2 - 4}px;top:${ly * 1.2 - 4}px;width:8px;height:8px;border-radius:50%;background:${c};box-shadow:0 0 6px ${c};animation-delay:${(i * .2).toFixed(1)}s"></span>`).join('')}`));
+  [[480,724,'#F0558A'],[612,728,'#5B8DEF'],[512,736,'#F2C14E'],[585,738,'#4FBF88']].forEach(([x, y, c]) => o.push(gift(x, y, c)));
+  // 집 (언덕 위)
+  o.push(house(170, 380, ['#FFF3D6','#E5CFA2'], ['#E04A6E','#A8325C']));
+  o.push(house(390, 300, ['#EEF0FF','#C5C9EE'], ['#5C7FD6','#3F5FB0']));
+  o.push(house(720, 300, ['#FFF7E8','#E8D3A8'], ['#E58A3A','#B8682A']));
+  o.push(house(940, 380, ['#F3FFF4','#C8E5CB'], ['#3E9C6A','#2C7550']));
+  o.push(house(180, 960, ['#FFF0F3','#EAC7CF'], ['#9C7CF0','#7457C9']));
+  o.push(house(930, 960, ['#FFF7E0','#EAD9A8'], ['#D64545','#A23232']));
+  o.push(st(660, 560, 200, 40, '<div class="board">궁합 마을<small>짝과 손잡고 걸어 보세요</small></div>'));
+  // 가로등·벤치·눈사람·우체통·썰매
+  [[420,640],[680,640],[420,820],[680,820],[620,470],[480,470],[300,700],[800,700],[540,1040]].forEach(([x, y]) => o.push(lamp(x, y)));
+  o.push(bench(395, 590)); o.push(bench(710, 880)); o.push(bench(320, 1290));
+  o.push(snowman(290, 600)); o.push(snowman(820, 600)); o.push(snowman(470, 1090));
+  o.push(shd(632, 584, 22, 6) + st(628, 584, 26, 42, '<svg width="26" height="42" viewBox="0 0 24 38"><rect x="10" y="16" width="4" height="22" fill="#6B4423"/><rect x="2" y="4" width="18" height="13" rx="3" fill="#E04A7E" stroke="#1E2A44"/><rect x="2" y="2" width="18" height="3" rx="1" fill="#fff"/><circle cx="11" cy="12" r="2" fill="#fff"/></svg>'));
+  o.push(shd(632, 1130, 60, 10) + st(628, 1130, 58, 28, '<svg width="58" height="28" viewBox="0 0 56 26"><rect x="6" y="6" width="40" height="10" rx="3" fill="#D64545" stroke="#1E2A44"/><rect x="6" y="4" width="40" height="3" fill="#fff"/><path d="M2 20 H48 Q54 20 54 14" stroke="#8A5A33" stroke-width="3" fill="none"/><rect x="12" y="16" width="3" height="5" fill="#8A5A33"/><rect x="36" y="16" width="3" height="5" fill="#8A5A33"/></svg>'));
+  // 소원 우물 (누를 수 있음)
+  o.push('<div class="pool" style="left:300px;top:955px;width:90px;height:60px;background:radial-gradient(closest-side,rgba(127,196,242,.45),rgba(127,196,242,0))"></div>' + shd(352, 985, 52, 14));
+  o.push(`<button class="st tap" data-obj="well" style="left:321px;top:905px;width:48px;height:82px;background:none;border:0;padding:0;cursor:pointer" aria-label="소원 우물, 눌러서 동전 던지기"><svg width="48" height="62" viewBox="0 0 42 56"><rect x="6" y="10" width="3" height="28" fill="#6B4423"/><rect x="33" y="10" width="3" height="28" fill="#6B4423"/><polygon points="1,12 21,1 41,12 37,16 5,16" fill="#9C4F45" stroke="#1E2A44"/><polygon points="1,12 21,1 41,12 38,13 21,4 4,13" fill="#fff"/><rect x="20.5" y="16" width="1" height="9" fill="#8A7A66"/><rect x="18" y="24" width="6" height="6" fill="#8A5A33"/><rect x="4" y="34" width="34" height="16" fill="#9AA3B8" stroke="#1E2A44"/><ellipse cx="21" cy="50" rx="17" ry="5" fill="#7D869C"/><rect x="4" y="40" width="34" height="1.5" fill="#7D869C"/><ellipse cx="21" cy="34" rx="17" ry="6" fill="#fff" stroke="#1E2A44"/><ellipse cx="21" cy="34" rx="12" ry="3.5" fill="#7FC4F2"/></svg><span class="tag" style="display:block;margin:2px auto 0;width:max-content;max-width:none">소원 우물</span></button>`);
+  // 솔로존 모닥불 캠프
+  o.push('<div class="pool" style="left:760px;top:1220px;width:180px;height:130px;background:radial-gradient(closest-side,rgba(255,150,60,.5),rgba(255,150,60,0))"></div>');
+  o.push(st(852, 1290, 50, 46, '<span style="position:absolute;left:-30px;top:-30px;width:110px;height:100px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,80,.5),rgba(255,170,80,0))"></span><svg width="50" height="46" viewBox="0 0 50 46" style="position:relative"><rect x="6" y="36" width="38" height="6" rx="3" fill="#6B4423" transform="rotate(12 25 39)"/><rect x="6" y="36" width="38" height="6" rx="3" fill="#7A5030" transform="rotate(-12 25 39)"/><g class="flame"><path d="M25 4 C34 16 38 24 32 34 H18 C12 24 16 16 25 4Z" fill="#F08A4B"/><path d="M25 14 C30 22 31 27 28 34 H22 C19 27 20 22 25 14Z" fill="#FFD84D"/></g></svg>'));
+  [[780,1280],[925,1270],[805,1345],[905,1350]].forEach(([x, y]) => o.push(shd(x + 4, y, 40, 9) + st(x, y, 38, 16, '<svg width="38" height="16" viewBox="0 0 36 14"><rect x="0" y="2" width="36" height="10" rx="5" fill="#8A5A33" stroke="#3E2614"/><ellipse cx="4" cy="7" rx="3" ry="5" fill="#C99A66"/><rect x="6" y="0" width="26" height="3" rx="1.5" fill="#fff"/></svg>')));
+  o.push(st(855, 1205, 200, 40, '<div class="board">솔로존 · 모닥불 캠프<small>새 주민은 여기서 시작해요</small></div>'));
+  // 숲
   const r = seeded(11);
-  for (let x = 20; x < MAPW; x += 62) { o.push(pine(x + r() * 20, 70 + r() * 30, .9 + r() * .3)); o.push(pine(x + r() * 20, MAPH - 20 - r() * 30, .9 + r() * .3)); }
-  for (let y = 160; y < MAPH - 80; y += 70) { if (Math.abs(y - 705) < 70) continue; o.push(pine(26 + r() * 16, y + r() * 20, .85 + r() * .3)); o.push(pine(MAPW - 26 - r() * 16, y + r() * 20, .85 + r() * .3)); }
-  [[260,420],[300,470],[820,420],[780,470],[200,560],[960,560],[420,1180],[460,1240],[660,1250],[700,1330],[980,1100],[380,1400],[1000,1180],[250,1380]].forEach(([x, y]) => o.push(pine(x, y, 1.05)));
-  o.push('<svg id="links" class="o" width="1100" height="1500" style="left:0;top:0;z-index:2;overflow:visible" aria-hidden="true"></svg>');
-  o.push('<div id="people"></div>');
+  for (let x = 20; x < MAPW; x += 66) { o.push(pine(x + r() * 20, 80 + r() * 30, .95 + r() * .3)); o.push(pine(x + r() * 20, MAPH - 10 - r() * 30, .95 + r() * .3)); }
+  for (let y = 160; y < MAPH - 80; y += 76) { if (Math.abs(y - 705) < 70) continue; o.push(pine(24 + r() * 16, y + r() * 20, .9 + r() * .3)); o.push(pine(MAPW - 24 - r() * 16, y + r() * 20, .9 + r() * .3)); }
+  [[270,520],[310,560],[830,520],[790,560],[200,640],[960,640],[420,1200],[460,1260],[670,1270],[700,1350],[990,1120],[380,1410],[1010,1200],[250,1400],[110,470],[1000,470]].forEach(([x, y]) => o.push(pine(x, y, 1.1)));
+  o.push('<div id="items" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
+  o.push('<div id="people" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   $('world').innerHTML = o.join('');
-  $('snow').innerHTML = Array.from({ length: 34 }, (_, i) => { const s = 2 + (i % 4); return `<i style="left:${(i * 37) % 100}%;width:${s}px;height:${s}px;animation-duration:${6 + (i % 5) * 1.4}s;animation-delay:-${(i * 0.7).toFixed(1)}s"></i>`; }).join('');
+  $('snow').innerHTML = Array.from({ length: 36 }, (_, i) => { const s = 2 + (i % 4); return `<i style="left:${(i * 37) % 100}%;width:${s}px;height:${s}px;animation-duration:${6 + (i % 5) * 1.4}s;animation-delay:-${(i * 0.7).toFixed(1)}s"></i>`; }).join('');
 }
 
 /* ---------- 상태 ---------- */
-let residents = new Map();   // id -> 정리된 주민 데이터
-let myId = null, api = null, loaded = false, sel = null, wish = 0, notice = '', leaving = false, breaking = false;
-const me = { x: SPAWN.x, y: SPAWN.y, init: false, moving: false, lastSave: 0, savedX: 0, savedY: 0 };
-const disp = new Map();       // id -> {x,y,el,sig,moving,left}
-let couples = [], partnerOf = new Map();
+let residents = new Map(), myId = null, api = null, loaded = false, sel = null, wish = 0, notice = '', leaving = false, breaking = false;
+const me = { x: SPAWN.x, y: SPAWN.y, init: false, moving: false, lastSave: 0, savedX: 0, savedY: 0, movedAt: 0, left: false, fx: 0, fy: 1, walkAcc: 0, misWalk: 0 };
+const disp = new Map();
+let couples = [], coupleOf = new Map();
 const cam = { x: 0, y: 0, free: false };
 const joy = { x: 0, y: 0, on: false }, keys = new Set();
 const vp = $('vp'), world = $('world');
+const seen = { emote: new Map(), say: new Map(), throw: new Map(), gift: new Map() };
+let firstData = true;
+const L = { inv: { snow: 0, cocoa: 0, mitten: 0, gift: 0 }, mis: null, aff: { with: null, pts: 0 }, photos: [], picked: { slot: '', ids: [] }, auto: true, ready: false };
+let pending = 0;
+const balls = [];
 
+const mine = () => residents.get(myId);
+const isMe = (id) => id === myId;
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+const posOf = (id) => { const d = disp.get(id); return d ? { x: d.x, y: d.y } : null; };
+
+/* ---------- 커플 계산 ---------- */
 const points = (a, b) => a && b && (a.partner === b.id || a.confessTo === b.id);
 function computeCouples() {
-  couples = []; partnerOf = new Map();
+  couples = []; coupleOf = new Map();
   const list = [...residents.values()].sort((a, b) => a.id < b.id ? -1 : 1);
+  // 1) 고백 커플 (서로를 가리킴)
   for (const a of list) {
-    if (partnerOf.has(a.id)) continue;
+    if (coupleOf.has(a.id)) continue;
     for (const id of [a.partner, a.confessTo]) {
       const b = id && residents.get(id);
-      if (b && !partnerOf.has(b.id) && points(b, a)) {
-        const m = match(a.p, b.p); couples.push({ a, b, ...m });
-        partnerOf.set(a.id, b.id); partnerOf.set(b.id, a.id); break;
-      }
+      if (b && !coupleOf.has(b.id) && points(b, a)) { addCouple(a, b, 'love'); break; }
     }
   }
+  // 2) 사주 커플 (자동, 더 잘 맞는 사람이 오면 교체)
+  const free = list.filter((r) => !coupleOf.has(r.id) && r.auto !== false);
+  const pairs = [];
+  for (let i = 0; i < free.length; i++) for (let j = i + 1; j < free.length; j++) { const s = scoreOf(free[i], free[j]).score; if (s >= THRESHOLD) pairs.push([s, free[i], free[j]]); }
+  pairs.sort((x, y) => y[0] - x[0] || (x[1].id + x[2].id < y[1].id + y[2].id ? -1 : 1));
+  for (const [, a, b] of pairs) if (!coupleOf.has(a.id) && !coupleOf.has(b.id)) addCouple(a, b, 'saju');
 }
-const isMe = (id) => id === myId;
-const mine = () => residents.get(myId);
-const posOf = (id) => { const d = disp.get(id); return d ? { x: d.x, y: d.y } : null; };
-const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+function addCouple(a, b, type) {
+  const m = scoreOf(a, b);
+  const aff = Math.min(100, (a.aff && a.aff.with === b.id ? a.aff.pts : 0) + (b.aff && b.aff.with === a.id ? b.aff.pts : 0));
+  const c = { a, b, type, score: m.score, why: m.why, aff, key: a.id + '|' + b.id };
+  couples.push(c); coupleOf.set(a.id, c); coupleOf.set(b.id, c);
+}
+const partnerIdOf = (id) => { const c = coupleOf.get(id); return c ? (c.a.id === id ? c.b.id : c.a.id) : null; };
+function leaderOf(c) {
+  if ((c.a.id === myId || c.b.id === myId) && me.moving) return myId;
+  const ma = c.a.id === myId ? me.movedAt : (c.a.movedAt || 0), mb = c.b.id === myId ? me.movedAt : (c.b.movedAt || 0);
+  return ma >= mb ? c.a.id : c.b.id;
+}
+const affLevel = (p) => p >= 100 ? '찐사랑' : p >= 60 ? '연애 중' : p >= 25 ? '설렘' : '썸';
 
 /* ---------- 주민 그리기 ---------- */
 function syncPeople() {
@@ -326,82 +439,181 @@ function syncPeople() {
     if (!d) {
       const el = document.createElement('button'); el.type = 'button'; el.className = 'res'; el.dataset.id = r.id;
       box.appendChild(el);
-      const start = isMe(r.id) ? me : r;
-      d = { x: start.x, y: start.y, el, sig: '', moving: false, left: false };
+      const s = isMe(r.id) ? me : r;
+      d = { x: s.x, y: s.y, el, sig: '', moving: false, left: false, frozen: 0, near: 0 };
       disp.set(r.id, d);
     }
-    const waiting = isMe(r.id) && r.confessTo && !partnerOf.has(r.id);
-    const sig = r.nick + r.look.join() + (waiting ? 'w' : '');
-    if (d.sig !== sig) {
-      d.el.innerHTML = `<span class="fig"><span class="sh"></span>${sprite(r.look)}</span><span class="tag">${esc(r.nick)}</span>${waiting ? '<span class="wait bob" aria-hidden="true">💌</span>' : ''}`;
-      d.sig = sig;
-    }
+    const sig = r.nick + r.look.join();
+    if (d.sig !== sig) { d.el.innerHTML = `<span class="fig">${sprite(r.look)}${SNOWMAN_SM}</span><span class="tag">${esc(r.nick)}</span><span class="mark" hidden></span>`; d.sig = sig; }
+    const c = coupleOf.get(r.id);
     d.el.classList.toggle('me', isMe(r.id));
-    d.el.classList.toggle('cp', partnerOf.has(r.id));
-    d.el.classList.toggle('sel', sel && sel.id === r.id);
-    const pn = partnerOf.get(r.id), pr = pn && residents.get(pn);
-    d.el.setAttribute('aria-label', `${r.nick}${isMe(r.id) ? ' (나)' : ''}${pr ? `, ${pr.nick}와 커플` : ', 솔로'}`);
+    d.el.classList.toggle('love', !!c && c.type === 'love');
+    d.el.classList.toggle('saju', !!c && c.type === 'saju');
+    d.el.classList.toggle('sel', !!(sel && sel.id === r.id));
+    const pr = c && residents.get(partnerIdOf(r.id));
+    d.el.setAttribute('aria-label', `${r.nick}${isMe(r.id) ? ' (나)' : ''}${pr ? `, ${pr.nick}와 ${c.type === 'love' ? '고백' : '사주'} 커플` : ', 솔로'}`);
+    const mk = d.el.querySelector('.mark');
+    const waiting = isMe(r.id) && r.confessTo && !(c && c.type === 'love');
+    mk.hidden = !waiting; mk.textContent = waiting ? '💌' : '';
+    // 새 감정표현·말풍선·눈덩이·선물
+    const ev = (kind, val) => { if (!val || !val.at) return false; const prev = seen[kind].get(r.id); seen[kind].set(r.id, val.at); return !firstData && prev !== val.at && !(isMe(r.id) && kind !== 'gift'); };
+    if (ev('emote', r.emote)) showBubble(r.id, r.emote.k, true);
+    if (ev('say', r.say)) showBubble(r.id, r.say.t, false);
+    if (ev('throw', r.throw)) spawnBall(r.id, r.throw);
+    if (r.gift && r.gift.at && ev('gift', r.gift) && r.gift.to === myId && ITEMS[r.gift.item]) receiveGift(r, r.gift.item);
   }
-  // 하트 연결선
-  const svg = $('links');
-  svg.innerHTML = couples.map((c, i) => `<line id="ln${i}" stroke="#F0558A" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round" opacity=".85"/>`).join('');
-  box.querySelectorAll('.badge').forEach((b) => b.remove());
-  couples.forEach((c, i) => { const b = document.createElement('div'); b.className = 'badge'; b.id = 'bd' + i; b.innerHTML = `<span class="bob">${HEART(22)}</span><b>${c.score}</b>`; box.appendChild(b); });
-  $('stR').textContent = `주민 ${residents.size}명`;
-  $('stC').textContent = `커플 ${couples.length}쌍`;
-  $('stS').textContent = `솔로 ${residents.size - couples.length * 2}명`;
+  // 커플 배지
+  box.querySelectorAll('.cbadge').forEach((b) => { if (!couples.some((c) => 'cb' + c.key === b.id)) b.remove(); });
+  for (const c of couples) {
+    let b = document.getElementById('cb' + c.key);
+    if (!b) { b = document.createElement('div'); b.className = 'cbadge'; b.id = 'cb' + c.key; box.appendChild(b); }
+    const col = c.type === 'love' ? '#F0558A' : '#E58A1F', hi = c.type === 'love' ? '#FFD2E1' : '#FFE2B8';
+    const sigb = c.type + c.score + c.aff;
+    if (b.dataset.sig !== sigb) {
+      b.dataset.sig = sigb;
+      b.innerHTML = `<svg width="90" height="40" viewBox="0 0 90 40" style="position:absolute;left:10px;top:20px"><path d="M22 40 Q45 4 68 40" fill="none" stroke="${col}" stroke-width="2.5" stroke-dasharray="3 3"/></svg><span class="bob" style="position:absolute;left:44px;top:20px">${HEART(22, col, hi)}</span><b style="color:${col};border-color:${col}">${c.score}</b><span class="ttl" style="color:${col};border-color:${col}">${c.type === 'love' ? '고백 커플' : '사주 커플'} · ${affLevel(c.aff)}</span>${c.aff >= 100 ? '<span class="fwk" style="left:18px;top:14px;background:#FFD84D"></span><span class="fwk" style="left:80px;top:10px;background:#F0558A;animation-delay:.5s"></span><span class="fwk" style="left:50px;top:-4px;background:#5B8DEF;animation-delay:.9s"></span>' : ''}`;
+    }
+  }
+  $('stR').textContent = `주민 ${residents.size}`;
+  $('stC').textContent = `커플 ${couples.length}`;
+  $('stS').textContent = `솔로 ${residents.size - couples.length * 2}`;
+}
+function showBubble(id, text, emo) {
+  const d = disp.get(id); if (!d) return;
+  d.el.querySelectorAll('.bub').forEach((b) => b.remove());
+  const b = document.createElement('span'); b.className = 'bub' + (emo ? ' emo' : ''); b.textContent = text;
+  b.style.animationDuration = emo ? '3s' : '6s';
+  d.el.appendChild(b); setTimeout(() => b.remove(), emo ? 3000 : 6000);
+}
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 3500); }
+
+/* ---------- 아이템 (10분마다 새로 놓임, 모두에게 같은 위치) ---------- */
+let itemSlot = '', itemList = [];
+function itemsFor(slot) {
+  const r = seeded(Number(slot) % 233280 + 7); const out = [];
+  for (let i = 0; i < 14; i++) {
+    const x = 90 + r() * (MAPW - 180), y = 520 + r() * (MAPH - 640);
+    const t = r(), type = t < .5 ? 'snow' : t < .7 ? 'cocoa' : t < .85 ? 'mitten' : 'gift';
+    out.push({ id: slot + '-' + i, x: Math.round(x), y: Math.round(y), type });
+  }
+  return out;
+}
+const pickedAll = () => { const s = new Set(); for (const r of residents.values()) if (r.picked && r.picked.slot === itemSlot) r.picked.ids.forEach((i) => s.add(i)); if (L.picked.slot === itemSlot) L.picked.ids.forEach((i) => s.add(i)); return s; };
+function syncItems() {
+  const slot = String(Math.floor(Date.now() / 600000));
+  if (slot !== itemSlot) { itemSlot = slot; itemList = itemsFor(slot); }
+  const gone = pickedAll(), box = $('items');
+  box.innerHTML = itemList.filter((it) => !gone.has(it.id)).map((it) => `<div class="item" style="transform:translate(${it.x - 14}px,${it.y - 30}px) rotateX(-${TILT}deg)"><span class="bob" style="display:block">${ITEM_SVG[it.type]}</span></div>`).join('');
+}
+
+/* ---------- 눈덩이 ---------- */
+function spawnBall(owner, t) {
+  const el = document.createElement('div'); el.className = 'ball'; $('people').appendChild(el);
+  const len = Math.hypot(t.dx, t.dy) || 1;
+  balls.push({ owner, x: t.x, y: t.y, dx: t.dx / len, dy: t.dy / len, life: 0, el, hit: false });
+}
+function stepBalls(dt) {
+  for (let i = balls.length - 1; i >= 0; i--) {
+    const b = balls[i]; b.life += dt; const sp = 420 * dt; b.x += b.dx * sp; b.y += b.dy * sp;
+    const arc = Math.sin(Math.min(1, b.life / .65) * Math.PI) * 26;
+    b.el.style.transform = `translate(${Math.round(b.x - 7)}px,${Math.round(b.y - 30 - arc)}px) rotateX(-${TILT}deg)`;
+    if (!b.hit) for (const [id, d] of disp) {
+      if (id === b.owner || id === partnerIdOf(b.owner) || d.frozen > performance.now()) continue;
+      if (Math.hypot(d.x - b.x, d.y - b.y) < 24) {
+        b.hit = true; d.frozen = performance.now() + 3000;
+        const who = residents.get(id), from = residents.get(b.owner);
+        if (isMe(id)) toast(`${from ? from.nick : '누군가'}님의 눈덩이에 맞았어요! 3초간 눈사람 ⛄`);
+        if (isMe(b.owner)) { toast(`${who ? who.nick : '주민'}님을 맞혔어요! ⛄`); misAdd('hit', 1); }
+        break;
+      }
+    }
+    if (b.hit || b.life > .65) { b.el.remove(); balls.splice(i, 1); }
+  }
 }
 
 /* ---------- 매 프레임 ---------- */
-let last = performance.now(), inRangeShown = null;
+let last = performance.now(), uiKey = '';
 function frame(t) {
   const dt = Math.min(0.05, (t - last) / 1000); last = t;
-  // 내 이동
+  const m = mine(), joined = !!m;
   let vx = joy.x, vy = joy.y;
   if (keys.has('ArrowLeft') || keys.has('a')) vx -= 1;
   if (keys.has('ArrowRight') || keys.has('d')) vx += 1;
   if (keys.has('ArrowUp') || keys.has('w')) vy -= 1;
   if (keys.has('ArrowDown') || keys.has('s')) vy += 1;
   const len = Math.hypot(vx, vy);
-  const joined = !!mine();
-  if (joined && len > 0.05) {
+  const myD = disp.get(myId), frozen = myD && myD.frozen > t;
+  if (joined && len > 0.05 && !frozen) {
+    const startMove = !me.moving;
     const k = Math.min(1, len) / len;
     me.x = clamp(me.x + vx * k * SPEED * dt, 30, MAPW - 30);
     me.y = clamp(me.y + vy * k * SPEED * dt, 60, MAPH - 20);
-    me.moving = true; cam.free = false;
+    me.moving = true; cam.free = false; me.fx = vx; me.fy = vy;
     if (vx < -0.1) me.left = true; else if (vx > 0.1) me.left = false;
+    if (startMove) { me.movedAt = Date.now(); if (coupleOf.has(myId)) savePos(t, true); }
     if (t - me.lastSave > SAVE_MS) savePos(t);
-    $('hint').hidden = true;
-  } else if (me.moving) { me.moving = false; savePos(t); }
-  // 위치 반영
-  for (const [id, d] of disp) {
-    if (isMe(id)) { d.x = me.x; d.y = me.y; d.moving = me.moving; d.left = !!me.left; }
+    me.misWalk += dt; if (me.misWalk >= 10) { me.misWalk = 0; misAdd('walk', 10); }
+    if (coupleOf.has(myId)) { me.walkAcc += dt; if (me.walkAcc >= 15) { me.walkAcc = 0; affAdd(1); } }
+  } else if (me.moving) { me.moving = false; savePos(t, true); }
+  // 위치: 커플은 앞장선 사람 옆에 붙어서 함께
+  const followers = new Map();
+  for (const c of couples) { const lead = leaderOf(c); const fol = lead === c.a.id ? c.b.id : c.a.id; followers.set(fol, { lead, side: fol < lead ? -1 : 1 }); }
+  const order = [...disp.keys()].sort((a, b) => (followers.has(a) ? 1 : 0) - (followers.has(b) ? 1 : 0));
+  for (const id of order) {
+    const d = disp.get(id); const f = followers.get(id);
+    if (f && disp.get(f.lead)) {
+      const L2 = disp.get(f.lead); const tx = L2.x + f.side * 32, ty = L2.y + 1;
+      const dd = Math.hypot(tx - d.x, ty - d.y);
+      if (dd > 400) { d.x = tx; d.y = ty; } else { const a = Math.min(1, dt * 10); d.x += (tx - d.x) * a; d.y += (ty - d.y) * a; }
+      d.moving = L2.moving || dd > 3; d.left = L2.left;
+      if (isMe(id)) { me.x = d.x; me.y = d.y; }
+    } else if (isMe(id)) { d.x = me.x; d.y = me.y; d.moving = me.moving; d.left = me.left; }
     else {
       const r = residents.get(id); const dx = r.x - d.x, dy = r.y - d.y, dd = Math.hypot(dx, dy);
       if (dd > 600) { d.x = r.x; d.y = r.y; d.moving = false; }
       else if (dd > 1) { const step = Math.min(dd, SPEED * 1.1 * dt); d.x += dx / dd * step; d.y += dy / dd * step; d.moving = true; if (Math.abs(dx) > 1) d.left = dx < 0; }
       else d.moving = false;
     }
-    d.el.style.transform = `translate(${Math.round(d.x - 22)}px,${Math.round(d.y - 52)}px)`;
-    d.el.style.zIndex = Math.round(d.y) + 1;
+    d.el.style.transform = `translate(${Math.round(d.x - 22)}px,${Math.round(d.y - 70)}px) rotateX(-${TILT}deg)`;
     d.el.classList.toggle('walking', d.moving);
     d.el.classList.toggle('left', d.left);
+    d.el.classList.toggle('frozen', d.frozen > t);
   }
-  couples.forEach((c, i) => {
-    const a = posOf(c.a.id), b = posOf(c.b.id); const ln = document.getElementById('ln' + i), bd = document.getElementById('bd' + i);
-    if (!a || !b || !ln) return;
-    ln.setAttribute('x1', a.x); ln.setAttribute('y1', a.y - 30); ln.setAttribute('x2', b.x); ln.setAttribute('y2', b.y - 30);
-    bd.style.transform = `translate(${Math.round((a.x + b.x) / 2 - 22)}px,${Math.round((a.y + b.y) / 2 - 72)}px)`;
-    bd.style.zIndex = Math.round(Math.max(a.y, b.y)) + 5;
-  });
+  for (const c of couples) {
+    const a = disp.get(c.a.id), b = disp.get(c.b.id), el = document.getElementById('cb' + c.key);
+    if (!a || !b || !el) continue;
+    const cx = (a.x + b.x) / 2, cy = Math.max(a.y, b.y) + 2;
+    el.style.transform = `translate(${Math.round(cx - 55)}px,${Math.round(cy - 60)}px) rotateX(-${TILT}deg) translateY(-70px)`;
+  }
+  stepBalls(dt);
+  // 아이템 줍기
+  if (joined && !frozen) {
+    const gone = pickedAll();
+    for (const it of itemList) if (!gone.has(it.id) && Math.hypot(it.x - me.x, it.y - me.y) < 34) { pickItem(it); break; }
+  }
+  // 질투: 다른 주민이 내 짝 곁에 4초 이상
+  const pid = joined && partnerIdOf(myId);
+  if (pid) {
+    const pd = disp.get(pid);
+    for (const [id, d] of disp) {
+      if (id === myId || id === pid || !pd) continue;
+      if (Math.hypot(d.x - pd.x, d.y - pd.y) < 60) { d.near = (d.near || 0) + dt; if (d.near > 4 && !d.jealous) { d.jealous = true; const r = residents.get(id), p = residents.get(pid); toast(`${r ? r.nick : '누군가'}님이 ${p ? p.nick : '짝'}님 곁을 맴돌아요… 😤 질투 중`); myD && showBubble(myId, '😤', true); } }
+      else { d.near = 0; d.jealous = false; }
+    }
+  }
   // 카메라
   const W = vp.clientWidth, H = vp.clientHeight;
-  if (joined && !cam.free) { cam.x += ((me.x - W / 2) - cam.x) * Math.min(1, dt * 8); cam.y += ((me.y - H * 0.55) - cam.y) * Math.min(1, dt * 8); }
-  cam.x = clamp(cam.x, 0, MAPW - W); cam.y = clamp(cam.y, 0, MAPH - H);
-  world.style.transform = `translate(${-Math.round(cam.x)}px,${-Math.round(cam.y)}px)`;
+  if (joined && !cam.free) { cam.x += (me.x - cam.x) * Math.min(1, dt * 8); cam.y += (me.y - cam.y) * Math.min(1, dt * 8); }
+  cam.x = clamp(cam.x, 120, MAPW - 120); cam.y = clamp(cam.y, 260, MAPH - 60);
+  world.style.transform = `translate(${Math.round(W / 2 - cam.x)}px,${Math.round(H * 0.62 - cam.y)}px)`;
   $('tome').hidden = !(joined && cam.free);
-  // 선택한 주민과 거리
-  if (sel && sel.id && joined) { const p = posOf(sel.id); const ir = p ? dist(p, me) <= RANGE : false; if (ir !== inRangeShown) { inRangeShown = ir; renderCard(); } }
+  // 카드 갱신 조건 (거리·데이트 장소)
+  if (joined) {
+    let k = '';
+    if (sel && sel.id) { const p = posOf(sel.id); k += p && dist(p, me) <= RANGE ? 'R' : 'r'; }
+    const sp = coupleOf.has(myId) ? SPOTS.find((s) => Math.hypot(s.x - me.x, s.y - me.y) < s.r) : null; k += sp ? sp.id : '-';
+    if (k !== uiKey) { uiKey = k; renderCard(); }
+  }
   requestAnimationFrame(frame);
 }
 
@@ -409,152 +621,290 @@ function frame(t) {
 let chain = Promise.resolve();
 function write(fields) {
   if (!api) return Promise.resolve();
+  pending++;
   const p = chain.then(() => api.update(fields));
-  chain = p.catch(() => {});
+  chain = p.catch(() => {}).finally(() => { pending--; });
   return p;
 }
-function savePos(t) {
+function savePos(t, force) {
   me.lastSave = t;
   const x = Math.round(me.x), y = Math.round(me.y);
-  if (Math.abs(x - me.savedX) < 3 && Math.abs(y - me.savedY) < 3) return;
+  if (!force && Math.abs(x - me.savedX) < 3 && Math.abs(y - me.savedY) < 3) return;
   me.savedX = x; me.savedY = y;
-  write({ x, y }).catch(() => {});
+  write({ x, y, movedAt: me.movedAt || Date.now() }).catch(() => {});
+}
+function affAdd(n) {
+  const pid = partnerIdOf(myId); if (!pid) return;
+  const cur = L.aff.with === pid ? L.aff.pts : 0;
+  L.aff = { with: pid, pts: Math.min(50, cur + n) };
+  write({ aff: { ...L.aff } }).catch(() => {});
+}
+function misState() { if (!L.mis || L.mis.d !== today()) L.mis = { d: today(), c: {}, claimed: [] }; return L.mis; }
+function dailyKeys() { const d = today(); let h = 0; for (const ch of d) h = (h * 31 + ch.charCodeAt(0)) % 9973; const ks = Object.keys(MISSIONS); const out = []; let i = h; while (out.length < 4) { const k = ks[i % ks.length]; if (!out.includes(k)) out.push(k); i += 3; } return out; }
+function misAdd(k, n) {
+  if (!dailyKeys().includes(k) || !mine()) return;
+  const s = misState(); s.c[k] = Math.min(MISSIONS[k][1], (s.c[k] || 0) + n);
+  write({ mis: JSON.parse(JSON.stringify(s)) }).catch(() => {});
+  updateMisDot();
+}
+function updateMisDot() { if (!mine()) return; const s = misState(); const n = dailyKeys().filter((k) => (s.c[k] || 0) >= MISSIONS[k][1] && !s.claimed.includes(k)).length; $('misDot').hidden = !n; $('misDot').textContent = n; }
+function pickItem(it) {
+  if (L.picked.slot !== itemSlot) L.picked = { slot: itemSlot, ids: [] };
+  L.picked.ids.push(it.id); L.inv[it.type] = (L.inv[it.type] || 0) + 1;
+  write({ picked: { slot: L.picked.slot, ids: [...L.picked.ids] }, inv: { ...L.inv } }).catch(() => {});
+  toast(`${eul(ITEMS[it.type])} 주웠어요!`); syncItems(); misAdd('pick', 1);
+}
+function receiveGift(from, item) {
+  L.inv[item] = (L.inv[item] || 0) + 1;
+  write({ inv: { ...L.inv } }).catch(() => {});
+  const pid = partnerIdOf(myId);
+  toast(`${from.nick}님이 ${eul(ITEMS[item])} 선물했어요! 🎁`);
+  if (pid === from.id) notice = `내 짝 ${from.nick}님의 선물이에요. 호감도가 올랐어요 💗`;
+  renderCard();
 }
 
-/* ---------- 고백 정리 (내 문서만 고침) ---------- */
-let fixing = false;
+/* ---------- 고백·이별 정리 (내 문서만 고침) ---------- */
+let fixing = false, prevPartner = null;
 async function reconcile() {
   const m = mine(); if (!m || fixing) return;
   fixing = true;
   try {
-    if (m.legacy) { await write({ x: Math.round(me.x), y: Math.round(me.y), partner: null, confessTo: null, declined: null }); return; }
-    const myPartner = partnerOf.get(myId);
-    if (m.partner && !myPartner) {
-      const was = residents.get(m.partner);
-      await write({ partner: null });
-      notice = was ? `${was.nick}님과 헤어졌어요. 모닥불 캠프에서 새 인연을 기다려 봐요.` : '짝이 마을을 떠났어요.';
-    } else if (m.confessTo && myPartner === m.confessTo) {
-      const t = residents.get(m.confessTo);
-      await write({ partner: m.confessTo, confessTo: null, declined: null });
-      notice = t && t.confessTo === myId ? `${t.nick}님과 서로 고백했어요! 커플 성공 💕` : `${t ? t.nick : '상대'}님이 고백을 받아줬어요! 커플 성공 💕`;
-    } else if (m.confessTo && !myPartner) {
+    const c = coupleOf.get(myId), pid = c ? partnerIdOf(myId) : null;
+    // 짝 변화 알림
+    const nowP = pid ? { id: pid, type: c.type } : null;
+    if (prevPartner && (!nowP || nowP.id !== prevPartner.id)) {
+      const old = residents.get(prevPartner.id), oc = old && coupleOf.get(old.id);
+      if (!old) notice = '짝이 마을을 떠났어요.';
+      else if (oc && oc.type === 'love' && !(nowP && nowP.id === old.id)) notice = `${old.nick}님이 다른 주민의 고백을 받아들였어요… 💔`;
+      else if (prevPartner.type === 'saju' && old.auto === false) notice = `${old.nick}님이 이별을 통보했어요… 💔`;
+      else if (prevPartner.type === 'saju' && nowP && nowP.type === 'saju') notice = `더 잘 맞는 ${residents.get(nowP.id).nick}님이 나타나서 사주 짝이 바뀌었어요!`;
+      else if (prevPartner.type === 'love' && !nowP) notice = `${old.nick}님과 헤어졌어요. 모닥불 캠프에서 새 인연을 기다려 봐요.`;
+    }
+    if (nowP && (!prevPartner || prevPartner.id !== nowP.id) && !notice) notice = nowP.type === 'saju' ? `사주 궁합으로 ${residents.get(nowP.id).nick}님과 커플이 됐어요! 💛` : `${residents.get(nowP.id).nick}님과 고백 커플이 됐어요! 💕`;
+    prevPartner = nowP;
+    // 데이터 정리
+    const lovePartner = c && c.type === 'love' ? pid : null;
+    if (m.partner && m.partner !== lovePartner) await write({ partner: null });
+    else if (m.confessTo && lovePartner === m.confessTo) await write({ partner: m.confessTo, confessTo: null, auto: false });
+    else if (m.confessTo && !lovePartner) {
       const t = residents.get(m.confessTo);
       if (!t) { await write({ confessTo: null }); notice = '고백한 주민이 마을을 떠났어요.'; }
-      else if (t.declined === myId) { await write({ confessTo: null }); notice = `${t.nick}님이 고백을 정중히 거절했어요. 다음 인연이 있을 거예요.`; }
-      else if (partnerOf.has(t.id)) { await write({ confessTo: null }); notice = `${t.nick}님은 이미 다른 주민과 커플이 됐어요.`; }
-    } else if (myPartner && m.confessTo && m.confessTo !== myPartner) { await write({ confessTo: null }); }
-    if (m.partner === myPartner && m.declined) { /* 거절 기록은 그대로 둬도 무방 */ }
-  } catch (e) { /* 다음 갱신 때 다시 시도 */ }
+      else if (t.declined && t.declined.id === myId && t.declined.at >= (m.confessAt || 0)) { await write({ confessTo: null }); notice = `${t.nick}님이 고백을 정중히 거절했어요. 다음 인연이 있을 거예요.`; }
+      else { const tc = coupleOf.get(t.id); if (tc && tc.type === 'love') { await write({ confessTo: null }); notice = `${t.nick}님은 이미 다른 주민과 고백 커플이 됐어요.`; } }
+    } else if (lovePartner && m.confessTo && m.confessTo !== lovePartner) await write({ confessTo: null });
+  } catch (e) { /* 다음 갱신 때 다시 */ }
   finally { fixing = false; renderCard(); }
   showIncoming();
 }
 function showIncoming() {
   const m = mine(); const dlg = $('cfm');
-  if (!m || partnerOf.has(myId) || dlg.open || $('dlg').open) return;
-  const from = [...residents.values()].find((r) => r.confessTo === myId && !partnerOf.has(r.id) && m.declined !== r.id);
+  if (!m || document.querySelector('dialog[open]')) return;
+  const lp = coupleOf.get(myId); if (lp && lp.type === 'love') return;
+  const from = [...residents.values()].find((r) => r.confessTo === myId && !(coupleOf.get(r.id) && coupleOf.get(r.id).type === 'love') && !(m.declined && m.declined.id === r.id && m.declined.at >= (r.confessAt || 0)));
   if (!from) return;
-  const s = match(m.p, from.p);
+  const s = scoreOf(m, from);
   $('cfmPv').innerHTML = `<span style="transform:scale(1.6);transform-origin:center top;display:block">${sprite(from.look)}</span>`;
-  $('cfmD').textContent = `${from.nick}님이 당신에게 고백했어요. 받아 줄까요?`;
+  const cur = lp && residents.get(partnerIdOf(myId));
+  $('cfmD').textContent = `${from.nick}님이 당신에게 고백했어요.${cur ? ` 받아 주면 지금 사주 짝인 ${cur.nick}님과는 헤어지게 돼요.` : ' 받아 줄까요?'}`;
   $('cfmS').textContent = `궁합 ${s.score}점`;
   $('cfmW').innerHTML = s.why.map(([t, g]) => `<span class="${g ? '' : 'neg'}">${esc(t)}</span>`).join('');
   dlg.dataset.from = from.id;
   try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); }
 }
-$('yes').addEventListener('click', async () => { const id = $('cfm').dataset.from; $('cfm').close(); const who = residents.get(id); try { await write({ partner: id, confessTo: null, declined: null }); notice = `${who ? who.nick : '상대'}님과 커플이 됐어요 💕`; } catch (e) { notice = '수락을 저장하지 못했어요. 다시 시도해 주세요.'; } renderCard(); });
-$('no').addEventListener('click', async () => { const id = $('cfm').dataset.from; $('cfm').close(); try { await write({ declined: id }); notice = '정중히 거절했어요.'; } catch (e) {} renderCard(); });
+$('yes').addEventListener('click', async () => { const id = $('cfm').dataset.from; $('cfm').close(); try { await write({ partner: id, confessTo: null, declined: null, auto: false }); } catch (e) { notice = '수락을 저장하지 못했어요. 다시 시도해 주세요.'; renderCard(); } });
+$('no').addEventListener('click', async () => { const id = $('cfm').dataset.from; $('cfm').close(); try { await write({ declined: { id, at: Date.now() } }); notice = '정중히 거절했어요.'; } catch (e) {} renderCard(); });
 
 /* ---------- 정보 카드 ---------- */
 function renderCard() {
-  const ct = $('ct'), cd = $('cd'), why = $('why'), act = $('actions'), note = $('note');
-  ct.style.color = 'var(--pink)'; why.innerHTML = ''; act.innerHTML = '';
+  const ct = $('ct'), cd = $('cd'), why = $('why'), act = $('actions'), note = $('note'), hearts = $('hearts');
+  ct.style.color = 'var(--pink)'; why.innerHTML = ''; act.innerHTML = ''; hearts.hidden = true;
   note.hidden = !notice; note.textContent = notice;
   const m = mine();
   const tags = (list) => { why.innerHTML = list.map(([t, g]) => `<span class="${g ? '' : 'neg'}">${esc(t)}</span>`).join(''); };
   const btn = (a, label, cls = '', dis = false) => act.insertAdjacentHTML('beforeend', `<button class="btn ${cls}" type="button" data-a="${a}"${dis ? ' disabled' : ''}>${label}</button>`);
+  const heartBar = (p) => { hearts.hidden = false; const n = Math.round(p / 10); hearts.textContent = `호감도 ${'💗'.repeat(n)}${'🤍'.repeat(10 - n)} ${p}/100`; };
   if (!loaded) { ct.textContent = '마을을 불러오는 중이에요'; cd.textContent = '잠시만 기다려 주세요.'; return; }
   if (sel && sel.obj === 'well') {
-    const L = ['동전이 퐁당! 눈 내리는 밤에 좋은 인연이 온대요.', '소원 접수 완료. 오늘은 고백 운이 좋아요.', '우물 속 얼음에 하트가 비쳤어요.', '물결 대신 눈송이가 내려앉았어요. 지금 마음을 전해 보세요.'];
-    ct.style.color = '#2457C5'; ct.textContent = '소원 우물'; cd.textContent = L[wish % L.length];
+    const W = ['동전이 퐁당! 눈 내리는 밤에 좋은 인연이 온대요.', '소원 접수 완료. 오늘은 고백 운이 좋아요.', '우물 속 얼음에 하트가 비쳤어요.', '눈송이가 내려앉았어요. 지금 마음을 전해 보세요.'];
+    ct.style.color = '#2457C5'; ct.textContent = '소원 우물'; cd.textContent = W[wish % W.length];
     btn('close', '닫기', 'ghost'); return;
   }
   const r = sel && sel.id && residents.get(sel.id);
+  const myC = m && coupleOf.get(myId), myPid = myC && partnerIdOf(myId);
   if (r && !isMe(r.id)) {
-    const pid = partnerOf.get(r.id), pr = pid && residents.get(pid);
-    const s = m ? match(m.p, r.p) : null;
-    const myP = m && partnerOf.get(myId);
-    if (s) { ct.textContent = `${r.nick} · 나와 궁합 ${s.score}점`; tags(s.why); } else ct.textContent = r.nick;
-    if (pid === myId) { cd.textContent = '나의 짝이에요. 어디에 있든 하트로 이어져 있어요.'; btn('break', breaking ? '정말 헤어질래요' : '헤어지기', 'ghost'); }
-    else if (pr) cd.textContent = `${pr.nick}님과 커플이에요.${s ? ` (${scoreLabel(s.score)})` : ''}`;
-    else if (!m) cd.textContent = '솔로예요. 마을에 들어오면 궁합을 보고 고백할 수 있어요.';
-    else if (myP) cd.textContent = `솔로예요. 나는 이미 짝이 있어서 고백할 수 없어요. (${scoreLabel(s.score)})`;
-    else if (m.confessTo === r.id) { cd.textContent = '고백하고 답을 기다리는 중이에요 💌'; btn('cancelc', '고백 취소', 'ghost'); }
-    else {
-      const p = posOf(r.id), d = p ? dist(p, me) : 1e9, ok = d <= RANGE;
-      cd.textContent = ok ? `궁합은 '${scoreLabel(s.score)}'. 가까이 있어서 지금 고백할 수 있어요.` : `궁합은 '${scoreLabel(s.score)}'. 고백하려면 조금 더 가까이 가야 해요. (지금 ${Math.round(d / 10)}걸음)`;
-      btn('confess', '고백하기 💌', '', !ok || (m.confessTo && m.confessTo !== r.id));
-      if (m.confessTo && m.confessTo !== r.id) cd.textContent += ' 이미 다른 주민에게 고백 중이라 먼저 취소해야 해요.';
+    const rc = coupleOf.get(r.id), rp = rc && residents.get(partnerIdOf(r.id));
+    const s = m ? scoreOf(m, r) : null;
+    const p = posOf(r.id), near = m && p && dist(p, me) <= RANGE;
+    ct.textContent = s ? `${r.nick} · 나와 궁합 ${s.score}점` : r.nick; if (s) tags(s.why);
+    if (myPid === r.id) {
+      cd.textContent = `나의 ${myC.type === 'love' ? '고백' : '사주'} 짝이에요. 손잡고 같이 걸어요.`; heartBar(myC.aff);
+      btn('break', breaking ? '정말 이별할래요' : '이별 통보', 'ghost');
+    } else {
+      cd.textContent = rp ? `${rp.nick}님과 ${rc.type === 'love' ? '고백' : '사주'} 커플이에요.` : '솔로예요.';
+      if (s) cd.textContent += ` 나와는 '${scoreLabel(s.score)}'.`;
+      if (!m) cd.textContent += ' 마을에 들어오면 고백할 수 있어요.';
+      else if (myC) cd.textContent += ' 고백하려면 먼저 지금 짝에게 이별을 통보해야 해요.';
+      else if (m.confessTo === r.id) { cd.textContent = '고백하고 답을 기다리는 중이에요 💌'; btn('cancelc', '고백 취소', 'ghost'); }
+      else if (m.confessTo) cd.textContent += ' 이미 다른 주민에게 고백 중이에요.';
+      else if (!near) cd.textContent += ' 고백하려면 조금 더 가까이 가야 해요.';
+      if (m && !myC && !m.confessTo) btn('confess', '고백하기 💌', '', !near);
+      if (m) btn('giftTo', '선물하기 🎁', 'ghost', !near);
     }
     btn('close', '닫기', 'ghost');
     return;
   }
   if (m) {
-    const pid = partnerOf.get(myId), pr = pid && residents.get(pid);
-    if (pr) { const c = couples.find((x) => x.a.id === myId || x.b.id === myId); ct.textContent = `나 ♥ ${pr.nick} · 궁합 ${c.score}점`; cd.textContent = '짝을 누르면 헤어지기를 할 수 있어요.'; tags(c.why); }
-    else if (m.confessTo && residents.get(m.confessTo)) { ct.textContent = '고백 대기 중 💌'; cd.textContent = `${residents.get(m.confessTo).nick}님에게 고백하고 답을 기다리고 있어요.`; btn('cancelc', '고백 취소', 'ghost'); }
-    else { ct.style.color = '#2B3A5E'; ct.textContent = '나는 지금 솔로'; cd.textContent = '마을을 돌아다니다 주민을 눌러 궁합을 확인하고, 가까이 가서 고백해 보세요.'; }
-    btn('edit', '내 정보 다시 입력', 'ghost'); btn('leave', leaving ? '정말 나갈래요' : '마을 나가기', 'ghost');
+    const spot = myC ? SPOTS.find((s2) => Math.hypot(s2.x - me.x, s2.y - me.y) < s2.r) : null;
+    if (myC) {
+      const pr = residents.get(myPid);
+      ct.style.color = myC.type === 'love' ? 'var(--pink)' : '#B5650E';
+      ct.textContent = `나 ♥ ${pr.nick} · ${myC.type === 'love' ? '고백' : '사주'} 커플 ${myC.score}점`;
+      cd.textContent = spot ? `${spot.name}에 왔어요. 기념사진을 찍어 볼까요?` : '함께 걷고, 선물하고, 데이트 장소에서 사진을 찍으면 호감도가 올라요.';
+      heartBar(myC.aff); tags(myC.why);
+      if (spot) btn('photo', '📸 기념사진 찍기', '');
+      btn('album', '커플 앨범', 'ghost');
+    } else if (m.confessTo && residents.get(m.confessTo)) { ct.textContent = '고백 대기 중 💌'; cd.textContent = `${residents.get(m.confessTo).nick}님에게 고백하고 답을 기다리고 있어요.`; btn('cancelc', '고백 취소', 'ghost'); }
+    else {
+      ct.style.color = '#2B3A5E'; ct.textContent = '나는 지금 솔로';
+      cd.textContent = m.auto === false ? '사주 자동 매칭이 꺼져 있어요. 마음에 드는 주민에게 가까이 가서 고백해 보세요.' : `${THRESHOLD}점 이상인 솔로 주민이 오면 사주 궁합으로 자동 매칭돼요. 기다리지 않고 직접 고백해도 돼요.`;
+      if (m.auto === false) btn('autoOn', '사주 자동 매칭 켜기', 'saju');
+      btn('album', '커플 앨범', 'ghost');
+    }
+    btn('edit', '내 정보', 'ghost'); btn('leave', leaving ? '정말 나갈래요' : '마을 나가기', 'ghost');
   } else {
     ct.textContent = '궁합 마을에 오신 걸 환영해요';
-    cd.textContent = '입장하면 눈 내리는 마을을 돌아다니며, 궁합을 보고 마음에 드는 주민에게 고백할 수 있어요. 지도를 끌어서 구경해 보세요.';
+    cd.textContent = '입장하면 사주 궁합으로 짝이 정해지고, 눈 내리는 마을을 함께 걸으며 놀 수 있어요. 지도를 끌어서 구경해 보세요.';
     btn('join', '마을에 입장하기', '', !api || !myId);
   }
 }
 $('actions').addEventListener('click', async (e) => {
   const a = e.target.closest('button[data-a]')?.dataset.a; if (!a) return;
-  if (a === 'close') { sel = null; breaking = false; inRangeShown = null; syncPeople(); renderCard(); }
+  const m = mine();
+  if (a === 'close') { sel = null; breaking = false; uiKey = ''; syncPeople(); renderCard(); }
   if (a === 'join' || a === 'edit') openForm();
-  if (a === 'confess' && sel) { try { await write({ confessTo: sel.id, declined: null }); notice = '고백했어요! 답을 기다려 봐요 💌'; } catch (x) { notice = '고백을 보내지 못했어요.'; } renderCard(); }
+  if (a === 'confess' && sel) { try { await write({ confessTo: sel.id, confessAt: Date.now() }); notice = '고백했어요! 답을 기다려 봐요 💌'; } catch (x) { notice = '고백을 보내지 못했어요.'; } renderCard(); }
   if (a === 'cancelc') { try { await write({ confessTo: null }); notice = '고백을 취소했어요.'; } catch (x) {} renderCard(); }
   if (a === 'break') {
     if (!breaking) { breaking = true; renderCard(); setTimeout(() => { breaking = false; renderCard(); }, 4000); return; }
-    breaking = false; try { await write({ partner: null, confessTo: null }); notice = '헤어졌어요. 모닥불 캠프에서 새 인연을 기다려 봐요.'; } catch (x) {} renderCard();
+    breaking = false; const c = coupleOf.get(myId);
+    try { await write({ partner: null, confessTo: null, auto: false, x: Math.round(me.x), y: Math.round(me.y), movedAt: Date.now() }); notice = c && c.type === 'saju' ? '이별을 통보했어요. 이제 솔로라서 다른 주민에게 고백할 수 있어요.' : '헤어졌어요. 이제 다른 주민에게 고백할 수 있어요.'; prevPartner = null; } catch (x) {}
+    sel = null; renderCard();
   }
+  if (a === 'autoOn') { try { await write({ auto: true }); notice = '사주 자동 매칭을 켰어요.'; } catch (x) {} renderCard(); }
+  if (a === 'photo') takePhoto();
+  if (a === 'album') openAlbum();
+  if (a === 'giftTo') openBag();
   if (a === 'leave') {
     if (!leaving) { leaving = true; renderCard(); setTimeout(() => { leaving = false; renderCard(); }, 4000); return; }
-    leaving = false; try { await api.remove(); notice = '마을에서 나왔어요. 언제든 다시 들어올 수 있어요.'; sel = null; } catch (x) { notice = '나가기에 실패했어요.'; } renderCard();
+    leaving = false; try { await api.remove(); notice = '마을에서 나왔어요. 언제든 다시 들어올 수 있어요.'; sel = null; prevPartner = null; } catch (x) { notice = '나가기에 실패했어요.'; } renderCard();
   }
 });
+
+/* ---------- 놀거리 ---------- */
+function photoCard(ph, a, b) {
+  const sp = SPOTS.find((s) => s.id === ph.spot) || SPOTS[0];
+  const d = new Date(ph.at);
+  return `<div class="photo"><div class="pic" style="background:linear-gradient(${sp.bg} 0 60%,#EEF4FB 60%)"><span class="tw" style="position:absolute;left:10px;top:8px;color:#fff">✦</span><span class="tw" style="position:absolute;right:12px;top:14px;color:#fff;animation-delay:.6s">✦</span>${a ? sprite(a.look) : ''}${b ? sprite(b.look) : ''}<span style="position:absolute;left:50%;top:10px;transform:translateX(-50%)">${HEART(18)}</span></div><p>${esc(ph.n1)} ♥ ${esc(ph.n2)}<br>${esc(sp.name)} · ${d.getMonth() + 1}/${d.getDate()}</p></div>`;
+}
+function takePhoto() {
+  const m = mine(), pid = partnerIdOf(myId), p = residents.get(pid); if (!m || !p) return;
+  const sp = SPOTS.find((s) => Math.hypot(s.x - me.x, s.y - me.y) < s.r); if (!sp) return;
+  L.photos = [{ spot: sp.id, with: pid, n1: m.nick, n2: p.nick, at: Date.now() }, ...L.photos].slice(0, 8);
+  write({ photos: L.photos.map((x) => ({ ...x })) }).catch(() => {});
+  affAdd(3); misAdd('photo', 1);
+  const fl = document.createElement('div'); fl.style.cssText = 'position:absolute;inset:0;background:#fff;z-index:9;opacity:.9;transition:opacity .6s'; vp.appendChild(fl); requestAnimationFrame(() => { fl.style.opacity = '0'; }); setTimeout(() => fl.remove(), 700);
+  toast(`📸 ${sp.name}에서 찰칵! 커플 앨범에 저장했어요`);
+}
+function openAlbum() {
+  const list = [...L.photos.map((p) => ({ ...p, a: myId, b: p.with }))];
+  for (const r of residents.values()) if (!isMe(r.id) && Array.isArray(r.photos)) r.photos.forEach((p) => { if (p.with === myId) list.push({ ...p, a: r.id, b: myId }); });
+  list.sort((x, y) => y.at - x.at);
+  $('albL').innerHTML = list.length ? list.slice(0, 12).map((p) => photoCard(p, residents.get(p.a), residents.get(p.b))).join('') : '<p class="empty" style="grid-column:1/-1">아직 사진이 없어요. 짝과 크리스마스트리, 얼음 연못, 모닥불, 소원 우물에 가면 기념사진을 찍을 수 있어요.</p>';
+  $('alb').showModal();
+}
+function openBag() {
+  const target = sel && sel.id && residents.get(sel.id); const p = target && posOf(target.id);
+  const can = target && p && dist(p, me) <= RANGE;
+  $('bagD').textContent = can ? `${target.nick}님에게 줄 선물을 골라요.` : '마을 곳곳의 아이템을 지나가면 저절로 주워요. 주민을 누르고 가까이 가면 선물할 수 있어요.';
+  $('bagL').innerHTML = Object.keys(ITEMS).map((k) => `<li>${ITEM_SVG[k]}<span class="grow">${ITEMS[k]}</span><b>${L.inv[k] || 0}개</b>${can ? `<button class="btn ghost" type="button" data-gift="${k}"${(L.inv[k] || 0) < 1 ? ' disabled' : ''}>선물</button>` : ''}</li>`).join('');
+  $('bag').showModal();
+}
+$('bagL').addEventListener('click', async (e) => {
+  const k = e.target.closest('[data-gift]')?.dataset.gift; if (!k || !sel || !sel.id) return;
+  const target = residents.get(sel.id); if (!target || (L.inv[k] || 0) < 1) return;
+  L.inv[k]--; const at = Date.now(); seen.gift.set(myId, at);
+  try { await write({ inv: { ...L.inv }, gift: { to: target.id, item: k, at } }); } catch (x) {}
+  if (partnerIdOf(myId) === target.id) affAdd(5);
+  misAdd('gift', 1); $('bag').close(); toast(`${target.nick}님에게 ${eul(ITEMS[k])} 선물했어요! 🎁`);
+});
+function openMis() {
+  const s = misState();
+  $('misL').innerHTML = dailyKeys().map((k) => { const [name, goal] = MISSIONS[k]; const v = Math.min(goal, s.c[k] || 0); const done = v >= goal, got = s.claimed.includes(k); return `<li><span class="grow">${name}<div class="bar"><i style="width:${Math.round(v / goal * 100)}%"></i></div></span><b>${k === 'walk' ? Math.round(v) + '초' : v + '/' + goal}</b><button class="btn${got ? ' ghost' : ''}" type="button" data-claim="${k}"${!done || got ? ' disabled' : ''}>${got ? '받음' : '보상'}</button></li>`; }).join('');
+  $('mis').showModal();
+}
+$('misL').addEventListener('click', (e) => {
+  const k = e.target.closest('[data-claim]')?.dataset.claim; if (!k) return;
+  const s = misState(); if (s.claimed.includes(k)) return;
+  s.claimed.push(k); L.inv.gift = (L.inv.gift || 0) + 1;
+  write({ mis: JSON.parse(JSON.stringify(s)), inv: { ...L.inv } }).catch(() => {});
+  toast('미션 완료! 선물상자 1개를 받았어요 🎁'); updateMisDot(); openMis();
+});
+document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => b.closest('dialog').close()));
+['bag','mis','alb','cfm','dlg'].forEach((id) => $(id).addEventListener('close', () => setTimeout(showIncoming, 300)));
+$('emopick').innerHTML = EMOS.map((e) => `<button type="button" data-emo="${e}" aria-label="${e}">${e}</button>`).join('');
+$('bEmo').addEventListener('click', () => { $('emopick').hidden = !$('emopick').hidden; $('chatbar').hidden = true; });
+$('emopick').addEventListener('click', (e) => {
+  const k = e.target.closest('[data-emo]')?.dataset.emo; if (!k) return;
+  $('emopick').hidden = true; showBubble(myId, k, true);
+  write({ emote: { k, at: Date.now() } }).catch(() => {});
+  misAdd('emote', 1);
+  if (k === '❤️' && partnerIdOf(myId)) { const pd = posOf(partnerIdOf(myId)); if (pd && dist(pd, me) < 80 && Date.now() - (affAdd.lastHeart || 0) > 60000) { affAdd.lastHeart = Date.now(); affAdd(1); } }
+});
+$('bChat').addEventListener('click', () => { $('chatbar').hidden = !$('chatbar').hidden; $('emopick').hidden = true; if (!$('chatbar').hidden) $('chatIn').focus(); });
+let lastSay = 0;
+$('chatbar').addEventListener('submit', (e) => {
+  e.preventDefault(); const raw = $('chatIn').value.trim(); if (!raw) return;
+  if (Date.now() - lastSay < 1500) { toast('조금만 천천히 말해 주세요'); return; }
+  lastSay = Date.now(); const t = filt(raw.slice(0, 40));
+  showBubble(myId, t, false); write({ say: { t, at: Date.now() } }).catch(() => {});
+  $('chatIn').value = ''; $('chatbar').hidden = true; misAdd('chat', 1);
+});
+let lastThrow = 0;
+$('bThrow').addEventListener('click', () => {
+  if (Date.now() - lastThrow < 1200) return; lastThrow = Date.now();
+  let dx = me.fx, dy = me.fy; if (Math.hypot(dx, dy) < .1) { dx = me.left ? -1 : 1; dy = 0; }
+  const tr = { at: Date.now(), x: Math.round(me.x), y: Math.round(me.y), dx: +dx.toFixed(2), dy: +dy.toFixed(2) };
+  spawnBall(myId, tr); write({ throw: tr }).catch(() => {});
+});
+$('bBag').addEventListener('click', openBag);
+$('bMis').addEventListener('click', openMis);
 
 /* ---------- 지도 조작 ---------- */
 let drag = null;
 vp.addEventListener('pointerdown', (e) => {
-  if (e.target.closest('.joy,.tobtn')) return;
+  if (e.target.closest('.joy,.tobtn,.acts,.emopick,.chatbar')) return;
   drag = { x: e.clientX, y: e.clientY, cx: cam.x, cy: cam.y, moved: false };
 });
 vp.addEventListener('pointermove', (e) => {
   if (!drag) return;
   const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
   if (!drag.moved && Math.hypot(dx, dy) > 8) { drag.moved = true; cam.free = true; }
-  if (drag.moved) { cam.x = drag.cx - dx; cam.y = drag.cy - dy; }
+  if (drag.moved) { cam.x = drag.cx - dx; cam.y = drag.cy - dy / Math.cos(TILT * Math.PI / 180); }
 });
 window.addEventListener('pointerup', () => { setTimeout(() => { drag = null; }, 0); });
 world.addEventListener('click', (e) => {
   if (drag && drag.moved) return;
-  const w = e.target.closest('[data-obj="well"]');
-  if (w) { wish++; sel = { obj: 'well' }; notice = ''; syncPeople(); renderCard(); return; }
+  if (e.target.closest('[data-obj="well"]')) { wish++; sel = { obj: 'well' }; notice = ''; syncPeople(); renderCard(); misAdd('wish', 1); return; }
   const b = e.target.closest('.res'); if (!b) return;
-  sel = isMe(b.dataset.id) ? null : { id: b.dataset.id }; notice = ''; breaking = false; inRangeShown = null; syncPeople(); renderCard();
+  sel = isMe(b.dataset.id) ? null : { id: b.dataset.id }; notice = ''; breaking = false; uiKey = ''; syncPeople(); renderCard();
 });
 $('tome').addEventListener('click', () => { cam.free = false; });
-// 조이스틱
 const J = $('joy'), K = $('knob');
 function joyMove(e) {
   const r = J.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
   let dx = e.clientX - cx, dy = e.clientY - cy; const R = r.width / 2 - 10, d = Math.hypot(dx, dy);
   if (d > R) { dx = dx / d * R; dy = dy / d * R; }
-  joy.x = dx / R; joy.y = dy / R;
-  K.style.transform = `translate(${dx}px,${dy}px)`;
+  joy.x = dx / R; joy.y = dy / R; K.style.transform = `translate(${dx}px,${dy}px)`;
 }
 J.addEventListener('pointerdown', (e) => { e.stopPropagation(); J.setPointerCapture(e.pointerId); joy.on = true; joyMove(e); });
 J.addEventListener('pointermove', (e) => { if (joy.on) joyMove(e); });
@@ -562,7 +912,7 @@ const joyEnd = () => { joy.on = false; joy.x = 0; joy.y = 0; K.style.transform =
 J.addEventListener('pointerup', joyEnd); J.addEventListener('pointercancel', joyEnd);
 const KEYS = ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','a','d','w','s'];
 window.addEventListener('keydown', (e) => {
-  if (e.target.closest && e.target.closest('input,textarea,dialog')) return;
+  if (e.target && e.target.closest && e.target.closest('input,textarea,dialog')) return;
   const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
   if (KEYS.includes(k)) { keys.add(k); if (k.startsWith('Arrow')) e.preventDefault(); }
 });
@@ -600,14 +950,14 @@ $('form').addEventListener('submit', async (e) => {
   $('go').disabled = true; err('');
   try {
     const data = { nick: nick.slice(0, 8), p, look: [look[0], look[1], look[2]] };
-    if (mine() && !mine().legacy) await write(data);
+    if (mine()) { MC.clear(); await write(data); }
     else {
-      me.x = SPAWN.x + Math.round((Math.random() - .5) * 140); me.y = SPAWN.y + Math.round((Math.random() - .5) * 60);
-      me.savedX = me.x; me.savedY = me.y; me.init = true;
-      await api.create({ ...data, x: me.x, y: me.y, partner: null, confessTo: null, declined: null });
-      $('hint').hidden = false; cam.free = false;
+      me.x = SPAWN.x + Math.round((Math.random() - .5) * 140); me.y = SPAWN.y + Math.round((Math.random() - .5) * 40);
+      me.savedX = me.x; me.savedY = me.y; me.init = true; me.movedAt = Date.now();
+      await api.create({ ...data, x: me.x, y: me.y, movedAt: me.movedAt, partner: null, confessTo: null, declined: null, auto: true });
+      cam.free = false; toast('조이스틱으로 움직여 보세요! 오른쪽 버튼으로 놀 수 있어요');
     }
-    $('dlg').close(); sel = null; notice = '';
+    $('dlg').close(); sel = null; renderCard();
   } catch (x) { err(x && x.code === 'permission-denied' ? '저장이 거절됐어요. Firebase 보안 규칙을 새 버전으로 바꿨는지 확인해 주세요.' : '저장하지 못했어요. 잠시 후 다시 시도해 주세요.'); }
   finally { $('go').disabled = false; }
 });
@@ -615,57 +965,80 @@ $('form').addEventListener('submit', async (e) => {
 /* ---------- 데이터 정리 ---------- */
 const okPair = (v) => Array.isArray(v) && v.length === 2 && Number.isInteger(v[0]) && Number.isInteger(v[1]) && v[0] >= 0 && v[0] < 10 && v[1] >= 0 && v[1] < 12;
 const okId = (v) => typeof v === 'string' && v.length > 0 && v.length <= 128 ? v : null;
+const okNum = (v) => typeof v === 'number' && isFinite(v);
+const okInt = (v) => Number.isInteger(v) && v >= 0 && v < 10000 ? v : 0;
 function clean(id, d) {
   if (!d || typeof d.nick !== 'string' || !d.p) return null;
   const nick = d.nick.trim().slice(0, 8); if (!nick) return null;
   const p = d.p; if (!okPair(p.y) || !okPair(p.m) || !okPair(p.d) || (p.h != null && !okPair(p.h))) return null;
-  const L = Array.isArray(d.look) ? d.look : [];
-  const lk = [Number.isInteger(L[0]) && L[0] >= 0 && L[0] < HAIR.length ? L[0] : 0, Number.isInteger(L[1]) && L[1] >= 0 && L[1] < SHIRT.length ? L[1] : 0, Number.isInteger(L[2]) && L[2] >= 0 && L[2] < STYLES.length ? L[2] : 0];
-  const legacy = typeof d.x !== 'number' || typeof d.y !== 'number' || !('partner' in d);
-  let x = typeof d.x === 'number' ? clamp(d.x, 30, MAPW - 30) : SPAWN.x, y = typeof d.y === 'number' ? clamp(d.y, 60, MAPH - 20) : SPAWN.y;
-  if (legacy) { let hsh = 0; for (const ch of id) hsh = (hsh * 31 + ch.charCodeAt(0)) % 9973; x = SPAWN.x - 100 + (hsh % 200); y = SPAWN.y - 40 + (hsh % 80); }
-  return { id, nick, p: { y: p.y, m: p.m, d: p.d, h: p.h || null }, look: lk, x, y, partner: okId(d.partner), confessTo: okId(d.confessTo), declined: okId(d.declined), legacy };
+  const Lk = Array.isArray(d.look) ? d.look : [];
+  const lk = [Number.isInteger(Lk[0]) && Lk[0] >= 0 && Lk[0] < HAIR.length ? Lk[0] : 0, Number.isInteger(Lk[1]) && Lk[1] >= 0 && Lk[1] < SHIRT.length ? Lk[1] : 0, Number.isInteger(Lk[2]) && Lk[2] >= 0 && Lk[2] < STYLES.length ? Lk[2] : 0];
+  let x, y;
+  if (okNum(d.x) && okNum(d.y)) { x = clamp(d.x, 30, MAPW - 30); y = clamp(d.y, 60, MAPH - 20); }
+  else { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 9973; x = SPAWN.x - 100 + (h % 200); y = SPAWN.y - 30 + (h % 50); }
+  const r = { id, nick, p: { y: p.y, m: p.m, d: p.d, h: p.h || null }, look: lk, x, y, movedAt: okNum(d.movedAt) ? d.movedAt : 0,
+    partner: okId(d.partner), confessTo: okId(d.confessTo), confessAt: okNum(d.confessAt) ? d.confessAt : 0, auto: d.auto !== false };
+  if (d.declined && typeof d.declined === 'object' && okId(d.declined.id)) r.declined = { id: d.declined.id, at: okNum(d.declined.at) ? d.declined.at : 0 };
+  if (d.emote && typeof d.emote === 'object' && EMOS.includes(d.emote.k) && okNum(d.emote.at)) r.emote = { k: d.emote.k, at: d.emote.at };
+  if (d.say && typeof d.say === 'object' && typeof d.say.t === 'string' && okNum(d.say.at)) r.say = { t: filt(d.say.t.slice(0, 40)), at: d.say.at };
+  if (d.throw && typeof d.throw === 'object' && [d.throw.at, d.throw.x, d.throw.y, d.throw.dx, d.throw.dy].every(okNum)) r.throw = { at: d.throw.at, x: d.throw.x, y: d.throw.y, dx: d.throw.dx, dy: d.throw.dy };
+  if (d.gift && typeof d.gift === 'object' && okId(d.gift.to) && ITEMS[d.gift.item] && okNum(d.gift.at)) r.gift = { to: d.gift.to, item: d.gift.item, at: d.gift.at };
+  if (d.aff && typeof d.aff === 'object' && okId(d.aff.with)) r.aff = { with: d.aff.with, pts: Math.min(50, okInt(d.aff.pts)) };
+  if (d.picked && typeof d.picked === 'object' && typeof d.picked.slot === 'string' && Array.isArray(d.picked.ids)) r.picked = { slot: d.picked.slot, ids: d.picked.ids.filter((i) => typeof i === 'string').slice(0, 30) };
+  if (d.inv && typeof d.inv === 'object') r.inv = { snow: okInt(d.inv.snow), cocoa: okInt(d.inv.cocoa), mitten: okInt(d.inv.mitten), gift: okInt(d.inv.gift) };
+  if (d.mis && typeof d.mis === 'object' && typeof d.mis.d === 'string') r.mis = { d: d.mis.d, c: typeof d.mis.c === 'object' && d.mis.c ? d.mis.c : {}, claimed: Array.isArray(d.mis.claimed) ? d.mis.claimed : [] };
+  if (Array.isArray(d.photos)) r.photos = d.photos.filter((ph) => ph && typeof ph === 'object' && okId(ph.with) && okNum(ph.at) && typeof ph.spot === 'string').slice(0, 8).map((ph) => ({ spot: ph.spot, with: ph.with, at: ph.at, n1: String(ph.n1 || '').slice(0, 8), n2: String(ph.n2 || '').slice(0, 8) }));
+  return r;
 }
 function onData(list, definitive) {
   residents = new Map(list.map((r) => [r.id, r]));
   const m = mine();
-  if (m && !me.init) { me.x = m.x; me.y = m.y; me.savedX = Math.round(m.x); me.savedY = Math.round(m.y); me.init = true; }
-  if (!m) me.init = false;
+  if (m && !me.init) { me.x = m.x; me.y = m.y; me.savedX = Math.round(m.x); me.savedY = Math.round(m.y); me.movedAt = m.movedAt; me.init = true; }
+  if (m && (!L.ready || pending === 0)) { L.inv = m.inv ? { ...m.inv } : L.inv; L.mis = m.mis || L.mis; L.aff = m.aff || L.aff; L.photos = m.photos || L.photos; L.picked = m.picked || L.picked; L.ready = true; }
+  if (!m) { me.init = false; L.ready = false; }
   if (sel && sel.id && !residents.has(sel.id)) sel = null;
   loaded = true;
-  computeCouples(); syncPeople(); renderCard();
-  $('joy').hidden = !m;
+  computeCouples(); syncPeople(); syncItems(); firstData = false; renderCard();
+  $('joy').hidden = !m; $('acts').hidden = !m;
+  if (!m) { $('emopick').hidden = true; $('chatbar').hidden = true; }
+  updateMisDot();
   if (definitive) reconcile();
 }
 function showBanner(t) { const b = $('banner'); b.textContent = t; b.hidden = !t; }
+setInterval(() => { if (loaded) syncItems(); }, 15000);
 
 /* ---------- 미리보기 모드 ---------- */
 function startDemo() {
   showBanner('미리보기 모드예요. 예시 주민들과 이 화면에서만 놀아 볼 수 있어요.');
   const S = [['몽글',1996,3,2,10],['차차',1995,7,21,null],['보리',1993,11,9,22],['율무',1998,5,5,7],['단비',1990,12,25,15],['호두',1994,8,14,3],['콩떡',1997,1,30,12],['모카',1999,6,18,19],['누리',1992,9,9,8],['토리',2000,4,1,null]];
-  const spots = [[480,820],[620,830],[300,760],[360,760],[760,600],[820,640],[600,1000],[250,640],[700,1200],[400,1300]];
-  const npcs = S.map(([n, y, mo, d, h], i) => ({ id: 'n' + i, nick: n, p: pillars(y, mo, d, h), look: [i % HAIR.length, (i * 3) % SHIRT.length, i % 4], x: spots[i][0], y: spots[i][1], partner: null, confessTo: null, declined: null }));
-  [[0,1],[2,3],[4,5]].forEach(([a, b]) => { npcs[a].partner = npcs[b].id; npcs[b].partner = npcs[a].id; });
+  const spots = [[480,840],[620,850],[300,780],[360,780],[760,620],[820,660],[600,1010],[250,660],[700,1200],[400,1320]];
+  const SAY = ['안녕!', '눈 진짜 많이 온다', '같이 걸을래?', '핫초코 주운 사람?', '모닥불 따뜻해~', '궁합 몇 점 나왔어?'];
+  const npcs = S.map(([n, y, mo, d, h], i) => ({ id: 'n' + i, nick: n, p: pillars(y, mo, d, h), look: [i % HAIR.length, (i * 3) % SHIRT.length, i % 4], x: spots[i][0], y: spots[i][1], movedAt: i, partner: null, confessTo: null, auto: true }));
+  npcs[0].partner = 'n1'; npcs[1].partner = 'n0'; npcs[0].auto = npcs[1].auto = false; npcs[0].aff = { with: 'n1', pts: 50 }; npcs[1].aff = { with: 'n0', pts: 50 };
   let meDoc = null; myId = 'me';
-  const emit = () => onData(npcs.concat(meDoc ? [meDoc] : []).map((r) => ({ ...r, legacy: false })), true);
+  const all = () => npcs.concat(meDoc ? [meDoc] : []).map((r) => clean(r.id, r)).filter(Boolean);
+  const emit = (def = true) => onData(all(), def);
   api = {
-    create: async (data) => { meDoc = { id: 'me', ...data }; emit(); setTimeout(npcConfess, 15000); },
-    update: async (f) => { if (!meDoc) return; Object.assign(meDoc, f); const isPos = Object.keys(f).every((k) => k === 'x' || k === 'y'); if (!isPos) emit(); if (f.confessTo) setTimeout(() => npcReply(f.confessTo), 1800); },
+    create: async (data) => { meDoc = { id: 'me', ...data }; emit(); setTimeout(npcConfess, 25000); },
+    update: async (f) => { if (!meDoc) return; Object.assign(meDoc, f); const quiet = Object.keys(f).every((k) => ['x','y','movedAt','emote','say','throw','inv','picked','mis','aff','photos'].includes(k)); if (!quiet) emit(); if (f.confessTo) setTimeout(() => npcReply(f.confessTo), 1800); },
     remove: async () => { meDoc = null; npcs.forEach((n) => { if (n.partner === 'me') n.partner = null; if (n.confessTo === 'me') n.confessTo = null; }); emit(); }
   };
   function npcReply(id) {
     const n = npcs.find((x) => x.id === id); if (!n || !meDoc || meDoc.confessTo !== id) return;
-    if (!n.partner && match(meDoc.p, n.p).score >= 70) n.partner = 'me'; else n.declined = 'me';
+    if (scoreOf({ id: 'me', p: meDoc.p }, { id: n.id, p: n.p }).score >= 62) { n.partner = 'me'; n.auto = false; } else n.declined = { id: 'me', at: Date.now() };
     emit();
   }
-  function npcConfess() {
-    if (!meDoc || partnerOf.has('me') || meDoc.confessTo) return;
-    const free = npcs.filter((n) => !partnerOf.has(n.id)).sort((a, b) => match(meDoc.p, b.p).score - match(meDoc.p, a.p).score)[0];
-    if (free) { free.confessTo = 'me'; emit(); }
-  }
-  setInterval(() => { // 예시 주민 산책
-    npcs.forEach((n, i) => { if (Math.random() < .35) { n.x = clamp(spots[i][0] + (Math.random() - .5) * 160, 40, MAPW - 40); n.y = clamp(spots[i][1] + (Math.random() - .5) * 120, 80, MAPH - 40); } });
-    onData(npcs.concat(meDoc ? [meDoc] : []).map((r) => ({ ...r, legacy: false })), false);
+  function npcConfess() { if (!meDoc || coupleOf.has('me') || meDoc.confessTo) return; const f = npcs.find((n) => !coupleOf.has(n.id)); if (f) { f.confessTo = 'me'; f.confessAt = Date.now(); emit(); } }
+  let tick = 0;
+  setInterval(() => {
+    tick++;
+    npcs.forEach((n, i) => {
+      if (Math.random() < .3) { n.x = clamp(spots[i][0] + (Math.random() - .5) * 160, 40, MAPW - 40); n.y = clamp(spots[i][1] + (Math.random() - .5) * 120, 80, MAPH - 40); n.movedAt = Date.now(); }
+      if (Math.random() < .06) n.emote = { k: EMOS[Math.floor(Math.random() * EMOS.length)], at: Date.now() + i };
+      if (Math.random() < .04) n.say = { t: SAY[Math.floor(Math.random() * SAY.length)], at: Date.now() + i };
+    });
+    if (tick === 4 && meDoc) { const n = npcs[6]; n.throw = { at: Date.now(), x: n.x, y: n.y, dx: Math.sign(me.x - n.x) || 1, dy: 0 }; }
+    emit(false);
   }, 3000);
   emit();
 }
@@ -682,11 +1055,7 @@ async function startLive() {
   catch (e) { showBanner('익명 로그인을 하지 못했어요. Firebase 인증 설정(익명 로그인, 승인된 도메인)을 확인해 주세요.'); }
   if (myId) {
     const ref = F.doc(fs, 'residents', myId);
-    api = {
-      create: (data) => F.setDoc(ref, { ...data, joinedAt: F.serverTimestamp() }),
-      update: (f) => F.updateDoc(ref, f),
-      remove: () => F.deleteDoc(ref)
-    };
+    api = { create: (data) => F.setDoc(ref, { ...data, joinedAt: F.serverTimestamp() }), update: (f) => F.updateDoc(ref, f), remove: () => F.deleteDoc(ref) };
   }
   const timer = setTimeout(() => { if (!loaded) { loaded = true; showBanner('마을 정보를 아직 불러오지 못했어요. 연결되면 자동으로 나타나요.'); renderCard(); } }, 10000);
   F.onSnapshot(F.collection(fs, 'residents'), (snap) => {
@@ -701,7 +1070,8 @@ async function startLive() {
 }
 
 buildWorld();
-cam.x = 550 - vp.clientWidth / 2; cam.y = 705 - vp.clientHeight / 2;
+if (DEMO) window.__dbg = { me, L, items: () => itemList, sel: (id) => { sel = { id }; uiKey = ''; renderCard(); } };
+cam.x = 550; cam.y = 800;
 renderCard();
 requestAnimationFrame(frame);
 if (DEMO) startDemo(); else startLive();
