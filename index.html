@@ -7,37 +7,38 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
 <style>
-/* VOICE: 눈 내리는 저녁 마을에서 이웃과 놀고, 짝과 손잡고 걷는 설렘
-   IDEA: 비스듬히 내려다보는 겨울 마을 디오라마. 땅은 눕고 사람과 나무는 서 있다
-   PICTURE: 원근감 있는 눈 마을 지도 자체가 주인공, 카메라가 나를 따라온다
-   COLOUR and TYPE: 눈 흰색·얼음 하늘색, 창문 노랑, 고백 커플 핑크·사주 커플 주황 / Jua + Gowun Dodum
-   LAYOUT: 위 상태줄, 가운데 3D 지도(조이스틱·행동 버튼 겹침), 아래 정보 카드 */
+/* VOICE: 얼음 바다 옆 눈 마을, 이웃과 놀고 짝과 데이트하는 아기자기한 설렘
+   IDEA: 비스듬히 내려다보는 겨울 픽셀 디오라마. 이글루·통나무집·물개·강아지가 사는 마을
+   PICTURE: 원근감 있는 눈 마을 지도, 커플 집은 아이소메트릭 방으로 열린다
+   COLOUR and TYPE: 하늘빛 눈·얼음 바다, 통나무 갈색, 창문 노랑, 고백 핑크·사주 주황 / Jua + Gowun Dodum
+   LAYOUT: 위 상태줄, 가운데 3D 지도(조이스틱·행동 버튼), 아래 정보 카드 */
 :root{color-scheme:light;--ink:#1E2A44;--sub:#44506B;--pink:#C8325F;--heart:#F0558A;--saju:#E58A1F;--line:#1E2A44;--snow:#EEF4FB}
 *{box-sizing:border-box;min-width:0}
 html,body{height:100%}
-body{margin:0;background:#22304F;color:var(--ink);font:16px/1.5 'Gowun Dodum',sans-serif;overflow-x:clip}
-.app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:#2B3A5E}
-header{padding:calc(10px + env(safe-area-inset-top)) 12px 6px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff}
-h1{margin:0;font:400 24px/1.05 'Jua',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.stats{display:flex;gap:4px;font-size:12px;flex-wrap:wrap;justify-content:flex-end}
-.stats span{border-radius:8px;padding:2px 7px;background:#3E5080}
-.stats .c{background:#7A2A4F}
-.banner{margin:0 10px 6px;padding:7px 11px;border-radius:12px;background:#FFF6D6;border:2px solid #C9A227;font-size:13px;line-height:19px}
+body{margin:0;background:#6E7FC0;color:var(--ink);font:16px/1.5 'Gowun Dodum',sans-serif;overflow:hidden}
+.app{position:relative;max-width:520px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;background:#EEF6FF}
+.hud{position:absolute;left:10px;right:10px;top:calc(10px + env(safe-area-inset-top));display:flex;justify-content:space-between;align-items:flex-start;gap:8px;z-index:10;pointer-events:none}
+.hud>*{pointer-events:auto}
+h1{margin:0;font:400 20px/1 'Jua',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap;background:rgba(255,255,255,.92);border:2.5px solid var(--line);border-radius:999px;padding:6px 13px 6px 10px;box-shadow:0 3px 0 rgba(30,42,68,.25)}
+.stats{display:flex;gap:5px;font-size:12px;flex-wrap:wrap;justify-content:flex-end}
+.stats span{border-radius:999px;padding:4px 9px;background:rgba(255,255,255,.92);border:2px solid var(--line);font-weight:700;box-shadow:0 2px 0 rgba(30,42,68,.2)}
+.stats .c{background:#FFE3EC;color:#8F1F44}
+.banner{position:absolute;left:10px;right:10px;top:calc(56px + env(safe-area-inset-top));z-index:10;margin:0;padding:5px 11px;border-radius:12px;background:rgba(255,246,214,.95);border:2px solid #C9A227;font-size:12px;line-height:17px}
 .banner[hidden]{display:none}
-.vp{position:relative;margin:0 8px;height:min(600px,calc(100vh - 330px));min-height:360px;border:3px solid var(--line);border-radius:18px;overflow:hidden;background:#DCE7F3;touch-action:none;perspective:900px;perspective-origin:50% 20%;isolation:isolate}
-.tilt{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(35deg);transform-origin:50% 62%}
+.vp{position:absolute;inset:0;overflow:hidden;background:#EEF6FF;touch-action:none;perspective:1800px;perspective-origin:50% 45%;isolation:isolate}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;transform:scale(.9) rotateX(60deg) rotateZ(45deg);transform-origin:50% 45%}
 .world{position:absolute;left:0;top:0;width:1100px;height:1500px;transform-style:preserve-3d}
-.far{position:absolute;left:-1600px;top:-1600px;width:4300px;height:4700px;background-color:#E6EEF8;background-image:radial-gradient(#D6E2EF 1.6px,transparent 1.8px);background-size:30px 30px}
-.ground{position:absolute;left:0;top:0;width:1100px;height:1500px;background-color:var(--snow);background-image:radial-gradient(#DAE6F2 1.6px,transparent 1.8px),radial-gradient(#FFFFFF 2.4px,transparent 2.6px);background-size:30px 30px,46px 46px;background-position:0 0,15px 23px;box-shadow:0 0 0 18px #D3DFEC}
+.far{position:absolute;left:-1600px;top:-1600px;width:4300px;height:4700px;background-color:#EEF5FD;background-image:radial-gradient(#DDE8F5 1.6px,transparent 1.8px);background-size:30px 30px}
+.ground{position:absolute;left:0;top:0;width:1100px;height:1500px;background-color:#F8FBFF;background-image:radial-gradient(#E3EDF8 2px,transparent 2.2px),radial-gradient(#FFFFFF 3px,transparent 3.2px),radial-gradient(rgba(255,214,232,.35) 16px,transparent 17px),radial-gradient(rgba(190,220,250,.35) 14px,transparent 15px);background-size:28px 28px,44px 44px,220px 170px,180px 140px;background-position:0 0,14px 22px,90px 30px,40px 60px;box-shadow:0 0 0 18px #E1EAF5}
 .fl{position:absolute;pointer-events:none}
-.path{position:absolute;background:#C5D3E2;border:3px solid #ABBDD2;pointer-events:none}
-.st{position:absolute;transform-origin:50% 100%;transform:rotateX(-35deg);pointer-events:none}
+.path{position:absolute;background:#E6EEF7;border:3px solid #C9D8E8;pointer-events:none;background-image:radial-gradient(#D5E1EE 2px,transparent 2.4px);background-size:18px 18px}
+.st{position:absolute;transform-origin:50% 100%;transform:rotateZ(-45deg) rotateX(-60deg);pointer-events:none;overflow:visible}
 .st.tap{pointer-events:auto}
-.shd{position:absolute;border-radius:50%;background:rgba(40,60,100,.22);pointer-events:none}
-.pool{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.45),rgba(255,214,110,0));pointer-events:none}
-.fog{position:absolute;left:0;right:0;top:0;height:34%;background:linear-gradient(#EEF3FA,rgba(238,243,250,0));pointer-events:none;z-index:5}
-.vig{position:absolute;inset:0;box-shadow:inset 0 0 60px rgba(30,42,68,.28);pointer-events:none;z-index:5}
-@keyframes tw{0%,100%{opacity:1}50%{opacity:.25}}
+.shd{position:absolute;border-radius:50%;background:rgba(110,140,200,.18);pointer-events:none}
+.pool{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(255,200,170,.5),rgba(255,214,110,0));pointer-events:none}
+.fog{position:absolute;left:0;right:0;top:0;height:22%;background:linear-gradient(#FFF1F7,rgba(255,241,247,0));pointer-events:none;z-index:5}
+.vig{position:absolute;inset:0;box-shadow:inset 0 0 50px rgba(120,140,210,.22);pointer-events:none;z-index:5}
+@keyframes tw{0%,100%{opacity:1}50%{opacity:.2}}
 .tw{animation:tw 1.6s ease-in-out infinite}
 @keyframes puff{0%{transform:translate(0,0) scale(.6);opacity:.8}100%{transform:translate(10px,-40px) scale(1.4);opacity:0}}
 .puff{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;animation:puff 3s ease-out infinite}
@@ -48,53 +49,76 @@ h1{margin:0;font:400 24px/1.05 'Jua',sans-serif;display:flex;align-items:center;
 .snow i{position:absolute;top:0;border-radius:50%;background:#fff;opacity:.95;animation:fall linear infinite;box-shadow:0 0 2px rgba(80,110,160,.5)}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 .bob{animation:bob 1.6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-2px) rotate(2deg)}}
+.sway{animation:sway 2.4s ease-in-out infinite;transform-origin:50% 100%}
 @keyframes walk{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-2px) rotate(-3deg)}75%{transform:translateY(-2px) rotate(3deg)}}
-.res.walking .px{animation:walk .36s linear infinite}
+.res.walking .px,.pet.walking .px{animation:walk .36s linear infinite}
 @keyframes pop{0%{transform:translateX(-50%) scale(.4);opacity:0}15%{transform:translateX(-50%) scale(1.1);opacity:1}25%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1);opacity:1}}
 @keyframes fw{0%{transform:scale(.2);opacity:1}100%{transform:scale(1.6);opacity:0}}
-@media (prefers-reduced-motion:reduce){.tw,.puff,.flame,.bob,.res.walking .px{animation:none}.snow{display:none}}
+@keyframes rise{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-70px) scale(1.2);opacity:0}}
+.hp{position:absolute;left:0;top:0;width:20px;height:20px;transform-origin:50% 100%;pointer-events:none}
+.hp span{display:block;animation:rise 1.8s ease-out forwards}
+@media (prefers-reduced-motion:reduce){.tw,.puff,.flame,.bob,.sway,.res.walking .px,.pet.walking .px,.hp span{animation:none}.snow{display:none}}
 .px{display:block;filter:drop-shadow(1px 0 0 #1E2A44) drop-shadow(-1px 0 0 #1E2A44) drop-shadow(0 1px 0 #1E2A44) drop-shadow(0 -1px 0 #1E2A44)}
 .res{position:absolute;left:0;top:0;width:44px;height:70px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;transform-origin:50% 100%}
 .res .fig{position:relative;width:36px;height:48px}
 .res.left .fig{transform:scaleX(-1)}
+.res.lean-r .fig{transform:rotate(7deg)}.res.lean-l .fig{transform:rotate(-7deg)}
+.res.left.lean-r .fig{transform:scaleX(-1) rotate(-7deg)}.res.left.lean-l .fig{transform:scaleX(-1) rotate(7deg)}
+.res .arm{position:absolute;top:28px;width:14px;height:5px;background:#F7D9C4;border:1.5px solid #1E2A44;border-radius:3px;display:none}
+.res.lean-r .arm{display:block;right:-10px}.res.lean-l .arm{display:block;left:-10px}
 .res .snowman{display:none}
-.res.frozen .fig>svg{display:none}.res.frozen .snowman{display:block}
-.tag{font-size:12px;line-height:17px;padding:0 6px;border-radius:999px;background:#fff;border:1.5px solid var(--line);white-space:nowrap;max-width:80px;overflow:hidden;text-overflow:ellipsis}
+.res.frozen .fig>svg.px:first-child{display:none}.res.frozen .snowman{display:block}
+.tag{font-size:12px;line-height:17px;padding:0 6px;border-radius:999px;background:#fff;border:1.5px solid var(--line);white-space:nowrap;max-width:80px;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:3px}
+.tag .on{width:7px;height:7px;border-radius:50%;background:#3CB371;flex:none}
 .res.me .tag{background:#FFD84D;font-weight:700}
 .res.love .tag{box-shadow:0 0 0 2px #F0558A}
 .res.saju .tag{box-shadow:0 0 0 2px #E58A1F}
 .res.sel .tag{outline:3px solid #2457C5;outline-offset:2px}
 .res:focus-visible{outline:3px solid #2457C5;outline-offset:2px;border-radius:10px}
-.bub{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);background:#fff;border:2px solid var(--line);border-radius:12px;padding:3px 8px;font-size:13px;line-height:18px;max-width:170px;width:max-content;word-break:keep-all;overflow-wrap:anywhere;animation:pop 3s ease-out forwards;pointer-events:none;text-align:center}
+.bub{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);background:#fff;border:2px solid var(--line);border-radius:12px;padding:3px 8px;font-size:13px;line-height:18px;max-width:170px;width:max-content;word-break:keep-all;overflow-wrap:anywhere;animation:pop 3s ease-out forwards;pointer-events:none;text-align:center;z-index:2}
+.res.cp .bub{bottom:146px}
 .bub::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-6px;border:6px solid transparent;border-top-color:var(--line)}
 .bub.emo{font-size:24px;line-height:28px;padding:2px 6px}
 .mark{position:absolute;right:-6px;top:6px;font-size:16px;pointer-events:none}
-.cbadge{position:absolute;left:0;top:0;width:110px;height:60px;transform-origin:50% 100%;pointer-events:none}
+.cbadge{position:absolute;left:0;top:0;width:150px;height:60px;transform-origin:50% 100%;pointer-events:none}
 .cbadge .ttl{position:absolute;left:0;right:0;margin:0 auto;width:max-content;top:0;font:400 11px/15px 'Jua',sans-serif;white-space:nowrap;background:#fff;border-radius:6px;padding:0 5px;border:1.5px solid}
-.cbadge b{position:absolute;left:62px;top:24px;font:400 13px/18px 'Jua',sans-serif;background:#fff;border-radius:6px;padding:0 4px;border:1.5px solid}
+.cbadge b{position:absolute;left:82px;top:24px;font:400 13px/18px 'Jua',sans-serif;background:#fff;border-radius:6px;padding:0 4px;border:1.5px solid}
 .fwk{position:absolute;width:10px;height:10px;border-radius:50%;animation:fw 1.4s ease-out infinite}
 .ball{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #9FB4CC;transform-origin:50% 100%;pointer-events:none}
 .item{position:absolute;left:0;top:0;width:28px;height:30px;transform-origin:50% 100%;pointer-events:none}
+.pet{position:absolute;left:0;top:0;transform-origin:50% 100%;background:none;border:0;padding:0;cursor:pointer}
+.pet.left .px{transform:scaleX(-1)}
 .board{font:400 14px/17px 'Jua',sans-serif;background:#8A5A33;border:2px solid #3E2614;border-radius:5px;padding:3px 8px;color:#FFEBD0;text-align:center;white-space:nowrap}
 .board small{display:block;font:12px/15px 'Gowun Dodum',sans-serif}
-.joy{position:absolute;left:12px;bottom:12px;width:108px;height:108px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.8);z-index:8;touch-action:none}
+.plate{font:400 12px/16px 'Jua',sans-serif;background:#FFF4F7;border:2px solid #C8325F;color:#8F1F44;border-radius:6px;padding:1px 6px;white-space:nowrap;text-align:center}
+.plate.vac{background:#F1F5F9;border-color:#7D8AA6;color:#44506B}
+.joy{position:absolute;left:12px;bottom:calc(var(--sh,90px) + 20px);width:108px;height:108px;border-radius:50%;background:rgba(30,42,68,.28);border:3px solid rgba(255,255,255,.8);z-index:8;touch-action:none}
 .joy .knob{position:absolute;left:28px;top:28px;width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid var(--line);box-shadow:0 3px 0 rgba(0,0,0,.25)}
-.joy[hidden],.acts[hidden],.tobtn[hidden],.chatbar[hidden],.emopick[hidden],.toast[hidden]{display:none}
-.acts{position:absolute;right:10px;bottom:12px;display:flex;flex-direction:column;gap:7px;z-index:8}
+.joy[hidden],.acts[hidden],.tobtn[hidden],.chatbar[hidden],.emopick[hidden],.toast[hidden],.datebar[hidden]{display:none}
+.acts{position:absolute;right:10px;bottom:calc(var(--sh,90px) + 20px);display:flex;flex-direction:column;gap:7px;z-index:8}
 .ab{width:48px;height:48px;border-radius:14px;border:3px solid var(--line);background:#fff;font-size:21px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.2);position:relative}
 .ab:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
 .ab .dot{position:absolute;right:-4px;top:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--heart);color:#fff;font:12px/18px 'Jua',sans-serif;padding:0 4px}
-.emopick{position:absolute;right:66px;bottom:140px;z-index:9;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px;display:grid;grid-template-columns:repeat(4,44px);gap:4px}
+.ab .dot[hidden]{display:none}
+.emopick{position:absolute;right:66px;bottom:calc(var(--sh,90px) + 130px);z-index:9;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px;display:grid;grid-template-columns:repeat(4,44px);gap:4px}
 .emopick button{width:44px;height:44px;border:0;background:#F1F5F9;border-radius:10px;font-size:22px;cursor:pointer}
-.chatbar{position:absolute;left:8px;right:8px;bottom:8px;z-index:9;display:flex;gap:6px;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px}
+.chatbar{position:absolute;left:8px;right:8px;bottom:calc(var(--sh,90px) + 16px);z-index:9;display:flex;gap:6px;background:#fff;border:3px solid var(--line);border-radius:14px;padding:6px}
 .chatbar input{flex:1;height:44px;border:2px solid #9AA6BF;border-radius:10px;padding:0 10px;font:inherit;font-size:16px}
-.tobtn{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;z-index:8;min-height:40px;padding:0 12px;border-radius:12px;border:3px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
-.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:9;font-size:13px;background:rgba(30,42,68,.86);color:#fff;border-radius:999px;padding:4px 14px;max-width:92%;text-align:center;pointer-events:none}
-.card{padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
-.cardin{background:#fff;border:3px solid var(--line);border-radius:16px;padding:10px 13px;display:flex;flex-direction:column;gap:6px}
+.tobtn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--sh,90px) + 20px);z-index:8;min-height:40px;padding:0 12px;border-radius:12px;border:3px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
+.toast{position:absolute;left:50%;top:calc(96px + env(safe-area-inset-top));transform:translateX(-50%);z-index:9;font-size:13px;background:rgba(30,42,68,.86);color:#fff;border-radius:999px;padding:4px 14px;max-width:92%;text-align:center;pointer-events:none}
+.datebar{position:absolute;left:50%;top:calc(128px + env(safe-area-inset-top));transform:translateX(-50%);z-index:8;font:400 13px/18px 'Jua',sans-serif;background:#FFE3EC;color:#8F1F44;border:2px solid #F0558A;border-radius:999px;padding:3px 12px;white-space:nowrap;pointer-events:none}
+.sheet{position:absolute;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:10}
+.cardin{background:rgba(255,255,255,.95);border:3px solid var(--line);border-radius:18px;padding:10px 13px;display:flex;flex-direction:column;gap:6px;box-shadow:0 4px 0 rgba(30,42,68,.3);max-height:46vh;overflow:auto}
+.crow{display:flex;align-items:center;gap:8px}.crow .ct{flex:1}
+.tog{flex:none;width:40px;height:34px;border-radius:10px;border:2.5px solid var(--line);background:#fff;font:400 14px 'Jua',sans-serif;cursor:pointer}
+.tog:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
+.sheet.min .cd,.sheet.min .why,.sheet.min .note,.sheet.min .actions,.sheet.min .foot{display:none}
+.sheet.min .hearts{font-size:13px}
 .ct{font:400 19px/1.25 'Jua',sans-serif;color:var(--pink)}
 .cd{font-size:14px;line-height:20px;color:var(--sub)}
 .hearts{font-size:15px;letter-spacing:1px}
+.hearts[hidden]{display:none}
 .why{display:flex;flex-wrap:wrap;gap:4px}.why:empty{display:none}.why span{font-size:12px;background:#FFE3EC;color:#8F1F44;border-radius:6px;padding:1px 6px}.why span.neg{background:#EEF1F5;color:#44506B}
 .note{font-size:13px;background:#FFE3EC;color:#8F1F44;border-radius:8px;padding:6px 8px}
 .note[hidden]{display:none}
@@ -102,10 +126,11 @@ h1{margin:0;font:400 24px/1.05 'Jua',sans-serif;display:flex;align-items:center;
 .btn{min-height:44px;border-radius:12px;border:3px solid var(--line);background:var(--pink);color:#fff;font:400 16px 'Jua',sans-serif;padding:0 13px;cursor:pointer;box-shadow:0 3px 0 #7A1E3D}
 .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #7A1E3D}
 .btn.ghost{background:#fff;color:var(--ink);font-size:15px;box-shadow:0 3px 0 #9AA6BF}
-.btn.saju{background:var(--saju);box-shadow:0 3px 0 #8F520F}
+.btn.saju{background:#B5650E;box-shadow:0 3px 0 #6E3D08}
+.btn.home{background:#2E6B8F;box-shadow:0 3px 0 #1B4560}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
 .btn:focus-visible,.sw:focus-visible{outline:3px solid #2457C5;outline-offset:3px}
-.foot{font-size:12px;color:#C9D3EA;padding:0 16px 10px;text-align:center}
+.foot{font-size:11px;color:#7D8AA6;margin:0;text-align:center}
 dialog{border:3px solid var(--line);border-radius:18px;padding:0;width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px)}
 dialog::backdrop{background:rgba(20,28,50,.55)}
 .dl{padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -129,23 +154,36 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .bar{height:8px;border-radius:4px;background:#DCE4EE;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--heart)}
 .album{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .photo{background:#fff;border:2px solid var(--line);border-radius:10px;padding:6px 6px 8px;box-shadow:0 3px 0 #9AA6BF}
-.photo .pic{position:relative;height:96px;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;gap:0}
+.photo .pic{position:relative;height:96px;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
 .photo p{margin:4px 0 0;font-size:12px;line-height:16px;text-align:center}
 .empty{font-size:14px;color:var(--sub);text-align:center;padding:16px}
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.choices .btn{font-size:15px;padding:0 6px}
+/* 커플 집 (아이소메트릭 방) */
+#room{width:min(500px,calc(100vw - 16px));border-color:#C8325F;background:#FFF0F6}
+.rwin{display:flex;flex-direction:column}
+.rbar{display:flex;align-items:center;gap:8px;background:#F7A8C6;border-bottom:3px solid #C8325F;padding:6px 10px;font:400 16px 'Jua',sans-serif;color:#7A1E3D}
+.rbar .dots{display:flex;gap:4px}.rbar .dots i{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid #C8325F}
+.rbar .url{flex:1;background:#fff;border-radius:6px;padding:0 8px;font:13px/22px 'Gowun Dodum',sans-serif;color:#8F1F44;border:2px solid #E46C98;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rbody{position:relative;padding:10px;background:#FFE4EF;background-image:radial-gradient(#FFF 2px,transparent 2.4px);background-size:22px 22px}
+.rtitle{font:400 24px/1.1 'Jua',sans-serif;color:#C8325F;text-shadow:2px 2px 0 #fff;margin:0 0 4px}
+.rstage{position:relative}
+.rstage svg{display:block;width:100%;height:auto}
+.rinfo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+.rinfo div{background:#fff;border:2px solid #E46C98;border-radius:10px;padding:4px 6px;text-align:center;font-size:12px;line-height:16px;color:#8F1F44}
+.rinfo b{display:block;font:400 16px 'Jua',sans-serif}
+.walls{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px;color:#8F1F44;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="app">
-<header>
-<h1><svg width="22" height="22" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="#F0558A"/><rect x="4" y="0" width="2" height="1" fill="#F0558A"/><rect x="0" y="1" width="7" height="2" fill="#F0558A"/><rect x="1" y="3" width="5" height="1" fill="#F0558A"/><rect x="2" y="4" width="3" height="1" fill="#F0558A"/><rect x="3" y="5" width="1" height="1" fill="#F0558A"/><rect x="1" y="1" width="1" height="1" fill="#FFD2E1"/></svg>궁합 마을</h1>
-<div class="stats"><span id="stR">주민 0</span><span class="c" id="stC">커플 0</span><span id="stS">솔로 0</span></div>
-</header>
-<p class="banner" id="banner" hidden></p>
+<div class="app" id="app">
+
 <div class="vp" id="vp" aria-label="겨울 궁합 마을 지도">
 <div class="tilt" id="tilt"><div class="world" id="world"></div></div>
 <div class="fog" aria-hidden="true"></div><div class="vig" aria-hidden="true"></div>
 <div class="snow" id="snow" aria-hidden="true"></div>
 <div class="toast" id="toast" hidden></div>
+<div class="datebar" id="datebar" hidden></div>
 <div class="joy" id="joy" hidden aria-label="이동 조이스틱"><div class="knob" id="knob"></div></div>
 <div class="acts" id="acts" hidden>
 <button class="ab" type="button" id="bEmo" aria-label="감정표현">😊</button>
@@ -158,17 +196,23 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 <form class="chatbar" id="chatbar" hidden><input id="chatIn" maxlength="40" autocomplete="off" placeholder="말풍선으로 보낼 말 (40자)" aria-label="말하기"><button class="btn" type="submit">보내기</button></form>
 <button class="tobtn" id="tome" type="button" hidden>내 캐릭터로</button>
 </div>
-<div class="card" aria-live="polite">
+<header class="hud">
+<h1><svg width="22" height="22" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="#F0558A"/><rect x="4" y="0" width="2" height="1" fill="#F0558A"/><rect x="0" y="1" width="7" height="2" fill="#F0558A"/><rect x="1" y="3" width="5" height="1" fill="#F0558A"/><rect x="2" y="4" width="3" height="1" fill="#F0558A"/><rect x="3" y="5" width="1" height="1" fill="#F0558A"/><rect x="1" y="1" width="1" height="1" fill="#FFD2E1"/></svg>궁합 마을</h1>
+<div class="stats"><span id="stR">주민 0</span><span class="c" id="stC">커플 0</span><span id="stS">솔로 0</span></div>
+</header>
+<p class="banner" id="banner" hidden></p>
+<div class="sheet" id="sheet" aria-live="polite">
 <div class="cardin">
-<div class="ct" id="ct">마을을 불러오는 중이에요</div>
-<div class="cd" id="cd">잠시만 기다려 주세요.</div>
+<div class="crow"><div class="ct" id="ct">마을을 불러오는 중이에요</div><button class="tog" id="tog" type="button" aria-expanded="true" aria-label="정보 접기">▼</button></div>
 <div class="hearts" id="hearts" hidden></div>
+<div class="cd" id="cd">잠시만 기다려 주세요.</div>
 <div class="why" id="why"></div>
 <div class="note" id="note" hidden></div>
 <div class="actions" id="actions"></div>
-</div>
-</div>
 <p class="foot">궁합 점수는 전통 사주 궁합을 단순화한 게임 규칙이에요. 재미로 즐겨 주세요.</p>
+</div>
+</div>
+
 </div>
 
 <dialog id="dlg" aria-labelledby="dlgT">
@@ -179,7 +223,7 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 <div class="f"><label for="bd">태어난 날 (양력)</label><input id="bd" class="in" type="date" min="1930-01-01" max="2026-12-31"></div>
 <div class="f"><label for="bt">태어난 시간</label><input id="bt" class="in" type="time">
 <label class="chk"><input id="bu" type="checkbox">시간을 몰라요</label></div>
-<div class="f"><span class="lb" id="styL">머리 모양</span><div class="sws" id="styS" role="group" aria-labelledby="styL"></div></div>
+<div class="f"><span class="lb" id="styL">머리·모자</span><div class="sws" id="styS" role="group" aria-labelledby="styL"></div></div>
 <div class="f"><span class="lb" id="hairL">머리 색</span><div class="sws" id="hairS" role="group" aria-labelledby="hairL"></div></div>
 <div class="f"><span class="lb" id="shirtL">옷 색</span><div class="sws" id="shirtS" role="group" aria-labelledby="shirtL"></div></div>
 <p class="priv">생년월일시 자체는 저장하지 않아요. 궁합 계산에 필요한 사주 글자만 저장되고, 다른 주민에게는 이름·위치·궁합 점수만 보여요.</p>
@@ -199,9 +243,14 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 </div>
 </dialog>
 
+<dialog id="ask" aria-labelledby="askT"><div class="dl"><h2 id="askT"></h2><p class="cd" id="askD" style="margin:0"></p><div id="askB"></div></div></dialog>
 <dialog id="bag" aria-labelledby="bagT"><div class="dl"><h2 id="bagT">가방</h2><p class="cd" id="bagD" style="margin:0"></p><ul class="list" id="bagL"></ul><div class="actions"><button class="btn ghost" type="button" data-close>닫기</button></div></div></dialog>
 <dialog id="mis" aria-labelledby="misT"><div class="dl"><h2 id="misT">오늘의 미션</h2><p class="cd" style="margin:0">미션을 깨면 선물상자를 받아요. 매일 새 미션이 나와요.</p><ul class="list" id="misL"></ul><div class="actions"><button class="btn ghost" type="button" data-close>닫기</button></div></div></dialog>
 <dialog id="alb" aria-labelledby="albT"><div class="dl"><h2 id="albT">커플 앨범</h2><div class="album" id="albL"></div><div class="actions"><button class="btn ghost" type="button" data-close>닫기</button></div></div></dialog>
+<dialog id="room" aria-labelledby="roomT"><div class="rwin">
+<div class="rbar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url" id="roomUrl"></span><button class="btn ghost" type="button" data-close style="min-height:34px;font-size:13px;padding:0 10px;box-shadow:none">나가기</button></div>
+<div class="rbody"><h2 class="rtitle" id="roomT"></h2><div class="rstage" id="roomStage"></div><div class="rinfo" id="roomInfo"></div><div class="walls" id="roomWalls"></div></div>
+</div></dialog>
 
 <script type="module">
 /* =====================================================================
@@ -219,18 +268,29 @@ const FIREBASE_VERSION = '12.12.0';
 /* 주소 끝에 ?demo 를 붙이면 Firebase 없이 예시 주민으로 미리보기 */
 const DEMO = new URLSearchParams(location.search).has('demo') || !FIREBASE_CONFIG.apiKey;
 
-const MAPW = 1100, MAPH = 1500, SPEED = 150, RANGE = 140, SAVE_MS = 2500, THRESHOLD = 70, TILT = 35;
+const MAPW = 1100, MAPH = 1500, SPEED = 150, RANGE = 140, SAVE_MS = 2500, THRESHOLD = 70;
+const BB = 'rotateZ(-45deg) rotateX(-60deg)'; // 서 있는 물체를 화면 쪽으로 세우는 변환
+const S2 = Math.SQRT1_2;
+const scrX = (x, y) => (x - y) * S2;
+const s2w = (sx, sy) => { const a = sx * Math.SQRT2, b = sy * 2 * Math.SQRT2; return [(a + b) / 2, (b - a) / 2]; };
 const SPAWN = { x: 850, y: 1385 };
 const HAIR = ['#2B2233','#5B3A29','#8A5A2B','#D9A441','#E07AA0','#7C8CF0'];
 const SHIRT = ['#5B8DEF','#F0709A','#4FBF88','#F2C14E','#9C7CF0','#F08A4B','#8CC63F','#4CC3D9'];
-const STYLES = ['짧은 머리','긴 머리','양갈래','털모자'];
+const STYLES = ['짧은 머리','긴 머리','양갈래','털모자','털 후드'];
 const EMOS = ['❤️','😄','😳','😢','😤','👋','✨','🎉'];
 const ITEMS = { snow: '눈꽃 결정', cocoa: '핫초코', mitten: '벙어리장갑', gift: '선물상자' };
+const ACTS = { hand: ['손잡기', '🤝', '손을 잡아도 될까요?', 2], hug: ['안기', '🤗', '안아도 될까요?', 3], kiss: ['뽀뽀하기', '💋', '뽀뽀해도 될까요?', 5] };
+const WALLS = { pink: ['분홍 하트', '#FFD3E4', '#FFB3CF'], mint: ['민트 체크', '#D3F3E6', '#AEE5CF'], sky: ['하늘 별', '#D6E7FF', '#B2CEF6'] };
+const HOUSES = [ // x,y = 집 바닥 가운데. 문 앞은 (x+24, y+112)
+  { id: 'h0', x: 140, y: 575, roof: '#F29BBC' }, { id: 'h1', x: 335, y: 575, roof: '#9DC3F5' }, { id: 'h2', x: 765, y: 575, roof: '#8FD6B8' }, { id: 'h3', x: 960, y: 575, roof: '#B9A3F0' },
+  { id: 'h4', x: 140, y: 905, roof: '#F7B58A' }, { id: 'h5', x: 335, y: 905, roof: '#F29BBC' }, { id: 'h6', x: 765, y: 905, roof: '#9DC3F5' }, { id: 'h7', x: 960, y: 905, roof: '#8FD6B8' }
+];
 const SPOTS = [
   { id: 'tree', name: '크리스마스트리 앞', x: 550, y: 790, r: 120, bg: '#2F6E4E' },
-  { id: 'pond', name: '얼음 연못', x: 245, y: 1150, r: 140, bg: '#8FC1E6' },
-  { id: 'fire', name: '모닥불 캠프', x: 850, y: 1300, r: 110, bg: '#F08A4B' },
-  { id: 'well', name: '소원 우물', x: 345, y: 985, r: 80, bg: '#7D869C' }
+  { id: 'sea', name: '얼음 바다', x: 420, y: 450, r: 120, bg: '#7FB6E0' },
+  { id: 'igloo', name: '이글루 앞', x: 880, y: 500, r: 110, bg: '#B8D4EE' },
+  { id: 'pond', name: '얼음 연못', x: 245, y: 1180, r: 140, bg: '#8FC1E6' },
+  { id: 'fire', name: '모닥불 캠프', x: 850, y: 1300, r: 110, bg: '#F08A4B' }
 ];
 const MISSIONS = {
   emote: ['감정표현 3번 하기', 3], chat: ['말풍선 2번 보내기', 2], hit: ['눈덩이 2번 맞히기', 2],
@@ -284,13 +344,27 @@ const scoreOf = (a, b) => { const k = a.id < b.id ? a.id + '|' + b.id : b.id + '
 const scoreLabel = (s) => s >= 85 ? '찰떡궁합' : s >= 75 ? '잘 맞는 편' : s >= 65 ? '무난해요' : '노력이 필요해요';
 
 /* ---------- 그림 ---------- */
+// 픽셀 그림: 글자 격자를 칸 단위 사각형으로 그려요
+function pgrid(rows, pal, s, cls = 'px') {
+  let r = '';
+  rows.forEach((row, y) => { let x = 0; while (x < row.length) { const c = row[x]; let n = 1; while (x + n < row.length && row[x + n] === c) n++; if (c !== '.' && pal[c]) r += `<rect x="${x}" y="${y}" width="${n}" height="1" fill="${pal[c]}"/>`; x += n; } });
+  return `<svg class="${cls}" width="${rows[0].length * s}" height="${rows.length * s}" viewBox="0 0 ${rows[0].length} ${rows.length}" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
 function sprite(look) {
   const hair = HAIR[look[0]], shirt = SHIRT[look[1]], st = look[2];
-  let h = `<rect x="2" y="1" width="8" height="2" fill="${hair}"/><rect x="1" y="2" width="10" height="3" fill="${hair}"/><rect x="1" y="5" width="1" height="2" fill="${hair}"/><rect x="10" y="5" width="1" height="2" fill="${hair}"/><rect x="3" y="2" width="2" height="1" fill="#fff" opacity=".35"/>`;
-  if (st === 1) h += `<rect x="1" y="5" width="1" height="6" fill="${hair}"/><rect x="10" y="5" width="1" height="6" fill="${hair}"/>`;
-  if (st === 2) h += `<rect x="0" y="4" width="1" height="4" fill="${hair}"/><rect x="11" y="4" width="1" height="4" fill="${hair}"/><rect x="0" y="4" width="1" height="1" fill="#F0558A"/><rect x="11" y="4" width="1" height="1" fill="#F0558A"/>`;
-  if (st === 3) h += `<rect x="2" y="0" width="8" height="3" fill="${shirt}"/><rect x="1" y="3" width="10" height="1" fill="#fff"/><rect x="5" y="-1" width="2" height="1" fill="#fff"/><rect x="3" y="1" width="1" height="2" fill="#000" opacity=".15"/><rect x="6" y="1" width="1" height="2" fill="#000" opacity=".15"/>`;
-  return `<svg class="px" width="36" height="48" viewBox="0 -1 12 17" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="4" width="8" height="5" fill="#FFE0C7"/><rect x="9" y="4" width="1" height="5" fill="#000" opacity=".08"/>${h}<rect x="4" y="6" width="1" height="2" fill="#1E2A44"/><rect x="7" y="6" width="1" height="2" fill="#1E2A44"/><rect x="4" y="6" width="1" height="1" fill="#fff" opacity=".6"/><rect x="7" y="6" width="1" height="1" fill="#fff" opacity=".6"/><rect x="3" y="8" width="1" height="1" fill="#FF9DB8"/><rect x="8" y="8" width="1" height="1" fill="#FF9DB8"/><rect x="3" y="9" width="6" height="4" fill="${shirt}"/><rect x="7" y="9" width="2" height="4" fill="#000" opacity=".15"/><rect x="3" y="9" width="6" height="1" fill="#E35D6A"/><rect x="7" y="10" width="1" height="2" fill="#E35D6A"/><rect x="2" y="10" width="1" height="2" fill="${shirt}"/><rect x="9" y="10" width="1" height="2" fill="${shirt}"/><rect x="4" y="13" width="1" height="2" fill="#3B4466"/><rect x="7" y="13" width="1" height="2" fill="#3B4466"/><rect x="3" y="15" width="2" height="1" fill="#1E2A44"/><rect x="7" y="15" width="2" height="1" fill="#1E2A44"/></svg>`;
+  let h = '';
+  if (st === 4) { // 털 후드 패딩
+    h = `<rect x="1" y="1" width="10" height="4" fill="${shirt}"/><rect x="0" y="3" width="1" height="6" fill="${shirt}"/><rect x="11" y="3" width="1" height="6" fill="${shirt}"/><rect x="1" y="5" width="1" height="5" fill="${shirt}"/><rect x="10" y="5" width="1" height="5" fill="${shirt}"/><rect x="2" y="2" width="8" height="2" fill="#F4EBDD"/><rect x="1" y="3" width="1" height="6" fill="#F4EBDD"/><rect x="10" y="3" width="1" height="6" fill="#F4EBDD"/><rect x="2" y="4" width="8" height="1" fill="${hair}"/><rect x="3" y="2" width="2" height="1" fill="#fff"/>`;
+  } else {
+    h = `<rect x="2" y="1" width="8" height="2" fill="${hair}"/><rect x="1" y="2" width="10" height="3" fill="${hair}"/><rect x="1" y="5" width="1" height="2" fill="${hair}"/><rect x="10" y="5" width="1" height="2" fill="${hair}"/><rect x="3" y="2" width="2" height="1" fill="#fff" opacity=".35"/>`;
+    if (st === 1) h += `<rect x="1" y="5" width="1" height="6" fill="${hair}"/><rect x="10" y="5" width="1" height="6" fill="${hair}"/>`;
+    if (st === 2) h += `<rect x="0" y="4" width="1" height="4" fill="${hair}"/><rect x="11" y="4" width="1" height="4" fill="${hair}"/><rect x="0" y="4" width="1" height="1" fill="#F0558A"/><rect x="11" y="4" width="1" height="1" fill="#F0558A"/>`;
+    if (st === 3) h += `<rect x="2" y="0" width="8" height="3" fill="${shirt}"/><rect x="1" y="3" width="10" height="1" fill="#fff"/><rect x="5" y="-1" width="2" height="1" fill="#fff"/><rect x="3" y="1" width="1" height="2" fill="#000" opacity=".15"/><rect x="6" y="1" width="1" height="2" fill="#000" opacity=".15"/>`;
+  }
+  const body = st === 4
+    ? `<rect x="2" y="9" width="8" height="5" fill="${shirt}"/><rect x="8" y="9" width="2" height="5" fill="#000" opacity=".15"/><rect x="2" y="13" width="8" height="1" fill="#F4EBDD"/><rect x="5" y="10" width="1" height="3" fill="#000" opacity=".2"/><rect x="1" y="10" width="1" height="3" fill="${shirt}"/><rect x="10" y="10" width="1" height="3" fill="${shirt}"/><rect x="4" y="14" width="1" height="1" fill="#3B4466"/><rect x="7" y="14" width="1" height="1" fill="#3B4466"/><rect x="3" y="15" width="2" height="1" fill="#5A3A24"/><rect x="7" y="15" width="2" height="1" fill="#5A3A24"/>`
+    : `<rect x="3" y="9" width="6" height="4" fill="${shirt}"/><rect x="7" y="9" width="2" height="4" fill="#000" opacity=".15"/><rect x="3" y="9" width="6" height="1" fill="#E35D6A"/><rect x="7" y="10" width="1" height="2" fill="#E35D6A"/><rect x="2" y="10" width="1" height="2" fill="${shirt}"/><rect x="9" y="10" width="1" height="2" fill="${shirt}"/><rect x="4" y="13" width="1" height="2" fill="#3B4466"/><rect x="7" y="13" width="1" height="2" fill="#3B4466"/><rect x="3" y="15" width="2" height="1" fill="#1E2A44"/><rect x="7" y="15" width="2" height="1" fill="#1E2A44"/>`;
+  return `<svg class="px" width="36" height="48" viewBox="0 -1 12 17" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="4" width="8" height="5" fill="#FFE0C7"/><rect x="9" y="4" width="1" height="5" fill="#000" opacity=".08"/>${h}<rect x="4" y="6" width="1" height="2" fill="#1E2A44"/><rect x="7" y="6" width="1" height="2" fill="#1E2A44"/><rect x="4" y="6" width="1" height="1" fill="#fff" opacity=".6"/><rect x="7" y="6" width="1" height="1" fill="#fff" opacity=".6"/><rect x="3" y="8" width="1" height="1" fill="#FF9DB8"/><rect x="8" y="8" width="1" height="1" fill="#FF9DB8"/>${body}</svg>`;
 }
 const SNOWMAN_SM = '<svg class="px snowman" width="36" height="48" viewBox="0 0 36 48" aria-hidden="true"><circle cx="18" cy="35" r="12" fill="#fff"/><circle cx="18" cy="16" r="9" fill="#fff"/><circle cx="15" cy="14" r="1.3" fill="#1E2A44"/><circle cx="21" cy="14" r="1.3" fill="#1E2A44"/><polygon points="18,17 25,18 18,19" fill="#F08A4B"/><rect x="10" y="23" width="16" height="3" fill="#E35D6A"/></svg>';
 const HEART = (w, c = '#F0558A', hi = '#FFD2E1') => `<svg width="${w}" height="${Math.round(w * 6 / 7)}" viewBox="0 0 7 6" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="1" fill="${c}"/><rect x="4" y="0" width="2" height="1" fill="${c}"/><rect x="0" y="1" width="7" height="2" fill="${c}"/><rect x="1" y="3" width="5" height="1" fill="${c}"/><rect x="2" y="4" width="3" height="1" fill="${c}"/><rect x="3" y="5" width="1" height="1" fill="${c}"/><rect x="1" y="1" width="1" height="1" fill="${hi}"/></svg>`;
@@ -300,121 +374,248 @@ const ITEM_SVG = {
   mitten: '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M7 22V9a5 5 0 0 1 10 0v4l3-2a2 2 0 0 1 2 3l-5 5v3z" fill="#5B8DEF" stroke="#1E2A44" stroke-width="1.5"/><rect x="6" y="19" width="12" height="5" rx="1" fill="#fff" stroke="#1E2A44" stroke-width="1.5"/></svg>',
   gift: '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="10" width="20" height="13" fill="#F0558A" stroke="#1E2A44" stroke-width="1.5"/><rect x="2" y="7" width="22" height="5" fill="#F0558A" stroke="#1E2A44" stroke-width="1.5"/><rect x="11" y="7" width="4" height="16" fill="#FFD84D"/><path d="M13 7C9 1 5 4 9 7M13 7c4-6 8-3 4 0" stroke="#FFD84D" stroke-width="2.4" fill="none"/></svg>'
 };
+// 레퍼런스 분위기의 픽셀 소품들
+const SEAL = pgrid([
+  '.....wwwwwww.......',
+  '...wwwwwwwwwww.....',
+  '..wwwkwwwwwkwww....',
+  '..wwwwwwkwwwwwww...',
+  '.wwwpwwwwwwwpwwwww.',
+  '.wwwwwwkkkwwwwwwwww',
+  '.swwwwwwwwwwwwwwwws',
+  '..sswwwwwwwwwwwwss.',
+  '....ssssssssssss.w.',
+  '.....ss......ss.ww.'], { w: '#F7FAFD', s: '#C3D3E6', k: '#1E2A44', p: '#F5A3B8' }, 3);
+const HUSKY = pgrid([
+  '.gg........gg.',
+  '.ggg......ggg.',
+  '.gggggggggggg.',
+  'gggwkwggwkwggg',
+  'ggwwwwwwwwwwgg',
+  '.gwwwwkkwwwwg.',
+  '..wwwwppwwww..',
+  '..gggggggggg..',
+  '.ggwwwwwwwwgg.',
+  '.gwwwwwwwwwwg.',
+  '..ww.ww.ww.ww.',
+  '..kk.kk.kk.kk.'], { g: '#6E7D95', w: '#F7FAFD', k: '#1E2A44', p: '#F5A3B8' }, 3);
+const PUP = pgrid([
+  '.cc........cc.',
+  '.ccw......wcc.',
+  '.cwwwwwwwwwwc.',
+  'wwwwkwwwwkwwww',
+  'wwwwwwwwwwwwww',
+  '.wwwwwkkwwwww.',
+  '..wwwwppwwww..',
+  '..wwwwwwwwww..',
+  '.wwwwwwwwwwww.',
+  '.cwwwwwwwwwwc.',
+  '..ww.ww.ww.ww.',
+  '..kk.kk.kk.kk.'], { c: '#E3D3BA', w: '#FBF8F2', k: '#1E2A44', p: '#F5A3B8' }, 3);
+const SUITCASE = pgrid([
+  '....dddd....',
+  '....d..d....',
+  'dddddddddddd',
+  'doooyooooood',
+  'dooyyyoooood',
+  'doooyooooood',
+  'dddddddddddd',
+  'dooooooooood',
+  'dddddddddddd',
+  '.k........k.'], { o: '#E58A3A', d: '#9C5A22', y: '#F2C14E', k: '#3E2614' }, 3);
+const CANOE = '<svg width="96" height="34" viewBox="0 0 96 34" aria-hidden="true"><path d="M2 12 Q48 40 94 12 L90 8 Q48 30 6 8Z" fill="#B07C4E" stroke="#3E2614" stroke-width="2"/><path d="M6 8 Q48 30 90 8 Q48 18 6 8Z" fill="#7A5030"/><path d="M10 11 Q48 26 86 11" stroke="#D9A86A" stroke-width="2" fill="none"/><path d="M8 8 Q48 18 88 8" stroke="#fff" stroke-width="3" fill="none"/><rect x="40" y="13" width="16" height="4" fill="#8A5A33" stroke="#3E2614"/></svg>';
 function seeded(n) { let x = n; return () => { x = (x * 9301 + 49297) % 233280; return x / 233280; }; }
 // 서 있는 물체(빌보드)와 땅 위 그림자
 const st = (x, y, w, h, inner, extra = '') => `<div class="st" ${extra} style="left:${Math.round(x - w / 2)}px;top:${Math.round(y - h)}px;width:${w}px;height:${h}px">${inner}</div>`;
-const shd = (x, y, w, h, op = '') => `<div class="shd" style="left:${Math.round(x - w / 2 + w * .12)}px;top:${Math.round(y - h / 2 - 2)}px;width:${w}px;height:${h}px${op ? ';background:' + op : ''}"></div>`;
+const shd = (x, y, w, h) => `<div class="shd" style="left:${Math.round(x - w / 2 + w * .3)}px;top:${Math.round(y - h / 2 - h * .2)}px;width:${w}px;height:${h}px"></div>`;
+const drift = (x, y, w, h) => `<div class="fl" style="left:${x - w / 2}px;top:${y - h / 2}px;width:${w}px;height:${h}px;border-radius:50%;background:radial-gradient(ellipse at 32% 30%,#FFFFFF 0 42%,#EAF2FB 64%,#CFDDEC 100%);box-shadow:9px 7px 12px rgba(110,140,200,.28)"></div>`;
+const OL = '#5C3F57'; // 바깥 소품 외곽선 (집 내부 톤과 맞춤)
 
 function pine(x, y, s = 1) {
-  const w = Math.round(46 * s), h = Math.round(70 * s);
-  return shd(x + 8 * s, y, w * 1.1, 14 * s) + st(x, y, w, h, `<svg width="${w}" height="${h}" viewBox="0 0 46 70"><rect x="20" y="56" width="6" height="14" fill="#6B4423" stroke="#3E2614" stroke-width="1"/><polygon points="23,2 42,32 4,32" fill="#2F6E4E" stroke="#1C4430" stroke-width="1.5"/><polygon points="23,16 46,54 0,54" fill="#2A6347" stroke="#1C4430" stroke-width="1.5"/><polygon points="23,16 46,54 23,54" fill="#1F4F38"/><polygon points="23,2 31,14 15,14" fill="#fff"/><polygon points="23,16 34,32 12,32 17,28 23,30 29,27" fill="#fff"/><polygon points="6,52 0,54 46,54 40,52 31,55 23,52 15,55" fill="#fff"/></svg>`);
+  const w = Math.round(58 * s), h = Math.round(88 * s);
+  const tier = (top, bot, half) => `<polygon points="29,${top} ${29 - half},${bot} 29,${bot + 3}" fill="#5CB386" stroke="#2E5A48" stroke-width="1.2"/><polygon points="29,${top} ${29 + half},${bot} 29,${bot + 3}" fill="#3B8A62" stroke="#2E5A48" stroke-width="1.2"/><path d="M${29 - half + 2} ${bot - 1} q${half * .25} 6 ${half * .5} 1 q${half * .25} 6 ${half * .5} 2 q${half * .25} 5 ${half * .5} -1 q${half * .25} 6 ${half * .5} -2" fill="#fff" stroke="#BCD0E6" stroke-width="1.5"/>`;
+  return drift(x + 4, y + 2, 48 * s, 22 * s) + `<div class="shd" style="left:${Math.round(x + 4)}px;top:${Math.round(y - 8)}px;width:${Math.round(46 * s)}px;height:${Math.round(18 * s)}px"></div>` + st(x, y, w, h, `<svg width="${w}" height="${h}" viewBox="0 0 58 88"><rect x="25" y="70" width="8" height="16" fill="#7A5030" stroke="${OL}" stroke-width="1.2"/>${tier(30, 70, 27)}${tier(14, 50, 21)}${tier(2, 30, 15)}<path d="M29 0 l6 9 q-6 4 -12 0z" fill="#fff" stroke="#BCD0E6"/></svg>`);
 }
-function house(x, y, wall, roof) {
-  // x,y = 집 앞쪽 바닥 가운데
-  return `<div class="pool" style="left:${x - 90}px;top:${y - 30}px;width:180px;height:90px"></div>` + shd(x + 16, y - 6, 150, 34) + st(x, y + 2, 130, 128, `<svg width="130" height="128" viewBox="0 0 65 64"><rect x="47" y="4" width="6" height="14" fill="#8A5A4F" stroke="#3E2614"/><rect x="46" y="3" width="8" height="2" fill="#fff"/><rect x="6" y="30" width="34" height="30" fill="${wall[0]}" stroke="#1E2A44" stroke-width="1"/><polygon points="40,30 60,23 60,52 40,60" fill="${wall[1]}" stroke="#1E2A44" stroke-width="1"/><polygon points="22,9 42,2 63,25 42,32" fill="${roof[1]}" stroke="#1E2A44" stroke-width="1"/><polygon points="1,32 22,9 44,32" fill="${roof[0]}" stroke="#1E2A44" stroke-width="1"/><polygon points="1,32 22,9 44,32 40,32 22,13 5,32" fill="#fff"/><polygon points="22,9 42,2 45,5 25,12" fill="#fff"/><polygon points="44,32 63,25 63,27 44,34" fill="#fff"/><rect x="18" y="43" width="10" height="17" rx="1" fill="#5A3A24"/><rect x="25" y="51" width="1.5" height="1.5" fill="#F2C14E"/><rect x="9" y="36" width="7" height="7" fill="#FFD66B" stroke="#7A5A1E" stroke-width=".6"/><rect x="12" y="36" width="1" height="7" fill="#C9962E"/><polygon points="45,35 53,32 53,40 45,43" fill="#FFD66B" stroke="#7A5A1E" stroke-width=".6"/><rect x="5" y="59" width="36" height="3" fill="#fff"/><polygon points="40,61 60,53 60,55 40,63" fill="#fff"/></svg><span class="puff" style="left:98px;top:-4px"></span><span class="puff" style="left:98px;top:-4px;animation-delay:1.5s"></span>`);
+function cabin(h) {
+  const { x, y } = h;
+  const Q = (u, v, z = 0) => [95 + (u - v) * 85, 196 + (u + v - 2) * 42.5 - z];
+  const pg = (pts, fill, extra = '') => `<polygon points="${pts.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ')}" fill="${fill}" stroke="${OL}" stroke-width="1.3" stroke-linejoin="round" ${extra}/>`;
+  const ln = (a, b, col, w) => `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+  let g = '';
+  // 벽 (앞-왼쪽 면, 오른쪽 면) + 통나무 결
+  g += pg([Q(0, 1), Q(1, 1), Q(1, 1, 58), Q(0, 1, 58)], '#D9A26C');
+  for (let z = 8; z < 58; z += 8) g += ln(Q(0, 1, z), Q(1, 1, z), '#B07A48', 1.4);
+  g += pg([Q(1, 0), Q(1, 1), Q(1, 1, 58), Q(1, 0, 58)], '#B5824F');
+  for (let z = 8; z < 58; z += 8) g += ln(Q(1, 0, z), Q(1, 1, z), '#946338', 1.4);
+  g += pg([Q(1, 0, 58), Q(1, 1, 58), Q(1, .5, 100)], '#A57345');
+  // 창문 (따뜻한 불빛) + 창틀 눈
+  const win = (u1, u2) => pg([Q(u1, 1, 24), Q(u2, 1, 24), Q(u2, 1, 46), Q(u1, 1, 46)], '#FFE08A') + ln(Q((u1 + u2) / 2, 1, 24), Q((u1 + u2) / 2, 1, 46), '#9C6B42', 1.6) + ln(Q(u1, 1, 35), Q(u2, 1, 35), '#9C6B42', 1.6) + pg([Q(u1 - .02, 1.02, 22), Q(u2 + .02, 1.02, 22), Q(u2 + .02, 1.02, 25), Q(u1 - .02, 1.02, 25)], '#fff', 'stroke="#BCD0E6"');
+  g += win(.08, .3) + win(.7, .92);
+  g += pg([Q(1, .34, 26), Q(1, .66, 26), Q(1, .66, 46), Q(1, .34, 46)], '#FFD36B') + ln(Q(1, .5, 26), Q(1, .5, 46), '#7A5030', 1.6);
+  // 문 + 리스
+  g += pg([Q(.4, 1), Q(.6, 1), Q(.6, 1, 38), Q(.4, 1, 38)], '#8A5530') + ln(Q(.5, 1, 0), Q(.5, 1, 38), '#6B4423', 1.2);
+  const wr = Q(.5, 1, 31); g += `<circle cx="${wr[0]}" cy="${wr[1]}" r="6" fill="none" stroke="#3E9C6A" stroke-width="3.5"/><circle cx="${wr[0]}" cy="${wr[1] + 5}" r="2" fill="#E04A5F"/>`;
+  const lt = Q(.66, 1, 34); g += `<circle cx="${lt[0]}" cy="${lt[1]}" r="10" fill="#FFE59A" opacity=".45"/><rect x="${lt[0] - 3}" y="${lt[1] - 4}" width="6" height="8" rx="1" fill="#FFE08A" stroke="${OL}"/>`;
+  // 굴뚝
+  g += pg([Q(.7, .32, 70), Q(.84, .32, 70), Q(.84, .32, 120), Q(.7, .32, 120)], '#C9806A') + pg([Q(.84, .18, 70), Q(.84, .32, 70), Q(.84, .32, 120), Q(.84, .18, 120)], '#A86A58') + pg([Q(.68, .16, 122), Q(.86, .16, 122), Q(.86, .34, 122), Q(.68, .34, 122)], '#fff', 'stroke="#BCD0E6"');
+  // 지붕 (색 처마) + 두툼한 눈
+  g += pg([Q(-.08, .5, 100), Q(1.1, .5, 100), Q(1.1, 1.12, 48), Q(-.08, 1.12, 48)], h.roof);
+  g += pg([Q(1.1, .5, 100), Q(1.1, -.12, 48), Q(1.1, -.12, 43), Q(1.1, .5, 95)], h.roof);
+  g += pg([Q(-.08, .5, 104), Q(1.1, .5, 104), Q(1.1, 1.06, 57), Q(-.08, 1.06, 57)], '#FFFFFF', 'stroke="#C9DAEC"');
+  g += pg([Q(-.1, 1.05, 58), Q(1.12, 1.05, 58), Q(1.12, 1.13, 50), Q(-.1, 1.13, 50)], '#F2F7FD', 'stroke="#BCD0E6"');
+  g += pg([Q(1.1, .5, 105), Q(1.12, -.14, 52), Q(1.12, -.12, 47), Q(1.1, .5, 99)], '#FFFFFF', 'stroke="#C9DAEC"');
+  g += ln(Q(-.08, .5, 104), Q(1.1, .5, 104), '#FFFFFF', 7);
+  for (let u = 0; u <= 1.01; u += .125) { const a = Q(u, 1.13, 50); g += `<path d="M${(a[0] - 2.5).toFixed(1)} ${a[1].toFixed(1)} l2.5 ${5 + (u * 8) % 4} l2.5 -${5 + (u * 8) % 4}z" fill="#CFEAFF" stroke="#9FC4E6" stroke-width=".8"/>`; }
+  const svg = `<svg width="190" height="200" viewBox="0 0 190 200" style="position:absolute;left:0;top:0;overflow:visible">${g}</svg><span class="puff" style="left:${Q(.77, .25, 128)[0] - 6}px;top:${Q(.77, .25, 128)[1] - 6}px"></span><span class="puff" style="left:${Q(.77, .25, 128)[0] - 6}px;top:${Q(.77, .25, 128)[1] - 6}px;animation-delay:1.5s"></span>`;
+  return `<div class="fl" style="left:${x - 88}px;top:${y - 88}px;width:184px;height:184px;border-radius:28%;background:radial-gradient(ellipse at 40% 40%,#FFFFFF 0 55%,#E6EFF9 78%,#D3E0EE 100%)"></div>` + `<div class="shd" style="left:${x - 10}px;top:${y - 66}px;width:160px;height:140px;border-radius:30%"></div>` + `<div class="pool" style="left:${x - 50}px;top:${y + 50}px;width:150px;height:100px"></div>` + st(x + 60, y + 60, 190, 200, svg) + `<div class="st" id="plate-${h.id}" style="left:${x - 10}px;top:${y + 122 - 18}px;width:100px;height:18px;display:flex;justify-content:center"></div>`;
 }
 function snowman(x, y) { return shd(x + 6, y, 40, 11) + st(x, y, 40, 56, '<svg width="40" height="56" viewBox="0 0 40 56"><circle cx="20" cy="42" r="14" fill="#fff" stroke="#AFC2D8" stroke-width="1.5"/><circle cx="20" cy="20" r="10" fill="#fff" stroke="#AFC2D8" stroke-width="1.5"/><path d="M27 42a14 14 0 0 1-13 13" stroke="#D3E0EE" stroke-width="3" fill="none"/><rect x="12" y="3" width="16" height="9" fill="#2B2233"/><rect x="9" y="11" width="22" height="2" fill="#2B2233"/><circle cx="16" cy="18" r="1.4" fill="#1E2A44"/><circle cx="24" cy="18" r="1.4" fill="#1E2A44"/><polygon points="20,21 28,23 20,24" fill="#F08A4B"/><rect x="10" y="28" width="20" height="4" fill="#E35D6A"/><rect x="24" y="30" width="4" height="9" fill="#E35D6A"/><circle cx="20" cy="38" r="1.5" fill="#1E2A44"/><circle cx="20" cy="44" r="1.5" fill="#1E2A44"/></svg>'); }
-function lamp(x, y) { return `<div class="pool" style="left:${x - 46}px;top:${y - 34}px;width:92px;height:66px"></div>` + shd(x + 10, y, 22, 7) + st(x, y, 18, 62, '<span style="position:absolute;left:-22px;top:-20px;width:62px;height:62px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.6),rgba(255,214,110,0))"></span><svg width="18" height="62" viewBox="0 0 8 28" shape-rendering="crispEdges" style="position:relative"><rect x="3" y="6" width="2" height="21" fill="#2E3A5C"/><rect x="1" y="27" width="6" height="1" fill="#2E3A5C"/><rect x="1" y="1" width="6" height="5" fill="#FFE59A"/><rect x="0" y="0" width="8" height="1" fill="#2E3A5C"/><rect x="2" y="2" width="2" height="2" fill="#fff"/></svg>'); }
-function bench(x, y) { return shd(x + 6, y, 64, 12) + st(x, y, 64, 30, '<svg width="64" height="30" viewBox="0 0 64 30"><rect x="4" y="4" width="56" height="6" fill="#9C6B42" stroke="#3E2614"/><rect x="4" y="2" width="56" height="3" fill="#fff"/><rect x="2" y="13" width="60" height="6" fill="#B07C4E" stroke="#3E2614"/><rect x="2" y="12" width="60" height="2" fill="#fff"/><rect x="6" y="19" width="5" height="11" fill="#5A3A24"/><rect x="53" y="19" width="5" height="11" fill="#5A3A24"/></svg>'); }
-function fence(x1, x2, y) { let s = ''; for (let x = x1; x <= x2; x += 28) s += st(x, y, 30, 26, '<svg width="30" height="26" viewBox="0 0 30 26"><rect x="0" y="9" width="30" height="4" fill="#9C6B42"/><rect x="0" y="17" width="30" height="4" fill="#9C6B42"/><rect x="3" y="3" width="6" height="23" fill="#B07C4E" stroke="#3E2614"/><rect x="3" y="1" width="6" height="3" fill="#fff"/><rect x="21" y="3" width="6" height="23" fill="#B07C4E" stroke="#3E2614"/><rect x="21" y="1" width="6" height="3" fill="#fff"/></svg>'); return s; }
-function gift(x, y, c) { return shd(x + 3, y, 22, 6) + st(x, y, 22, 20, `<svg width="22" height="20" viewBox="0 0 20 18"><rect x="1" y="6" width="18" height="12" fill="${c}" stroke="#1E2A44"/><rect x="0" y="4" width="20" height="4" fill="${c}" stroke="#1E2A44"/><rect x="8" y="4" width="4" height="14" fill="#fff"/><path d="M10 4 C6 -1 3 2 7 4 M10 4 C14 -1 17 2 13 4" stroke="#fff" stroke-width="2" fill="none"/></svg>`); }
-function cliff(x1, x2, y) { // 언덕 단차: 윗면(땅)과 앞면(세운 벽)
-  const w = x2 - x1;
-  return `<div class="fl" style="left:${x1}px;top:${y - 40}px;width:${w}px;height:40px;background:#F6FAFE"></div>` + `<div class="st" style="left:${x1}px;top:${y - 34}px;width:${w}px;height:34px;background:linear-gradient(#fff 0 6px,#C9D7E6 6px 100%);border-bottom:3px solid #9FB4CC;background-image:linear-gradient(#fff 0 6px,transparent 6px),repeating-linear-gradient(90deg,#C3D2E2 0 46px,#B6C7DA 46px 48px);"></div>` + `<div class="shd" style="left:${x1}px;top:${y}px;width:${w}px;height:16px;border-radius:0;background:linear-gradient(rgba(40,60,100,.18),rgba(40,60,100,0))"></div>`;
-}
+function lamp(x, y) { return `<div class="pool" style="left:${x - 46}px;top:${y - 34}px;width:92px;height:66px"></div>` + shd(x + 10, y, 22, 7) + st(x, y, 18, 62, '<span style="position:absolute;left:-22px;top:-20px;width:62px;height:62px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,110,.6),rgba(255,214,110,0))"></span><svg width="18" height="62" viewBox="0 0 8 28" shape-rendering="crispEdges" style="position:relative"><rect x="3" y="6" width="2" height="21" fill="#2E3A5C"/><rect x="1" y="27" width="6" height="1" fill="#2E3A5C"/><rect x="1" y="1" width="6" height="5" fill="#FFE59A"/><rect x="0" y="0" width="8" height="1" fill="#2E3A5C"/><rect x="0" y="-1" width="8" height="1" fill="#fff"/><rect x="2" y="2" width="2" height="2" fill="#fff"/></svg>'); }
+function bench(x, y) { return shd(x + 6, y, 64, 12) + st(x, y, 64, 30, '<svg width="64" height="30" viewBox="0 0 64 30" shape-rendering="crispEdges"><rect x="4" y="4" width="56" height="6" fill="#9C6B42"/><rect x="4" y="2" width="56" height="3" fill="#fff"/><rect x="2" y="13" width="60" height="6" fill="#B07C4E"/><rect x="2" y="12" width="60" height="2" fill="#fff"/><rect x="6" y="19" width="5" height="11" fill="#5A3A24"/><rect x="53" y="19" width="5" height="11" fill="#5A3A24"/></svg>'); }
+function gift(x, y, c) { return shd(x + 8, y + 2, 28, 10) + st(x, y, 28, 26, `<svg width="28" height="26" viewBox="0 0 20 18"><rect x="1" y="6" width="18" height="12" fill="${c}" stroke="#1E2A44"/><rect x="0" y="4" width="20" height="4" fill="${c}" stroke="#1E2A44"/><rect x="8" y="4" width="4" height="14" fill="#fff"/><path d="M10 4 C6 -1 3 2 7 4 M10 4 C14 -1 17 2 13 4" stroke="#fff" stroke-width="2" fill="none"/></svg>`); }
 
 function buildWorld() {
   const o = ['<div class="far"></div><div class="ground"></div>'];
-  // 북쪽 언덕(집 동네)은 살짝 높게
-  o.push(cliff(0, 500, 470)); o.push(cliff(600, 1100, 470));
-  o.push(st(550, 470, 100, 34, '<svg width="100" height="34" viewBox="0 0 100 34"><rect x="0" y="0" width="100" height="34" fill="#B9C9DA"/><g fill="#D8E3EF" stroke="#9FB4CC"><rect x="0" y="0" width="100" height="8"/><rect x="0" y="8" width="100" height="9"/><rect x="0" y="17" width="100" height="8"/><rect x="0" y="25" width="100" height="9"/></g></svg>'));
+  // 북쪽 얼음 바다 (물·얼음 조각·물개)
+  o.push('<div class="fl" style="left:-40px;top:140px;width:1180px;height:300px;background:#A6D6F4;background-image:linear-gradient(90deg,rgba(255,255,255,.35) 2px,transparent 2px),linear-gradient(rgba(255,255,255,.25) 2px,transparent 2px);background-size:60px 100%,100% 46px;box-shadow:inset 0 -14px 24px rgba(80,140,200,.3)"></div>');
+  o.push('<svg class="fl" style="left:-40px;top:400px" width="1180" height="70" viewBox="0 0 1180 70" preserveAspectRatio="none"><path d="M0 30 Q40 10 80 28 T160 26 T240 30 T320 22 T400 30 T480 24 T560 30 T640 22 T720 30 T800 24 T880 30 T960 22 T1040 30 T1120 24 T1180 30 V70 H0Z" fill="#F2F7FC"/><path d="M0 30 Q40 10 80 28 T160 26 T240 30 T320 22 T400 30 T480 24 T560 30 T640 22 T720 30 T800 24 T880 30 T960 22 T1040 30 T1120 24 T1180 30" stroke="#C7D9EC" stroke-width="6" fill="none"/></svg>');
+  [[180,250,150,52],[420,320,190,62],[700,240,130,46],[950,330,170,56],[580,190,90,32],[280,380,110,36]].forEach(([x, y, w, h]) => o.push(`<div class="fl" style="left:${x - w / 2}px;top:${y - h / 2}px;width:${w}px;height:${h}px;border-radius:46%;background:#fff;box-shadow:0 6px 0 #BFDDF3,0 10px 0 rgba(90,150,210,.25)"></div>`));
+  [[300,200],[620,300],[860,210],[120,340],[1000,260]].forEach(([x, y], i) => o.push(`<span class="fl tw" style="left:${x}px;top:${y}px;width:6px;height:6px;background:#fff;transform:rotate(45deg);animation-delay:${i * .3}s"></span>`));
+  o.push(st(420, 330, 57, 30, `<span class="sway" style="display:block">${SEAL}</span>`));
+  // 해안 소품: 카누, 여행가방, 이글루
+  o.push(shd(650, 478, 100, 16) + st(650, 478, 96, 34, CANOE));
+  o.push(shd(720, 486, 38, 9) + st(718, 486, 36, 30, SUITCASE));
+  o.push(shd(905, 520, 140, 30) + st(880, 520, 130, 72, '<svg width="130" height="72" viewBox="0 0 130 72"><path d="M6 70 Q6 4 65 4 Q124 4 124 70Z" fill="#F7FAFD" stroke="#9FB4CC" stroke-width="2"/><path d="M14 70 Q14 12 65 12" stroke="#fff" stroke-width="5" fill="none"/>' + [22, 38, 54].map((yy) => `<path d="M${10 + (yy - 22) / 3} ${yy} Q65 ${yy - 14} ${120 - (yy - 22) / 3} ${yy}" stroke="#C3D3E6" stroke-width="2" fill="none"/>`).join('') + '<path d="M40 30 v10 M70 16 v10 M95 28 v10 M28 48 v10 M58 44 v10 M88 46 v10 M108 52 v10" stroke="#C3D3E6" stroke-width="2"/><path d="M48 70 Q48 44 65 44 Q82 44 82 70Z" fill="#7E95B3" stroke="#5A6F8E" stroke-width="2"/><path d="M53 70 Q53 50 65 50 Q77 50 77 70Z" fill="#3E4F6B"/></svg>'));
+  o.push(st(880, 440, 100, 24, '<div class="board">이글루</div>'));
+  // 반짝이는 눈밭 (화사한 포인트)
+  const rs = seeded(29);
+  for (let i = 0; i < 46; i++) { const x = 60 + rs() * 980, y = 500 + rs() * 960, c = ['#FFFFFF','#FFD3E4','#CFE6FF','#FFF1B8'][i % 4], sz = 5 + Math.round(rs() * 5); o.push(`<span class="fl tw" style="left:${Math.round(x)}px;top:${Math.round(y)}px;width:${sz}px;height:${sz}px;background:${c};transform:rotate(45deg);box-shadow:0 0 6px ${c};animation-delay:${(rs() * 1.6).toFixed(2)}s"></span>`); }
+  // 가로등 사이 꼬마전구 줄
+  [[420,640,680,640],[420,820,680,820]].forEach(([x1, y1, x2]) => o.push(st((x1 + x2) / 2, y1 - 44, x2 - x1, 24, `<svg width="${x2 - x1}" height="24" viewBox="0 0 ${x2 - x1} 24"><path d="M0 4 Q${(x2 - x1) / 2} 26 ${x2 - x1} 4" stroke="#7A5A4F" stroke-width="1.5" fill="none"/>${Array.from({ length: 11 }, (_, i) => { const t = (i + 1) / 12, xx = t * (x2 - x1), yy = 4 + 22 * 4 * t * (1 - t) * .9; const c = ['#FF8FB1','#FFD66B','#7FD8E8','#B79CFF'][i % 4]; return `<circle class="tw" cx="${xx.toFixed(1)}" cy="${(yy + 3).toFixed(1)}" r="3.2" fill="${c}" style="animation-delay:${(i * .15).toFixed(2)}s"/>`; }).join('')}</svg>`)));
+  // 눈 더미
+  [[120,500,110,40],[1000,520,130,46],[470,500,90,34],[250,790,100,38],[860,790,110,40],[560,1240,130,44],[1040,1060,90,34],[80,1300,110,40],[420,980,80,30],[700,1080,100,36],[230,1330,90,32],[980,1400,120,40],[640,500,70,26],[300,690,60,24],[820,690,60,24]].forEach((d) => o.push(drift(...d)));
   // 길과 광장
   o.push('<div class="path" style="left:-10px;top:676px;width:1120px;height:58px;border-left:0;border-right:0"></div>');
-  o.push('<div class="path" style="left:521px;top:-10px;width:58px;height:1520px;border-top:0;border-bottom:0"></div>');
-  o.push('<div class="path" style="left:395px;top:560px;width:310px;height:300px;border-radius:50%;background:#D5E0EC"></div>');
-  o.push('<div class="path" style="left:770px;top:1215px;width:170px;height:150px;border-radius:50%;background:#D5E0EC"></div>');
-  // 얼음 연못 (깊이감: 둑 + 얼음면)
-  o.push('<div class="fl" style="left:100px;top:1075px;width:290px;height:160px;border-radius:50%;background:#9FB4CC"></div><div class="fl" style="left:110px;top:1080px;width:270px;height:146px;border-radius:50%;background:#8EC0E8;box-shadow:inset 0 10px 18px rgba(30,60,110,.35)"></div><div class="fl" style="left:125px;top:1092px;width:240px;height:120px;border-radius:50%;background:#CDE6F8"></div>');
-  o.push('<svg class="fl" style="left:125px;top:1092px" width="240" height="120" viewBox="0 0 240 120"><path d="M40 60 q40 -30 80 0 t80 0" stroke="#fff" stroke-width="3" fill="none"/><path d="M70 85 q30 18 70 2" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><ellipse cx="170" cy="36" rx="18" ry="5" fill="#fff" opacity=".9"/></svg>');
-  o.push(fence(110, 380, 1070));
-  o.push(st(245, 1062, 92, 26, '<div class="board">얼음 연못</div>'));
-  // 크리스마스트리
-  const lights = [[50,40,'#FFD84D'],[34,62,'#F0558A'],[66,66,'#5B8DEF'],[28,88,'#FFD84D'],[58,92,'#4FBF88'],[44,110,'#F0558A'],[76,112,'#FFD84D'],[22,118,'#5B8DEF']];
-  o.push('<div class="pool" style="left:430px;top:650px;width:240px;height:150px;background:radial-gradient(closest-side,rgba(255,216,77,.4),rgba(255,216,77,0))"></div>');
-  o.push(shd(575, 712, 130, 30));
-  o.push(st(550, 712, 120, 150, `<svg width="120" height="150" viewBox="0 0 100 125"><rect x="44" y="106" width="12" height="18" fill="#6B4423" stroke="#3E2614"/><polygon points="50,8 72,44 28,44" fill="#2F7A50" stroke="#1C4430"/><polygon points="50,28 82,76 18,76" fill="#2A6E48" stroke="#1C4430"/><polygon points="50,52 92,108 8,108" fill="#256542" stroke="#1C4430"/><polygon points="50,8 92,108 50,108" fill="#000" opacity=".12"/><polygon points="50,8 58,22 42,22" fill="#fff"/><polygon points="8,108 92,108 86,104 70,107 50,103 30,107 14,104" fill="#fff"/><polygon points="50,0 53,6 59,6 54,10 56,16 50,12 44,16 46,10 41,6 47,6" fill="#FFD84D" stroke="#B8862E"/></svg>${lights.map(([lx, ly, c], i) => `<span class="tw" style="position:absolute;left:${lx * 1.2 - 4}px;top:${ly * 1.2 - 4}px;width:8px;height:8px;border-radius:50%;background:${c};box-shadow:0 0 6px ${c};animation-delay:${(i * .2).toFixed(1)}s"></span>`).join('')}`));
-  [[480,724,'#F0558A'],[612,728,'#5B8DEF'],[512,736,'#F2C14E'],[585,738,'#4FBF88']].forEach(([x, y, c]) => o.push(gift(x, y, c)));
-  // 집 (언덕 위)
-  o.push(house(170, 380, ['#FFF3D6','#E5CFA2'], ['#E04A6E','#A8325C']));
-  o.push(house(390, 300, ['#EEF0FF','#C5C9EE'], ['#5C7FD6','#3F5FB0']));
-  o.push(house(720, 300, ['#FFF7E8','#E8D3A8'], ['#E58A3A','#B8682A']));
-  o.push(house(940, 380, ['#F3FFF4','#C8E5CB'], ['#3E9C6A','#2C7550']));
-  o.push(house(180, 960, ['#FFF0F3','#EAC7CF'], ['#9C7CF0','#7457C9']));
-  o.push(house(930, 960, ['#FFF7E0','#EAD9A8'], ['#D64545','#A23232']));
-  o.push(st(660, 560, 200, 40, '<div class="board">궁합 마을<small>짝과 손잡고 걸어 보세요</small></div>'));
-  // 가로등·벤치·눈사람·우체통·썰매
-  [[420,640],[680,640],[420,820],[680,820],[620,470],[480,470],[300,700],[800,700],[540,1040]].forEach(([x, y]) => o.push(lamp(x, y)));
-  o.push(bench(395, 590)); o.push(bench(710, 880)); o.push(bench(320, 1290));
-  o.push(snowman(290, 600)); o.push(snowman(820, 600)); o.push(snowman(470, 1090));
-  o.push(shd(632, 584, 22, 6) + st(628, 584, 26, 42, '<svg width="26" height="42" viewBox="0 0 24 38"><rect x="10" y="16" width="4" height="22" fill="#6B4423"/><rect x="2" y="4" width="18" height="13" rx="3" fill="#E04A7E" stroke="#1E2A44"/><rect x="2" y="2" width="18" height="3" rx="1" fill="#fff"/><circle cx="11" cy="12" r="2" fill="#fff"/></svg>'));
-  o.push(shd(632, 1130, 60, 10) + st(628, 1130, 58, 28, '<svg width="58" height="28" viewBox="0 0 56 26"><rect x="6" y="6" width="40" height="10" rx="3" fill="#D64545" stroke="#1E2A44"/><rect x="6" y="4" width="40" height="3" fill="#fff"/><path d="M2 20 H48 Q54 20 54 14" stroke="#8A5A33" stroke-width="3" fill="none"/><rect x="12" y="16" width="3" height="5" fill="#8A5A33"/><rect x="36" y="16" width="3" height="5" fill="#8A5A33"/></svg>'));
-  // 소원 우물 (누를 수 있음)
-  o.push('<div class="pool" style="left:300px;top:955px;width:90px;height:60px;background:radial-gradient(closest-side,rgba(127,196,242,.45),rgba(127,196,242,0))"></div>' + shd(352, 985, 52, 14));
-  o.push(`<button class="st tap" data-obj="well" style="left:321px;top:905px;width:48px;height:82px;background:none;border:0;padding:0;cursor:pointer" aria-label="소원 우물, 눌러서 동전 던지기"><svg width="48" height="62" viewBox="0 0 42 56"><rect x="6" y="10" width="3" height="28" fill="#6B4423"/><rect x="33" y="10" width="3" height="28" fill="#6B4423"/><polygon points="1,12 21,1 41,12 37,16 5,16" fill="#9C4F45" stroke="#1E2A44"/><polygon points="1,12 21,1 41,12 38,13 21,4 4,13" fill="#fff"/><rect x="20.5" y="16" width="1" height="9" fill="#8A7A66"/><rect x="18" y="24" width="6" height="6" fill="#8A5A33"/><rect x="4" y="34" width="34" height="16" fill="#9AA3B8" stroke="#1E2A44"/><ellipse cx="21" cy="50" rx="17" ry="5" fill="#7D869C"/><rect x="4" y="40" width="34" height="1.5" fill="#7D869C"/><ellipse cx="21" cy="34" rx="17" ry="6" fill="#fff" stroke="#1E2A44"/><ellipse cx="21" cy="34" rx="12" ry="3.5" fill="#7FC4F2"/></svg><span class="tag" style="display:block;margin:2px auto 0;width:max-content;max-width:none">소원 우물</span></button>`);
+  o.push('<div class="path" style="left:521px;top:440px;width:58px;height:1080px;border-top:0;border-bottom:0"></div>');
+  o.push('<div class="path" style="left:395px;top:560px;width:310px;height:300px;border-radius:50%;background-color:#DCE6F0"></div>');
+  o.push('<div class="path" style="left:770px;top:1215px;width:170px;height:150px;border-radius:50%;background-color:#DCE6F0"></div>');
+  // 얼음 연못
+  o.push('<div class="fl" style="left:100px;top:1105px;width:290px;height:160px;border-radius:50%;background:#9FB4CC"></div><div class="fl" style="left:110px;top:1110px;width:270px;height:146px;border-radius:50%;background:#8EC0E8;box-shadow:inset 0 10px 18px rgba(30,60,110,.35)"></div><div class="fl" style="left:125px;top:1122px;width:240px;height:120px;border-radius:50%;background:#CDE6F8"></div>');
+  o.push('<svg class="fl" style="left:125px;top:1122px" width="240" height="120" viewBox="0 0 240 120"><path d="M40 60 q40 -30 80 0 t80 0" stroke="#fff" stroke-width="3" fill="none"/><path d="M70 85 q30 18 70 2" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><ellipse cx="170" cy="36" rx="18" ry="5" fill="#fff" opacity=".9"/></svg>');
+  o.push(st(245, 1100, 92, 26, '<div class="board">얼음 연못</div>'));
+  // 크리스마스트리 (크고 화려하게)
+  o.push('<div class="pool" style="left:400px;top:600px;width:300px;height:220px;background:radial-gradient(closest-side,rgba(255,216,120,.55),rgba(255,216,120,0))"></div>');
+  o.push(drift(552, 714, 150, 80) + '<div class="shd" style="left:560px;top:660px;width:150px;height:90px"></div>');
+  const tierT = (top, bot, half) => `<polygon points="115,${top} ${115 - half},${bot} ${115 + half},${bot}" fill="#3FA06A" stroke="#235C3E" stroke-width="1.5"/><polygon points="115,${top} ${115 + half},${bot} 115,${bot}" fill="#2D8253"/><path d="M${115 - half - 3} ${bot - 2} q${half * .2} 9 ${half * .4} 2 q${half * .2} 9 ${half * .4} 3 q${half * .2} 8 ${half * .4} -1 q${half * .2} 9 ${half * .4} 1 q${half * .2} 8 ${half * .4} -3" fill="#fff" stroke="#BCD0E6" stroke-width="1.6"/>`;
+  const orn = [[86,92,'#E04A5F'],[140,100,'#FFD84D'],[110,128,'#5B8DEF'],[72,150,'#F0709A'],[150,160,'#E04A5F'],[100,182,'#FFD84D'],[60,210,'#5B8DEF'],[132,206,'#F0709A'],[168,226,'#FFD84D'],[92,236,'#E04A5F'],[118,64,'#F0709A'],[50,238,'#FFD84D']];
+  const tl = Array.from({ length: 22 }, (_, i) => { const t = i / 21, yy = 50 + t * 200, half = 18 + t * 82; const xx = 115 + Math.sin(i * 2.3) * half * .8; return [xx, yy, ['#FFF4B8','#FFD3E4','#CFE6FF'][i % 3]]; });
+  o.push(st(550, 712, 230, 300, `<span style="position:absolute;left:55px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,150,.85),rgba(255,236,150,0))"></span><svg width="230" height="300" viewBox="0 0 230 300" style="position:relative"><rect x="104" y="262" width="22" height="30" fill="#7A5030" stroke="#3E2614" stroke-width="1.5"/><ellipse cx="115" cy="292" rx="70" ry="10" fill="#D64545" stroke="#7A2A2A" stroke-width="1.5"/><ellipse cx="115" cy="290" rx="62" ry="6" fill="#E35D6A"/>${tierT(150, 264, 100)}${tierT(100, 206, 80)}${tierT(56, 150, 60)}${tierT(22, 98, 40)}<path d="M60 130 Q115 152 170 124 M42 186 Q115 214 188 178 M30 240 Q115 270 200 232" stroke="#F2C14E" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M60 130 Q115 152 170 124 M42 186 Q115 214 188 178 M30 240 Q115 270 200 232" stroke="#FFF1B8" stroke-width="1.5" fill="none" stroke-linecap="round"/>${orn.map(([ox, oy, c]) => `<circle cx="${ox}" cy="${oy}" r="7" fill="${c}" stroke="#3E2614" stroke-width="1"/><circle cx="${ox - 2}" cy="${oy - 2}" r="2.2" fill="#fff" opacity=".85"/><rect x="${ox - 2}" y="${oy - 10}" width="4" height="3" fill="#C9962E"/>`).join('')}<polygon points="115,0 123,16 141,17 127,28 132,46 115,36 98,46 103,28 89,17 107,16" fill="#FFD84D" stroke="#B8862E" stroke-width="1.5"/><polygon points="115,6 119,17 130,18 121,25 124,36 115,30" fill="#FFF1B8"/></svg>${tl.map(([lx, ly, c], i) => `<span class="tw" style="position:absolute;left:${(lx - 4).toFixed(0)}px;top:${(ly - 4).toFixed(0)}px;width:8px;height:8px;border-radius:50%;background:${c};box-shadow:0 0 8px 2px ${c};animation-delay:${(i * .13).toFixed(2)}s"></span>`).join('')}`));
+  [[470,730,'#F0558A'],[630,736,'#5B8DEF'],[505,752,'#F2C14E'],[598,758,'#4FBF88'],[548,766,'#B79CFF'],[660,712,'#F08A4B']].forEach(([x, y, c]) => o.push(gift(x, y, c)));
+  // 통나무집 8채 (커플이 입주)
+  HOUSES.forEach((h) => o.push(cabin(h)));
+  o.push(st(640, 520, 210, 40, '<div class="board">궁합 마을<small>빈집에 커플이 입주할 수 있어요</small></div>'));
+  // 가로등·벤치·눈사람·썰매
+  [[420,640],[680,640],[420,820],[680,820],[620,470],[480,470],[250,700],[850,700],[560,1060]].forEach(([x, y]) => o.push(lamp(x, y)));
+  o.push(bench(400, 590)); o.push(bench(710, 885)); o.push(bench(330, 1310));
+  o.push(snowman(250, 800)); o.push(snowman(850, 800)); o.push(snowman(470, 1120));
+  o.push(shd(660, 1150, 60, 10) + st(656, 1150, 58, 28, '<svg width="58" height="28" viewBox="0 0 56 26"><rect x="6" y="6" width="40" height="10" rx="3" fill="#D64545" stroke="#1E2A44"/><rect x="6" y="4" width="40" height="3" fill="#fff"/><path d="M2 20 H48 Q54 20 54 14" stroke="#8A5A33" stroke-width="3" fill="none"/><rect x="12" y="16" width="3" height="5" fill="#8A5A33"/><rect x="36" y="16" width="3" height="5" fill="#8A5A33"/></svg>'));
+  // 소원 우물
+  o.push('<div class="pool" style="left:395px;top:1030px;width:90px;height:60px;background:radial-gradient(closest-side,rgba(127,196,242,.45),rgba(127,196,242,0))"></div>' + shd(447, 1060, 52, 14));
+  o.push(`<button class="st tap" data-obj="well" style="left:416px;top:980px;width:48px;height:82px;background:none;border:0;padding:0;cursor:pointer" aria-label="소원 우물, 눌러서 동전 던지기"><svg width="48" height="62" viewBox="0 0 42 56"><rect x="6" y="10" width="3" height="28" fill="#6B4423"/><rect x="33" y="10" width="3" height="28" fill="#6B4423"/><polygon points="1,12 21,1 41,12 37,16 5,16" fill="#9C4F45" stroke="#1E2A44"/><polygon points="1,12 21,1 41,12 38,13 21,4 4,13" fill="#fff"/><rect x="20.5" y="16" width="1" height="9" fill="#8A7A66"/><rect x="18" y="24" width="6" height="6" fill="#8A5A33"/><rect x="4" y="34" width="34" height="16" fill="#9AA3B8" stroke="#1E2A44"/><ellipse cx="21" cy="50" rx="17" ry="5" fill="#7D869C"/><ellipse cx="21" cy="34" rx="17" ry="6" fill="#fff" stroke="#1E2A44"/><ellipse cx="21" cy="34" rx="12" ry="3.5" fill="#7FC4F2"/></svg><span class="tag" style="display:block;margin:2px auto 0;width:max-content;max-width:none">소원 우물</span></button>`);
   // 솔로존 모닥불 캠프
   o.push('<div class="pool" style="left:760px;top:1220px;width:180px;height:130px;background:radial-gradient(closest-side,rgba(255,150,60,.5),rgba(255,150,60,0))"></div>');
   o.push(st(852, 1290, 50, 46, '<span style="position:absolute;left:-30px;top:-30px;width:110px;height:100px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,80,.5),rgba(255,170,80,0))"></span><svg width="50" height="46" viewBox="0 0 50 46" style="position:relative"><rect x="6" y="36" width="38" height="6" rx="3" fill="#6B4423" transform="rotate(12 25 39)"/><rect x="6" y="36" width="38" height="6" rx="3" fill="#7A5030" transform="rotate(-12 25 39)"/><g class="flame"><path d="M25 4 C34 16 38 24 32 34 H18 C12 24 16 16 25 4Z" fill="#F08A4B"/><path d="M25 14 C30 22 31 27 28 34 H22 C19 27 20 22 25 14Z" fill="#FFD84D"/></g></svg>'));
   [[780,1280],[925,1270],[805,1345],[905,1350]].forEach(([x, y]) => o.push(shd(x + 4, y, 40, 9) + st(x, y, 38, 16, '<svg width="38" height="16" viewBox="0 0 36 14"><rect x="0" y="2" width="36" height="10" rx="5" fill="#8A5A33" stroke="#3E2614"/><ellipse cx="4" cy="7" rx="3" ry="5" fill="#C99A66"/><rect x="6" y="0" width="26" height="3" rx="1.5" fill="#fff"/></svg>')));
   o.push(st(855, 1205, 200, 40, '<div class="board">솔로존 · 모닥불 캠프<small>새 주민은 여기서 시작해요</small></div>'));
-  // 숲
+  // 숲 (바다 아래쪽부터)
   const r = seeded(11);
-  for (let x = 20; x < MAPW; x += 66) { o.push(pine(x + r() * 20, 80 + r() * 30, .95 + r() * .3)); o.push(pine(x + r() * 20, MAPH - 10 - r() * 30, .95 + r() * .3)); }
-  for (let y = 160; y < MAPH - 80; y += 76) { if (Math.abs(y - 705) < 70) continue; o.push(pine(24 + r() * 16, y + r() * 20, .9 + r() * .3)); o.push(pine(MAPW - 24 - r() * 16, y + r() * 20, .9 + r() * .3)); }
-  [[270,520],[310,560],[830,520],[790,560],[200,640],[960,640],[420,1200],[460,1260],[670,1270],[700,1350],[990,1120],[380,1410],[1010,1200],[250,1400],[110,470],[1000,470]].forEach(([x, y]) => o.push(pine(x, y, 1.1)));
+  for (let x = 20; x < MAPW; x += 66) o.push(pine(x + r() * 20, MAPH - 10 - r() * 30, .95 + r() * .3));
+  for (let x = 20; x < MAPW; x += 80) o.push(pine(x + r() * 20, 130 + r() * 10, .8 + r() * .2));
+  for (let y = 480; y < MAPH - 80; y += 80) { if (Math.abs(y - 705) < 70) continue; o.push(pine(22 + r() * 14, y + r() * 20, .9 + r() * .3)); o.push(pine(MAPW - 22 - r() * 14, y + r() * 20, .9 + r() * .3)); }
+  [[260,520],[830,530],[200,800],[960,800],[430,1250],[670,1290],[700,1370],[990,1150],[380,1420],[250,1410],[1010,1240],[60,1100]].forEach(([x, y]) => o.push(pine(x, y, 1.1)));
   o.push('<div id="items" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   o.push('<div id="people" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   $('world').innerHTML = o.join('');
   $('snow').innerHTML = Array.from({ length: 36 }, (_, i) => { const s = 2 + (i % 4); return `<i style="left:${(i * 37) % 100}%;width:${s}px;height:${s}px;animation-duration:${6 + (i % 5) * 1.4}s;animation-delay:-${(i * 0.7).toFixed(1)}s"></i>`; }).join('');
 }
 
+/* ---------- 마을 동물 (각자 화면에서 돌아다님) ---------- */
+const pets = [
+  { id: 'husky', name: '허스키', svg: HUSKY, x: 470, y: 900, hx: 470, hy: 900, say: ['왈왈!', '멍멍! 🐾', '꼬리 살랑살랑'] },
+  { id: 'pup', name: '흰둥이', svg: PUP, x: 640, y: 905, hx: 640, hy: 905, say: ['멍!', '쓰다듬어 줘요', '눈이다 눈! ❄️'] }
+];
+function buildPets() {
+  const box = $('people');
+  pets.forEach((p) => { const el = document.createElement('button'); el.type = 'button'; el.className = 'pet'; el.dataset.pet = p.id; el.setAttribute('aria-label', p.name + ', 눌러서 쓰다듬기'); el.innerHTML = p.svg; box.appendChild(el); p.el = el; p.tx = p.x; p.ty = p.y; });
+}
+function stepPets(dt, t) {
+  for (const p of pets) {
+    if (!p.next || t > p.next) { p.next = t + 2500 + Math.random() * 3000; p.tx = clamp(p.hx + (Math.random() - .5) * 220, 80, MAPW - 80); p.ty = clamp(p.hy + (Math.random() - .5) * 140, 760, 1080); }
+    const dx = p.tx - p.x, dy = p.ty - p.y, dd = Math.hypot(dx, dy);
+    if (dd > 1) { const s = Math.min(dd, 60 * dt); p.x += dx / dd * s; p.y += dy / dd * s; if (Math.abs(dx - dy) > 1) p.left = dx - dy < 0; }
+    p.el.classList.toggle('walking', dd > 1); p.el.classList.toggle('left', !!p.left);
+    p.el.style.transform = `translate(${Math.round(p.x - 21)}px,${Math.round(p.y - 36)}px) ${BB}`;
+  }
+}
+
 /* ---------- 상태 ---------- */
+let sheetOpen = true;
 let residents = new Map(), myId = null, api = null, loaded = false, sel = null, wish = 0, notice = '', leaving = false, breaking = false;
-const me = { x: SPAWN.x, y: SPAWN.y, init: false, moving: false, lastSave: 0, savedX: 0, savedY: 0, movedAt: 0, left: false, fx: 0, fy: 1, walkAcc: 0, misWalk: 0 };
+const me = { x: SPAWN.x, y: SPAWN.y, init: false, moving: false, lastSave: 0, savedX: 0, savedY: 0, movedAt: 0, left: false, fx: 0, fy: 1, walkAcc: 0, misWalk: 0, togetherT: 0, ddT: 0, dateT: 0 };
 const disp = new Map();
-let couples = [], coupleOf = new Map();
+let couples = [], coupleOf = new Map(), groups = [], groupOf = new Map();
 const cam = { x: 0, y: 0, free: false };
 const joy = { x: 0, y: 0, on: false }, keys = new Set();
 const vp = $('vp'), world = $('world');
-const seen = { emote: new Map(), say: new Map(), throw: new Map(), gift: new Map() };
+const seen = { emote: new Map(), say: new Map(), throw: new Map(), gift: new Map(), ask: new Map(), ans: new Map() };
 let firstData = true;
-const L = { inv: { snow: 0, cocoa: 0, mitten: 0, gift: 0 }, mis: null, aff: { with: null, pts: 0 }, photos: [], picked: { slot: '', ids: [] }, auto: true, ready: false };
+const L = { inv: { snow: 0, cocoa: 0, mitten: 0, gift: 0 }, mis: null, aff: { with: null, pts: 0 }, photos: [], picked: { slot: '', ids: [] }, ready: false };
 let pending = 0;
-const balls = [];
+const balls = [], anims = new Map(); // anims: 커플키 -> {act, until}
+const snooze = { date: 0, dd: 0, skin: 0 };
 
 const mine = () => residents.get(myId);
 const isMe = (id) => id === myId;
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 const posOf = (id) => { const d = disp.get(id); return d ? { x: d.x, y: d.y } : null; };
+const online = (r) => !!r && (isMe(r.id) || (r.ping && Date.now() - r.ping < 4 * 60000));
 
-/* ---------- 커플 계산 ---------- */
+/* ---------- 커플·데이트 계산 ---------- */
 const points = (a, b) => a && b && (a.partner === b.id || a.confessTo === b.id);
 function computeCouples() {
   couples = []; coupleOf = new Map();
   const list = [...residents.values()].sort((a, b) => a.id < b.id ? -1 : 1);
-  // 1) 고백 커플 (서로를 가리킴)
   for (const a of list) {
     if (coupleOf.has(a.id)) continue;
-    for (const id of [a.partner, a.confessTo]) {
-      const b = id && residents.get(id);
-      if (b && !coupleOf.has(b.id) && points(b, a)) { addCouple(a, b, 'love'); break; }
-    }
+    for (const id of [a.partner, a.confessTo]) { const b = id && residents.get(id); if (b && !coupleOf.has(b.id) && points(b, a)) { addCouple(a, b, 'love'); break; } }
   }
-  // 2) 사주 커플 (자동, 더 잘 맞는 사람이 오면 교체)
   const free = list.filter((r) => !coupleOf.has(r.id) && r.auto !== false);
   const pairs = [];
   for (let i = 0; i < free.length; i++) for (let j = i + 1; j < free.length; j++) { const s = scoreOf(free[i], free[j]).score; if (s >= THRESHOLD) pairs.push([s, free[i], free[j]]); }
   pairs.sort((x, y) => y[0] - x[0] || (x[1].id + x[2].id < y[1].id + y[2].id ? -1 : 1));
   for (const [, a, b] of pairs) if (!coupleOf.has(a.id) && !coupleOf.has(b.id)) addCouple(a, b, 'saju');
+  // 데이트 여부 (두 사람 중 가장 최근 기록이 켜짐)
+  for (const c of couples) {
+    const recs = [c.a, c.b].map((r) => r.date && r.date.with === (r === c.a ? c.b.id : c.a.id) ? r.date : null).filter(Boolean).sort((x, y) => y.at - x.at);
+    c.date = !!(recs[0] && recs[0].on);
+    c.home = homeOfCouple(c);
+  }
+  // 더블데이트 묶음
+  groups = []; groupOf = new Map();
+  const byKey = new Map(couples.map((c) => [c.key, c]));
+  const used = new Set();
+  for (const c of couples) {
+    if (used.has(c.key)) continue;
+    let best = null;
+    for (const r of [c.a, c.b]) if (r.ddate && byKey.has(r.ddate.key) && r.ddate.key !== c.key) {
+      const o = byKey.get(r.ddate.key); if (used.has(o.key)) continue;
+      const recs = [c.a, c.b, o.a, o.b].map((m) => m.ddate && (m.ddate.key === ([c.a, c.b].includes(m) ? o.key : c.key)) ? m.ddate : null).filter(Boolean).sort((x, y) => y.at - x.at);
+      if (recs[0] && recs[0].on) best = o;
+    }
+    if (best) { const g = { kind: 'double', cs: [c, best].sort((x, y) => x.key < y.key ? -1 : 1) }; g.members = g.cs.flatMap((k) => [k.a.id, k.b.id]); groups.push(g); used.add(c.key); used.add(best.key); }
+  }
+  for (const c of couples) if (!used.has(c.key)) groups.push({ kind: c.date ? 'date' : 'couple', cs: [c], members: [c.a.id, c.b.id] });
+  groups.forEach((g) => g.members.forEach((id) => groupOf.set(id, g)));
 }
 function addCouple(a, b, type) {
   const m = scoreOf(a, b);
@@ -423,12 +624,17 @@ function addCouple(a, b, type) {
   couples.push(c); coupleOf.set(a.id, c); coupleOf.set(b.id, c);
 }
 const partnerIdOf = (id) => { const c = coupleOf.get(id); return c ? (c.a.id === id ? c.b.id : c.a.id) : null; };
-function leaderOf(c) {
-  if ((c.a.id === myId || c.b.id === myId) && me.moving) return myId;
-  const ma = c.a.id === myId ? me.movedAt : (c.a.movedAt || 0), mb = c.b.id === myId ? me.movedAt : (c.b.movedAt || 0);
-  return ma >= mb ? c.a.id : c.b.id;
-}
 const affLevel = (p) => p >= 100 ? '찐사랑' : p >= 60 ? '연애 중' : p >= 25 ? '설렘' : '썸';
+function homeOfCouple(c) {
+  const recs = [c.a, c.b].map((r) => r.home && r.home.with === (r === c.a ? c.b.id : c.a.id) ? r.home : null).filter(Boolean).sort((x, y) => x.at - y.at);
+  return recs[0] || null;
+}
+function houseOwners() { // 집 id -> 커플 (먼저 입주한 커플 우선)
+  const m = new Map();
+  couples.filter((c) => c.home).sort((x, y) => x.home.at - y.home.at).forEach((c) => { if (!m.has(c.home.id)) m.set(c.home.id, c); });
+  return m;
+}
+const myHouse = () => { const c = coupleOf.get(myId); if (!c || !c.home) return null; const own = houseOwners().get(c.home.id); return own === c ? HOUSES.find((h) => h.id === c.home.id) : null; };
 
 /* ---------- 주민 그리기 ---------- */
 function syncPeople() {
@@ -443,24 +649,27 @@ function syncPeople() {
       d = { x: s.x, y: s.y, el, sig: '', moving: false, left: false, frozen: 0, near: 0 };
       disp.set(r.id, d);
     }
-    const sig = r.nick + r.look.join();
-    if (d.sig !== sig) { d.el.innerHTML = `<span class="fig">${sprite(r.look)}${SNOWMAN_SM}</span><span class="tag">${esc(r.nick)}</span><span class="mark" hidden></span>`; d.sig = sig; }
+    const on = online(r) && !isMe(r.id);
+    const sig = r.nick + r.look.join() + (on ? 1 : 0);
+    if (d.sig !== sig) { d.el.innerHTML = `<span class="fig">${sprite(r.look)}${SNOWMAN_SM}<span class="arm"></span></span><span class="tag">${on ? '<i class="on" aria-hidden="true"></i>' : ''}${esc(r.nick)}</span><span class="mark" hidden></span>`; d.sig = sig; }
     const c = coupleOf.get(r.id);
     d.el.classList.toggle('me', isMe(r.id));
+    d.el.classList.toggle('cp', !!c);
     d.el.classList.toggle('love', !!c && c.type === 'love');
     d.el.classList.toggle('saju', !!c && c.type === 'saju');
     d.el.classList.toggle('sel', !!(sel && sel.id === r.id));
     const pr = c && residents.get(partnerIdOf(r.id));
-    d.el.setAttribute('aria-label', `${r.nick}${isMe(r.id) ? ' (나)' : ''}${pr ? `, ${pr.nick}와 ${c.type === 'love' ? '고백' : '사주'} 커플` : ', 솔로'}`);
+    d.el.setAttribute('aria-label', `${r.nick}${isMe(r.id) ? ' (나)' : ''}${pr ? `, ${pr.nick}와 ${c.type === 'love' ? '고백' : '사주'} 커플` : ', 솔로'}${on ? ', 접속 중' : ''}`);
     const mk = d.el.querySelector('.mark');
     const waiting = isMe(r.id) && r.confessTo && !(c && c.type === 'love');
     mk.hidden = !waiting; mk.textContent = waiting ? '💌' : '';
-    // 새 감정표현·말풍선·눈덩이·선물
-    const ev = (kind, val) => { if (!val || !val.at) return false; const prev = seen[kind].get(r.id); seen[kind].set(r.id, val.at); return !firstData && prev !== val.at && !(isMe(r.id) && kind !== 'gift'); };
+    const ev = (kind, val) => { if (!val || !val.at) return false; const prev = seen[kind].get(r.id); seen[kind].set(r.id, val.at); return !firstData && prev !== val.at && !(isMe(r.id) && !['gift', 'ans'].includes(kind)); };
     if (ev('emote', r.emote)) showBubble(r.id, r.emote.k, true);
     if (ev('say', r.say)) showBubble(r.id, r.say.t, false);
     if (ev('throw', r.throw)) spawnBall(r.id, r.throw);
-    if (r.gift && r.gift.at && ev('gift', r.gift) && r.gift.to === myId && ITEMS[r.gift.item]) receiveGift(r, r.gift.item);
+    if (r.gift && ev('gift', r.gift) && r.gift.to === myId && ITEMS[r.gift.item]) receiveGift(r, r.gift.item);
+    if (r.ask && ev('ask', r.ask) && r.ask.to === myId && ACTS[r.ask.act] && partnerIdOf(myId) === r.id) askIncoming(r);
+    if (r.ans && ev('ans', r.ans) && ACTS[r.ans.act]) handleAnswer(r);
   }
   // 커플 배지
   box.querySelectorAll('.cbadge').forEach((b) => { if (!couples.some((c) => 'cb' + c.key === b.id)) b.remove(); });
@@ -468,12 +677,21 @@ function syncPeople() {
     let b = document.getElementById('cb' + c.key);
     if (!b) { b = document.createElement('div'); b.className = 'cbadge'; b.id = 'cb' + c.key; box.appendChild(b); }
     const col = c.type === 'love' ? '#F0558A' : '#E58A1F', hi = c.type === 'love' ? '#FFD2E1' : '#FFE2B8';
-    const sigb = c.type + c.score + c.aff;
+    const g = groupOf.get(c.a.id), state = g && g.kind === 'double' ? '더블데이트 💕' : c.date ? '데이트 중 💕' : affLevel(c.aff);
+    const sigb = c.type + c.score + c.aff + state;
     if (b.dataset.sig !== sigb) {
       b.dataset.sig = sigb;
-      b.innerHTML = `<svg width="90" height="40" viewBox="0 0 90 40" style="position:absolute;left:10px;top:20px"><path d="M22 40 Q45 4 68 40" fill="none" stroke="${col}" stroke-width="2.5" stroke-dasharray="3 3"/></svg><span class="bob" style="position:absolute;left:44px;top:20px">${HEART(22, col, hi)}</span><b style="color:${col};border-color:${col}">${c.score}</b><span class="ttl" style="color:${col};border-color:${col}">${c.type === 'love' ? '고백 커플' : '사주 커플'} · ${affLevel(c.aff)}</span>${c.aff >= 100 ? '<span class="fwk" style="left:18px;top:14px;background:#FFD84D"></span><span class="fwk" style="left:80px;top:10px;background:#F0558A;animation-delay:.5s"></span><span class="fwk" style="left:50px;top:-4px;background:#5B8DEF;animation-delay:.9s"></span>' : ''}`;
+      b.innerHTML = `<svg width="90" height="40" viewBox="0 0 90 40" style="position:absolute;left:30px;top:20px"><path d="M22 40 Q45 4 68 40" fill="none" stroke="${col}" stroke-width="2.5" stroke-dasharray="3 3"/></svg><span class="bob" style="position:absolute;left:64px;top:20px">${HEART(22, col, hi)}</span><b style="color:${col};border-color:${col}">${c.score}</b><span class="ttl" style="color:${col};border-color:${col}">${c.type === 'love' ? '고백 커플' : '사주 커플'} · ${state}</span>${c.aff >= 100 ? '<span class="fwk" style="left:38px;top:14px;background:#FFD84D"></span><span class="fwk" style="left:100px;top:10px;background:#F0558A;animation-delay:.5s"></span><span class="fwk" style="left:70px;top:-4px;background:#5B8DEF;animation-delay:.9s"></span>' : ''}`;
     }
   }
+  // 집 문패
+  const own = houseOwners();
+  HOUSES.forEach((h) => {
+    const el = document.getElementById('plate-' + h.id); if (!el) return;
+    const c = own.get(h.id);
+    const html = c ? `<span class="plate">🏠 ${esc(c.a.nick)}♥${esc(c.b.nick)}</span>` : '<span class="plate vac">빈집 · 입주 가능</span>';
+    if (el.dataset.h !== html) { el.dataset.h = html; el.innerHTML = html; }
+  });
   $('stR').textContent = `주민 ${residents.size}`;
   $('stC').textContent = `커플 ${couples.length}`;
   $('stS').textContent = `솔로 ${residents.size - couples.length * 2}`;
@@ -486,13 +704,22 @@ function showBubble(id, text, emo) {
   d.el.appendChild(b); setTimeout(() => b.remove(), emo ? 3000 : 6000);
 }
 function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 3500); }
+function hearts(x, y, n = 6, emoji = null) {
+  const box = $('people');
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div'); el.className = 'hp';
+    el.style.transform = `translate(${Math.round(x - 10 + (Math.random() - .5) * 30)}px,${Math.round(y - 70)}px) ${BB}`;
+    el.innerHTML = `<span style="--dx:${Math.round((Math.random() - .5) * 40)}px;animation-delay:${(i * .15).toFixed(2)}s">${emoji ? `<b style="font-size:18px">${emoji}</b>` : HEART(16)}</span>`;
+    box.appendChild(el); setTimeout(() => el.remove(), 2400);
+  }
+}
 
-/* ---------- 아이템 (10분마다 새로 놓임, 모두에게 같은 위치) ---------- */
+/* ---------- 아이템 ---------- */
 let itemSlot = '', itemList = [];
 function itemsFor(slot) {
   const r = seeded(Number(slot) % 233280 + 7); const out = [];
   for (let i = 0; i < 14; i++) {
-    const x = 90 + r() * (MAPW - 180), y = 520 + r() * (MAPH - 640);
+    const x = 90 + r() * (MAPW - 180), y = 560 + r() * (MAPH - 680);
     const t = r(), type = t < .5 ? 'snow' : t < .7 ? 'cocoa' : t < .85 ? 'mitten' : 'gift';
     out.push({ id: slot + '-' + i, x: Math.round(x), y: Math.round(y), type });
   }
@@ -503,7 +730,7 @@ function syncItems() {
   const slot = String(Math.floor(Date.now() / 600000));
   if (slot !== itemSlot) { itemSlot = slot; itemList = itemsFor(slot); }
   const gone = pickedAll(), box = $('items');
-  box.innerHTML = itemList.filter((it) => !gone.has(it.id)).map((it) => `<div class="item" style="transform:translate(${it.x - 14}px,${it.y - 30}px) rotateX(-${TILT}deg)"><span class="bob" style="display:block">${ITEM_SVG[it.type]}</span></div>`).join('');
+  box.innerHTML = itemList.filter((it) => !gone.has(it.id)).map((it) => `<div class="item" style="transform:translate(${it.x - 14}px,${it.y - 30}px) ${BB}"><span class="bob" style="display:block">${ITEM_SVG[it.type]}</span></div>`).join('');
 }
 
 /* ---------- 눈덩이 ---------- */
@@ -516,9 +743,10 @@ function stepBalls(dt) {
   for (let i = balls.length - 1; i >= 0; i--) {
     const b = balls[i]; b.life += dt; const sp = 420 * dt; b.x += b.dx * sp; b.y += b.dy * sp;
     const arc = Math.sin(Math.min(1, b.life / .65) * Math.PI) * 26;
-    b.el.style.transform = `translate(${Math.round(b.x - 7)}px,${Math.round(b.y - 30 - arc)}px) rotateX(-${TILT}deg)`;
+    b.el.style.transform = `translate(${Math.round(b.x - 7)}px,${Math.round(b.y - 30 - arc)}px) ${BB}`;
+    const g = groupOf.get(b.owner);
     if (!b.hit) for (const [id, d] of disp) {
-      if (id === b.owner || id === partnerIdOf(b.owner) || d.frozen > performance.now()) continue;
+      if (id === b.owner || (g && g.members.includes(id)) || d.frozen > performance.now()) continue;
       if (Math.hypot(d.x - b.x, d.y - b.y) < 24) {
         b.hit = true; d.frozen = performance.now() + 3000;
         const who = residents.get(id), from = residents.get(b.owner);
@@ -533,6 +761,12 @@ function stepBalls(dt) {
 
 /* ---------- 매 프레임 ---------- */
 let last = performance.now(), uiKey = '';
+function leaderOfGroup(g) {
+  if (g.members.includes(myId) && me.moving) return myId;
+  let best = g.members[0], bt = -1;
+  for (const id of g.members) { const r = residents.get(id); const t2 = isMe(id) ? me.movedAt : (r && r.movedAt) || 0; if (t2 > bt) { bt = t2; best = id; } }
+  return best;
+}
 function frame(t) {
   const dt = Math.min(0.05, (t - last) / 1000); last = t;
   const m = mine(), joined = !!m;
@@ -543,38 +777,53 @@ function frame(t) {
   if (keys.has('ArrowDown') || keys.has('s')) vy += 1;
   const len = Math.hypot(vx, vy);
   const myD = disp.get(myId), frozen = myD && myD.frozen > t;
-  if (joined && len > 0.05 && !frozen) {
+  const myG = joined ? groupOf.get(myId) : null;
+  if (joined && len > 0.05 && !frozen && !$('room').open) {
     const startMove = !me.moving;
-    const k = Math.min(1, len) / len;
-    me.x = clamp(me.x + vx * k * SPEED * dt, 30, MAPW - 30);
-    me.y = clamp(me.y + vy * k * SPEED * dt, 60, MAPH - 20);
-    me.moving = true; cam.free = false; me.fx = vx; me.fy = vy;
+    const [wx, wy] = s2w(vx, vy), wl = Math.hypot(wx, wy) || 1, k = Math.min(1, len) / wl;
+    me.x = clamp(me.x + wx * k * SPEED * dt, 30, MAPW - 30);
+    me.y = clamp(me.y + wy * k * SPEED * dt, 470, MAPH - 20);
+    me.moving = true; cam.free = false; me.fx = wx; me.fy = wy;
+    if (startMove && sheetOpen && !sel && !nearHouse() && !SPOTS.some((q) => Math.hypot(q.x - me.x, q.y - me.y) < q.r)) { sheetOpen = false; renderCard(); }
     if (vx < -0.1) me.left = true; else if (vx > 0.1) me.left = false;
-    if (startMove) { me.movedAt = Date.now(); if (coupleOf.has(myId)) savePos(t, true); }
+    if (startMove) { me.movedAt = Date.now(); if (myG) savePos(t, true); }
     if (t - me.lastSave > SAVE_MS) savePos(t);
     me.misWalk += dt; if (me.misWalk >= 10) { me.misWalk = 0; misAdd('walk', 10); }
-    if (coupleOf.has(myId)) { me.walkAcc += dt; if (me.walkAcc >= 15) { me.walkAcc = 0; affAdd(1); } }
+    if (myG) { me.walkAcc += dt; if (me.walkAcc >= 15) { me.walkAcc = 0; affAdd(1); } me.togetherT += dt; }
   } else if (me.moving) { me.moving = false; savePos(t, true); }
-  // 위치: 커플은 앞장선 사람 옆에 붙어서 함께
-  const followers = new Map();
-  for (const c of couples) { const lead = leaderOf(c); const fol = lead === c.a.id ? c.b.id : c.a.id; followers.set(fol, { lead, side: fol < lead ? -1 : 1 }); }
-  const order = [...disp.keys()].sort((a, b) => (followers.has(a) ? 1 : 0) - (followers.has(b) ? 1 : 0));
+  // 위치: 커플·더블데이트는 앞장선 사람 기준으로 나란히
+  const slot = new Map();
+  for (const g of groups) {
+    const lead = leaderOfGroup(g), n = g.members.length, gap = g.kind === 'couple' ? 32 : 26;
+    g.members.forEach((id, i) => slot.set(id, { lead, off: (i - (n - 1) / 2) * gap, i, n, g }));
+  }
+  const order = [...disp.keys()].sort((a, b) => ((slot.get(a) && slot.get(a).lead !== a) ? 1 : 0) - ((slot.get(b) && slot.get(b).lead !== b) ? 1 : 0));
   for (const id of order) {
-    const d = disp.get(id); const f = followers.get(id);
-    if (f && disp.get(f.lead)) {
-      const L2 = disp.get(f.lead); const tx = L2.x + f.side * 32, ty = L2.y + 1;
+    const d = disp.get(id); const s = slot.get(id);
+    if (s && s.lead !== id && disp.get(s.lead)) {
+      const Ld = disp.get(s.lead), Ls = slot.get(s.lead);
+      let off = s.off - Ls.off;
+      const an = anims.get(s.g.cs.find((c) => c.a.id === id || c.b.id === id)?.key);
+      if (an && an.until > t && s.g.kind !== 'double') off = Math.sign(off) * (an.act === 'hug' ? 14 : an.act === 'kiss' ? 20 : 28);
+      const tx = Ld.x + off * S2 + 1, ty = Ld.y - off * S2 + 1;
       const dd = Math.hypot(tx - d.x, ty - d.y);
       if (dd > 400) { d.x = tx; d.y = ty; } else { const a = Math.min(1, dt * 10); d.x += (tx - d.x) * a; d.y += (ty - d.y) * a; }
-      d.moving = L2.moving || dd > 3; d.left = L2.left;
+      d.moving = Ld.moving || dd > 3; d.left = Ld.left;
       if (isMe(id)) { me.x = d.x; me.y = d.y; }
     } else if (isMe(id)) { d.x = me.x; d.y = me.y; d.moving = me.moving; d.left = me.left; }
     else {
       const r = residents.get(id); const dx = r.x - d.x, dy = r.y - d.y, dd = Math.hypot(dx, dy);
       if (dd > 600) { d.x = r.x; d.y = r.y; d.moving = false; }
-      else if (dd > 1) { const step = Math.min(dd, SPEED * 1.1 * dt); d.x += dx / dd * step; d.y += dy / dd * step; d.moving = true; if (Math.abs(dx) > 1) d.left = dx < 0; }
+      else if (dd > 1) { const step = Math.min(dd, SPEED * 1.1 * dt); d.x += dx / dd * step; d.y += dy / dd * step; d.moving = true; if (Math.abs(dx - dy) > 1) d.left = dx - dy < 0; }
       else d.moving = false;
     }
-    d.el.style.transform = `translate(${Math.round(d.x - 22)}px,${Math.round(d.y - 70)}px) rotateX(-${TILT}deg)`;
+    // 데이트 중 어깨동무 / 뽀뽀 때 마주 보기
+    let lean = '';
+    if (s && s.g.kind !== 'couple') { const c = s.g.cs.find((k) => k.a.id === id || k.b.id === id); const pid = c.a.id === id ? c.b.id : c.a.id; const p = disp.get(pid); if (p) lean = scrX(p.x, p.y) > scrX(d.x, d.y) ? 'r' : 'l'; }
+    const an = s && anims.get(coupleOf.get(id)?.key);
+    if (an && an.until > t) { const p = disp.get(partnerIdOf(id)); if (p) { lean = an.act === 'hand' ? '' : (scrX(p.x, p.y) > scrX(d.x, d.y) ? 'r' : 'l'); if (an.act === 'kiss') d.left = scrX(p.x, p.y) < scrX(d.x, d.y); } }
+    d.el.classList.toggle('lean-r', lean === 'r'); d.el.classList.toggle('lean-l', lean === 'l');
+    d.el.style.transform = `translate(${Math.round(d.x - 22)}px,${Math.round(d.y - 70)}px) ${BB}`;
     d.el.classList.toggle('walking', d.moving);
     d.el.classList.toggle('left', d.left);
     d.el.classList.toggle('frozen', d.frozen > t);
@@ -582,39 +831,109 @@ function frame(t) {
   for (const c of couples) {
     const a = disp.get(c.a.id), b = disp.get(c.b.id), el = document.getElementById('cb' + c.key);
     if (!a || !b || !el) continue;
-    const cx = (a.x + b.x) / 2, cy = Math.max(a.y, b.y) + 2;
-    el.style.transform = `translate(${Math.round(cx - 55)}px,${Math.round(cy - 60)}px) rotateX(-${TILT}deg) translateY(-70px)`;
+    const cx = (a.x + b.x) / 2 + 2, cy = (a.y + b.y) / 2 + 2;
+    const gg = groupOf.get(c.a.id), lift = gg && gg.kind === 'double' && gg.cs[1] === c ? 92 : 70;
+    el.style.transform = `translate(${Math.round(cx - 75)}px,${Math.round(cy - 60)}px) ${BB} translateY(-${lift}px)`;
   }
-  stepBalls(dt);
-  // 아이템 줍기
-  if (joined && !frozen) {
-    const gone = pickedAll();
-    for (const it of itemList) if (!gone.has(it.id) && Math.hypot(it.x - me.x, it.y - me.y) < 34) { pickItem(it); break; }
-  }
-  // 질투: 다른 주민이 내 짝 곁에 4초 이상
+  stepBalls(dt); stepPets(dt, t);
+  if (joined && !frozen) { const gone = pickedAll(); for (const it of itemList) if (!gone.has(it.id) && Math.hypot(it.x - me.x, it.y - me.y) < 34) { pickItem(it); break; } }
+  // 질투
   const pid = joined && partnerIdOf(myId);
   if (pid) {
-    const pd = disp.get(pid);
+    const pd = disp.get(pid), gm = myG ? myG.members : [];
     for (const [id, d] of disp) {
-      if (id === myId || id === pid || !pd) continue;
-      if (Math.hypot(d.x - pd.x, d.y - pd.y) < 60) { d.near = (d.near || 0) + dt; if (d.near > 4 && !d.jealous) { d.jealous = true; const r = residents.get(id), p = residents.get(pid); toast(`${r ? r.nick : '누군가'}님이 ${p ? p.nick : '짝'}님 곁을 맴돌아요… 😤 질투 중`); myD && showBubble(myId, '😤', true); } }
+      if (id === myId || id === pid || gm.includes(id) || !pd) continue;
+      if (Math.hypot(d.x - pd.x, d.y - pd.y) < 60) { d.near = (d.near || 0) + dt; if (d.near > 4 && !d.jealous) { d.jealous = true; const r = residents.get(id), p = residents.get(pid); toast(`${r ? r.nick : '누군가'}님이 ${p ? p.nick : '짝'}님 곁을 맴돌아요… 😤 질투 중`); showBubble(myId, '😤', true); } }
       else { d.near = 0; d.jealous = false; }
     }
   }
+  if (joined) datePrompts(dt);
   // 카메라
   const W = vp.clientWidth, H = vp.clientHeight;
   if (joined && !cam.free) { cam.x += (me.x - cam.x) * Math.min(1, dt * 8); cam.y += (me.y - cam.y) * Math.min(1, dt * 8); }
-  cam.x = clamp(cam.x, 120, MAPW - 120); cam.y = clamp(cam.y, 260, MAPH - 60);
-  world.style.transform = `translate(${Math.round(W / 2 - cam.x)}px,${Math.round(H * 0.62 - cam.y)}px)`;
+  cam.x = clamp(cam.x, 40, MAPW - 40); cam.y = clamp(cam.y, 380, MAPH - 40);
+  world.style.transform = `translate(${Math.round(W / 2 - cam.x)}px,${Math.round(H * 0.45 - cam.y)}px)`;
   $('tome').hidden = !(joined && cam.free);
-  // 카드 갱신 조건 (거리·데이트 장소)
   if (joined) {
     let k = '';
     if (sel && sel.id) { const p = posOf(sel.id); k += p && dist(p, me) <= RANGE ? 'R' : 'r'; }
     const sp = coupleOf.has(myId) ? SPOTS.find((s) => Math.hypot(s.x - me.x, s.y - me.y) < s.r) : null; k += sp ? sp.id : '-';
-    if (k !== uiKey) { uiKey = k; renderCard(); }
+    const hs = nearHouse(); k += hs ? hs.id : '-';
+    if (k !== uiKey) { const arrive = (sp && !uiKey.includes(sp.id)) || (hs && !uiKey.includes(hs.id)); uiKey = k; if (arrive) sheetOpen = true; renderCard(); }
   }
   requestAnimationFrame(frame);
+}
+const nearHouse = () => HOUSES.find((h) => Math.hypot(h.x + 24 - me.x, (h.y + 112) - me.y) < 70);
+
+/* ---------- 데이트 팝업 ---------- */
+function datePrompts(dt) {
+  const c = coupleOf.get(myId); const g = groupOf.get(myId);
+  const dlgOpen = !!document.querySelector('dialog[open]');
+  const bar = $('datebar');
+  bar.hidden = !(g && g.kind !== 'couple');
+  if (g && g.kind === 'double') { const o = g.cs.find((k) => k !== c); bar.textContent = `더블데이트 중 · ${o.a.nick}♥${o.b.nick} 커플과 함께 💕`; }
+  else if (g && g.kind === 'date') bar.textContent = '커플 데이트 중 💕 어깨동무하고 걷는 중';
+  if (!c || dlgOpen) return;
+  const now = Date.now();
+  // 1) 같이 걷다 보면 커플 데이트 제안
+  if (!c.date && g && g.kind === 'couple' && me.togetherT > 6 && now > snooze.date) {
+    me.togetherT = 0; const p = residents.get(partnerIdOf(myId));
+    showAsk('커플 데이트 하시겠습니까? 💕', `${p.nick}님과 함께 걷고 있어요. 데이트를 시작하면 어깨동무하고 걸어요.`, [['좋아요, 데이트할래요', 'startDate', ''], ['나중에', 'snoozeDate', 'ghost']]);
+    return;
+  }
+  // 2) 두 커플이 함께 다니면 더블데이트 제안
+  if (g && g.kind !== 'double' && now > snooze.dd) {
+    const myCx = disp.get(myId);
+    const other = couples.find((o) => o !== c && !(groupOf.get(o.a.id) && groupOf.get(o.a.id).kind === 'double') && disp.get(o.a.id) && myCx && dist(disp.get(o.a.id), myCx) < 150);
+    if (other) { me.ddT += dt; if (me.ddT > 5) { me.ddT = 0; showAsk('더블 데이트 하시겠습니까? 💞', `${other.a.nick}♥${other.b.nick} 커플과 함께 다니고 있어요. 더블 데이트를 시작하면 네 명이 나란히 어깨동무하고 걸어요.`, [['좋아요!', 'startDD:' + other.key, ''], ['나중에', 'snoozeDD', 'ghost']]); return; } }
+    else me.ddT = 0;
+  }
+  // 3) 데이트 중이면 가끔 스킨십 제안 (짝이 접속 중일 때만)
+  if (g && g.kind !== 'couple') {
+    me.dateT += dt;
+    const p = residents.get(partnerIdOf(myId));
+    if (me.dateT > 40 && now > snooze.skin && online(p)) {
+      me.dateT = 0;
+      showAsk('분위기가 무르익었어요 💗', `${p.nick}님에게 무엇을 해 볼까요? 상대가 수락해야 동작해요.`, [...Object.entries(ACTS).map(([k, v]) => [`${v[1]} ${v[0]}`, 'skin:' + k, '']), ['나중에', 'snoozeSkin', 'ghost']], true);
+    }
+  }
+}
+function showAsk(title, desc, btns, grid = false) {
+  $('askT').textContent = title; $('askD').textContent = desc;
+  $('askB').className = grid ? 'choices' : 'actions';
+  $('askB').innerHTML = btns.map(([label, a, cls]) => `<button class="btn ${cls}" type="button" data-ask="${esc(a)}">${esc(label)}</button>`).join('');
+  try { $('ask').showModal(); } catch (e) { $('ask').setAttribute('open', ''); }
+}
+$('askB').addEventListener('click', async (e) => {
+  const a = e.target.closest('[data-ask]')?.dataset.ask; if (!a) return;
+  $('ask').close();
+  const pid = partnerIdOf(myId), now = Date.now();
+  if (a === 'startDate' && pid) { await write({ date: { with: pid, on: true, at: now } }).catch(() => {}); toast('커플 데이트 시작! 💕'); hearts(me.x, me.y); }
+  if (a === 'snoozeDate') snooze.date = now + 3 * 60000;
+  if (a.startsWith('startDD:')) { await write({ ddate: { key: a.slice(8), on: true, at: now } }).catch(() => {}); toast('더블 데이트 시작! 💞'); hearts(me.x, me.y, 8); }
+  if (a === 'snoozeDD') snooze.dd = now + 3 * 60000;
+  if (a === 'snoozeSkin') snooze.skin = now + 2 * 60000;
+  if (a.startsWith('skin:') && pid) { const act = a.slice(5); await write({ ask: { to: pid, act, at: now } }).catch(() => {}); toast(`${residents.get(pid).nick}님에게 ${ACTS[act][1]} ${ACTS[act][0]}를 물어봤어요`); }
+  if (a.startsWith('reply:')) { const [, act, ok, to] = a.split(':'); await write({ ans: { to, act, ok: ok === '1', at: now } }).catch(() => {}); if (ok === '1') affAdd(ACTS[act][3]); }
+  renderCard();
+});
+function askIncoming(r) {
+  const [name, icon, q] = ACTS[r.ask.act];
+  const open = () => showAsk(`${r.nick}님의 마음 ${icon}`, `${r.nick}님이 "${q}" 하고 물어봐요.`, [[`좋아요 ${icon}`, `reply:${r.ask.act}:1:${r.id}`, ''], ['다음에', `reply:${r.ask.act}:0:${r.id}`, 'ghost']]);
+  if (document.querySelector('dialog[open]')) setTimeout(() => { if (!document.querySelector('dialog[open]')) open(); }, 1500); else open();
+}
+function handleAnswer(r) {
+  const to = residents.get(r.ans.to); if (!to) return;
+  const c = coupleOf.get(r.id); if (!c || partnerIdOf(r.id) !== to.id) return;
+  if (r.ans.ok) {
+    const act = r.ans.act; anims.set(c.key, { act, until: performance.now() + (act === 'hand' ? 8000 : act === 'hug' ? 3500 : 2500) });
+    const a = disp.get(r.id), b = disp.get(to.id); const x = a && b ? (a.x + b.x) / 2 : me.x, y = a && b ? Math.max(a.y, b.y) : me.y;
+    hearts(x, y, act === 'kiss' ? 8 : 5, act === 'hand' ? '🤝' : act === 'hug' ? null : null);
+    showBubble(r.id, ACTS[act][1], true); showBubble(to.id, act === 'kiss' ? '쪽♥' : ACTS[act][1], act !== 'kiss');
+    if (isMe(to.id)) toast(`${r.nick}님이 수락했어요! ${ACTS[act][1]}`);
+    if (isMe(r.id)) toast(`${to.nick}님과 ${ACTS[act][0].replace('하기', '')}! ${ACTS[act][1]}`);
+    if (isMe(to.id)) affAdd(ACTS[act][3]);
+  } else if (isMe(to.id)) toast(`${r.nick}님이 다음에 하재요 😳`);
 }
 
 /* ---------- 저장 ---------- */
@@ -631,8 +950,9 @@ function savePos(t, force) {
   const x = Math.round(me.x), y = Math.round(me.y);
   if (!force && Math.abs(x - me.savedX) < 3 && Math.abs(y - me.savedY) < 3) return;
   me.savedX = x; me.savedY = y;
-  write({ x, y, movedAt: me.movedAt || Date.now() }).catch(() => {});
+  write({ x, y, movedAt: me.movedAt || Date.now(), ping: Date.now() }).catch(() => {});
 }
+setInterval(() => { if (mine() && document.visibilityState === 'visible') write({ ping: Date.now() }).catch(() => {}); }, 90000);
 function affAdd(n) {
   const pid = partnerIdOf(myId); if (!pid) return;
   const cur = L.aff.with === pid ? L.aff.pts : 0;
@@ -657,9 +977,8 @@ function pickItem(it) {
 function receiveGift(from, item) {
   L.inv[item] = (L.inv[item] || 0) + 1;
   write({ inv: { ...L.inv } }).catch(() => {});
-  const pid = partnerIdOf(myId);
   toast(`${from.nick}님이 ${eul(ITEMS[item])} 선물했어요! 🎁`);
-  if (pid === from.id) notice = `내 짝 ${from.nick}님의 선물이에요. 호감도가 올랐어요 💗`;
+  if (partnerIdOf(myId) === from.id) notice = `내 짝 ${from.nick}님의 선물이에요. 호감도가 올랐어요 💗`;
   renderCard();
 }
 
@@ -670,7 +989,6 @@ async function reconcile() {
   fixing = true;
   try {
     const c = coupleOf.get(myId), pid = c ? partnerIdOf(myId) : null;
-    // 짝 변화 알림
     const nowP = pid ? { id: pid, type: c.type } : null;
     if (prevPartner && (!nowP || nowP.id !== prevPartner.id)) {
       const old = residents.get(prevPartner.id), oc = old && coupleOf.get(old.id);
@@ -682,7 +1000,6 @@ async function reconcile() {
     }
     if (nowP && (!prevPartner || prevPartner.id !== nowP.id) && !notice) notice = nowP.type === 'saju' ? `사주 궁합으로 ${residents.get(nowP.id).nick}님과 커플이 됐어요! 💛` : `${residents.get(nowP.id).nick}님과 고백 커플이 됐어요! 💕`;
     prevPartner = nowP;
-    // 데이터 정리
     const lovePartner = c && c.type === 'love' ? pid : null;
     if (m.partner && m.partner !== lovePartner) await write({ partner: null });
     else if (m.confessTo && lovePartner === m.confessTo) await write({ partner: m.confessTo, confessTo: null, auto: false });
@@ -716,13 +1033,15 @@ $('no').addEventListener('click', async () => { const id = $('cfm').dataset.from
 
 /* ---------- 정보 카드 ---------- */
 function renderCard() {
-  const ct = $('ct'), cd = $('cd'), why = $('why'), act = $('actions'), note = $('note'), hearts = $('hearts');
-  ct.style.color = 'var(--pink)'; why.innerHTML = ''; act.innerHTML = ''; hearts.hidden = true;
+  const ct = $('ct'), cd = $('cd'), why = $('why'), act = $('actions'), note = $('note'), hearts2 = $('hearts');
+  ct.style.color = 'var(--pink)'; why.innerHTML = ''; act.innerHTML = ''; hearts2.hidden = true;
   note.hidden = !notice; note.textContent = notice;
+  if (notice && notice !== renderCard.lastNotice) sheetOpen = true; renderCard.lastNotice = notice;
+  $('sheet').classList.toggle('min', !sheetOpen); $('tog').textContent = sheetOpen ? '▼' : '▲'; $('tog').setAttribute('aria-expanded', sheetOpen); $('tog').setAttribute('aria-label', sheetOpen ? '정보 접기' : '정보 펼치기');
   const m = mine();
   const tags = (list) => { why.innerHTML = list.map(([t, g]) => `<span class="${g ? '' : 'neg'}">${esc(t)}</span>`).join(''); };
   const btn = (a, label, cls = '', dis = false) => act.insertAdjacentHTML('beforeend', `<button class="btn ${cls}" type="button" data-a="${a}"${dis ? ' disabled' : ''}>${label}</button>`);
-  const heartBar = (p) => { hearts.hidden = false; const n = Math.round(p / 10); hearts.textContent = `호감도 ${'💗'.repeat(n)}${'🤍'.repeat(10 - n)} ${p}/100`; };
+  const heartBar = (p) => { hearts2.hidden = false; const n = Math.round(p / 10); hearts2.textContent = `호감도 ${'💗'.repeat(n)}${'🤍'.repeat(10 - n)} ${p}/100`; };
   if (!loaded) { ct.textContent = '마을을 불러오는 중이에요'; cd.textContent = '잠시만 기다려 주세요.'; return; }
   if (sel && sel.obj === 'well') {
     const W = ['동전이 퐁당! 눈 내리는 밤에 좋은 인연이 온대요.', '소원 접수 완료. 오늘은 고백 운이 좋아요.', '우물 속 얼음에 하트가 비쳤어요.', '눈송이가 내려앉았어요. 지금 마음을 전해 보세요.'];
@@ -730,14 +1049,14 @@ function renderCard() {
     btn('close', '닫기', 'ghost'); return;
   }
   const r = sel && sel.id && residents.get(sel.id);
-  const myC = m && coupleOf.get(myId), myPid = myC && partnerIdOf(myId);
+  const myC = m && coupleOf.get(myId), myPid = myC && partnerIdOf(myId), myG = m && groupOf.get(myId);
   if (r && !isMe(r.id)) {
     const rc = coupleOf.get(r.id), rp = rc && residents.get(partnerIdOf(r.id));
     const s = m ? scoreOf(m, r) : null;
     const p = posOf(r.id), near = m && p && dist(p, me) <= RANGE;
     ct.textContent = s ? `${r.nick} · 나와 궁합 ${s.score}점` : r.nick; if (s) tags(s.why);
     if (myPid === r.id) {
-      cd.textContent = `나의 ${myC.type === 'love' ? '고백' : '사주'} 짝이에요. 손잡고 같이 걸어요.`; heartBar(myC.aff);
+      cd.textContent = `나의 ${myC.type === 'love' ? '고백' : '사주'} 짝이에요.${online(r) ? ' 지금 접속 중이에요.' : ' 지금은 접속해 있지 않아요.'}`; heartBar(myC.aff);
       btn('break', breaking ? '정말 이별할래요' : '이별 통보', 'ghost');
     } else {
       cd.textContent = rp ? `${rp.nick}님과 ${rc.type === 'love' ? '고백' : '사주'} 커플이에요.` : '솔로예요.';
@@ -755,31 +1074,38 @@ function renderCard() {
   }
   if (m) {
     const spot = myC ? SPOTS.find((s2) => Math.hypot(s2.x - me.x, s2.y - me.y) < s2.r) : null;
+    const hs = nearHouse(), own = houseOwners(), hOwner = hs && own.get(hs.id), mh = myHouse();
     if (myC) {
       const pr = residents.get(myPid);
       ct.style.color = myC.type === 'love' ? 'var(--pink)' : '#B5650E';
       ct.textContent = `나 ♥ ${pr.nick} · ${myC.type === 'love' ? '고백' : '사주'} 커플 ${myC.score}점`;
-      cd.textContent = spot ? `${spot.name}에 왔어요. 기념사진을 찍어 볼까요?` : '함께 걷고, 선물하고, 데이트 장소에서 사진을 찍으면 호감도가 올라요.';
+      cd.textContent = myG && myG.kind === 'double' ? '더블 데이트 중이에요! 네 명이 나란히 걸어요.' : myC.date ? '데이트 중이에요. 어깨동무하고 걸어요 💕' : spot ? `${spot.name}에 왔어요. 기념사진을 찍어 볼까요?` : '함께 걷다 보면 데이트를 할 수 있어요.';
+      if (hs && !hOwner) cd.textContent = `빈 통나무집이에요. ${mh ? '이 집으로 이사할까요?' : '여기에 둘이 입주할까요?'}`;
+      if (hs && hOwner === myC) cd.textContent = '우리 집 앞이에요. 들어가 볼까요?';
       heartBar(myC.aff); tags(myC.why);
-      if (spot) btn('photo', '📸 기념사진 찍기', '');
-      btn('album', '커플 앨범', 'ghost');
+      if (hs && !hOwner) btn('movein', mh ? '🏠 이 집으로 이사하기' : '🏠 이 집에 입주하기', 'home');
+      if (hs && hOwner) btn('enter', hOwner === myC ? '🏠 우리 집 들어가기' : `🏠 ${hOwner.a.nick}♥${hOwner.b.nick}네 구경하기`, 'home');
+      if (spot) btn('photo', '📸 기념사진', '');
+      if (myC.date || (myG && myG.kind === 'double')) btn('endDate', '데이트 끝내기', 'ghost');
+      else btn('startDateNow', '💕 데이트하기', '');
+      btn('album', '앨범', 'ghost');
     } else if (m.confessTo && residents.get(m.confessTo)) { ct.textContent = '고백 대기 중 💌'; cd.textContent = `${residents.get(m.confessTo).nick}님에게 고백하고 답을 기다리고 있어요.`; btn('cancelc', '고백 취소', 'ghost'); }
     else {
       ct.style.color = '#2B3A5E'; ct.textContent = '나는 지금 솔로';
       cd.textContent = m.auto === false ? '사주 자동 매칭이 꺼져 있어요. 마음에 드는 주민에게 가까이 가서 고백해 보세요.' : `${THRESHOLD}점 이상인 솔로 주민이 오면 사주 궁합으로 자동 매칭돼요. 기다리지 않고 직접 고백해도 돼요.`;
+      if (hs && hOwner) { cd.textContent = `${hOwner.a.nick}♥${hOwner.b.nick} 커플의 집이에요.`; btn('enter', '🏠 구경하기', 'home'); }
+      else if (hs) cd.textContent = '빈 통나무집이에요. 커플이 되면 입주할 수 있어요.';
       if (m.auto === false) btn('autoOn', '사주 자동 매칭 켜기', 'saju');
-      btn('album', '커플 앨범', 'ghost');
     }
     btn('edit', '내 정보', 'ghost'); btn('leave', leaving ? '정말 나갈래요' : '마을 나가기', 'ghost');
   } else {
     ct.textContent = '궁합 마을에 오신 걸 환영해요';
-    cd.textContent = '입장하면 사주 궁합으로 짝이 정해지고, 눈 내리는 마을을 함께 걸으며 놀 수 있어요. 지도를 끌어서 구경해 보세요.';
+    cd.textContent = '입장하면 사주 궁합으로 짝이 정해지고, 얼음 바다 옆 눈 마을을 함께 걸으며 데이트할 수 있어요. 지도를 끌어서 구경해 보세요.';
     btn('join', '마을에 입장하기', '', !api || !myId);
   }
 }
 $('actions').addEventListener('click', async (e) => {
   const a = e.target.closest('button[data-a]')?.dataset.a; if (!a) return;
-  const m = mine();
   if (a === 'close') { sel = null; breaking = false; uiKey = ''; syncPeople(); renderCard(); }
   if (a === 'join' || a === 'edit') openForm();
   if (a === 'confess' && sel) { try { await write({ confessTo: sel.id, confessAt: Date.now() }); notice = '고백했어요! 답을 기다려 봐요 💌'; } catch (x) { notice = '고백을 보내지 못했어요.'; } renderCard(); }
@@ -787,10 +1113,14 @@ $('actions').addEventListener('click', async (e) => {
   if (a === 'break') {
     if (!breaking) { breaking = true; renderCard(); setTimeout(() => { breaking = false; renderCard(); }, 4000); return; }
     breaking = false; const c = coupleOf.get(myId);
-    try { await write({ partner: null, confessTo: null, auto: false, x: Math.round(me.x), y: Math.round(me.y), movedAt: Date.now() }); notice = c && c.type === 'saju' ? '이별을 통보했어요. 이제 솔로라서 다른 주민에게 고백할 수 있어요.' : '헤어졌어요. 이제 다른 주민에게 고백할 수 있어요.'; prevPartner = null; } catch (x) {}
+    try { await write({ partner: null, confessTo: null, auto: false, x: Math.round(me.x), y: Math.round(me.y), movedAt: Date.now(), date: null, ddate: null }); notice = c && c.type === 'saju' ? '이별을 통보했어요. 이제 솔로라서 다른 주민에게 고백할 수 있어요.' : '헤어졌어요. 이제 다른 주민에게 고백할 수 있어요.'; prevPartner = null; } catch (x) {}
     sel = null; renderCard();
   }
   if (a === 'autoOn') { try { await write({ auto: true }); notice = '사주 자동 매칭을 켰어요.'; } catch (x) {} renderCard(); }
+  if (a === 'startDateNow') { const pid = partnerIdOf(myId); if (pid) { await write({ date: { with: pid, on: true, at: Date.now() } }).catch(() => {}); toast('커플 데이트 시작! 💕'); hearts(me.x, me.y); } }
+  if (a === 'endDate') { const now = Date.now(), g = groupOf.get(myId), f = { date: { with: partnerIdOf(myId), on: false, at: now } }; if (g && g.kind === 'double') f.ddate = { key: g.cs.find((k) => k !== coupleOf.get(myId)).key, on: false, at: now }; await write(f).catch(() => {}); notice = '데이트를 마쳤어요. 즐거웠어요 💕'; renderCard(); }
+  if (a === 'movein') { const hs = nearHouse(), pid = partnerIdOf(myId); if (hs && pid) { await write({ home: { id: hs.id, with: pid, at: Date.now(), wall: 'pink' } }).catch(() => {}); notice = `통나무집에 입주했어요! 🏠 문 앞에서 '우리 집 들어가기'를 눌러 보세요.`; hearts(me.x, me.y, 6); } }
+  if (a === 'enter') { const hs = nearHouse(); if (hs) openRoom(hs); }
   if (a === 'photo') takePhoto();
   if (a === 'album') openAlbum();
   if (a === 'giftTo') openBag();
@@ -798,6 +1128,92 @@ $('actions').addEventListener('click', async (e) => {
     if (!leaving) { leaving = true; renderCard(); setTimeout(() => { leaving = false; renderCard(); }, 4000); return; }
     leaving = false; try { await api.remove(); notice = '마을에서 나왔어요. 언제든 다시 들어올 수 있어요.'; sel = null; prevPartner = null; } catch (x) { notice = '나가기에 실패했어요.'; } renderCard();
   }
+});
+
+/* ---------- 커플 집 (아이소메트릭 방) ---------- */
+const P = (u, v, h = 0) => [160 + 140 * u - 140 * v, 120 + 70 * u + 70 * v - h];
+const poly = (pts, fill, extra = '') => `<polygon points="${pts.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ')}" fill="${fill}" stroke="#7A3A55" stroke-width="1" ${extra}/>`;
+function isoBox(u, v, du, dv, h, top, left, right, z = 0) {
+  return poly([P(u, v + dv, z), P(u + du, v + dv, z), P(u + du, v + dv, z + h), P(u, v + dv, z + h)], left)
+    + poly([P(u + du, v, z), P(u + du, v + dv, z), P(u + du, v + dv, z + h), P(u + du, v, z + h)], right)
+    + poly([P(u, v, z + h), P(u + du, v, z + h), P(u + du, v + dv, z + h), P(u, v + dv, z + h)], top);
+}
+function roomSVG(c, wall) {
+  const W = WALLS[wall] || WALLS.pink;
+  const ph = [c.a, c.b].flatMap((r) => (r.photos || []).filter((x) => x.with === (r === c.a ? c.b.id : c.a.id))).sort((x, y) => y.at - x.at)[0];
+  const sp = ph && SPOTS.find((s) => s.id === ph.spot);
+  const patt = wall === 'mint' ? `<rect width="16" height="16" fill="${W[1]}"/><rect width="8" height="8" fill="${W[2]}"/><rect x="8" y="8" width="8" height="8" fill="${W[2]}"/>` : wall === 'sky' ? `<rect width="16" height="16" fill="${W[1]}"/><path d="M8 3l1.2 3h3l-2.4 2 1 3-2.8-1.8L5.2 11l1-3L3.8 6h3z" fill="#fff"/>` : `<rect width="16" height="16" fill="${W[1]}"/><path d="M8 12 L4 8 a2 2 0 0 1 4-2 a2 2 0 0 1 4 2z" fill="${W[2]}"/>`;
+  let s = `<svg viewBox="0 0 320 280" role="img" aria-label="${esc(c.a.nick)}와 ${esc(c.b.nick)}의 방"><defs><pattern id="wp" width="16" height="16" patternUnits="userSpaceOnUse">${patt}</pattern><pattern id="fl" width="20" height="10" patternUnits="userSpaceOnUse"><rect width="20" height="10" fill="#EBC79E"/><rect width="20" height="1" fill="#C99A66"/><rect x="10" y="1" width="1" height="9" fill="#D9AE7E"/></pattern></defs>`;
+  // 무지개·구름 장식
+  s += '<path d="M2 270 A70 70 0 0 1 72 200" stroke="#FF9DB8" stroke-width="6" fill="none"/><path d="M8 270 A64 64 0 0 1 72 206" stroke="#FFD66B" stroke-width="6" fill="none"/><path d="M14 270 A58 58 0 0 1 72 212" stroke="#9AD4B0" stroke-width="6" fill="none"/><path d="M20 270 A52 52 0 0 1 72 218" stroke="#9DC3F5" stroke-width="6" fill="none"/><g fill="#fff"><ellipse cx="30" cy="262" rx="26" ry="10"/><ellipse cx="290" cy="40" rx="22" ry="9"/><ellipse cx="305" cy="34" rx="14" ry="8"/></g><g fill="#FFD84D" class="tw"><path d="M290 90l3 7h7l-6 4 2 7-6-4-6 4 2-7-6-4h7z"/></g><g fill="#fff" class="tw" style="animation-delay:.8s"><path d="M30 40l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z"/></g>';
+  // 벽·바닥
+  s += poly([P(0, 0), P(1, 0), P(1, 0, 120), P(0, 0, 120)], 'url(#wp)') + poly([P(0, 0), P(0, 1), P(0, 1, 120), P(0, 0, 120)], 'url(#wp)');
+  s += poly([P(0, 1), P(0, 0), P(0, 0, 8), P(0, 1, 8)], '#F7A8C6') + poly([P(0, 0), P(1, 0), P(1, 0, 8), P(0, 0, 8)], '#F7A8C6');
+  s += poly([P(0, 0), P(1, 0), P(1, 1), P(0, 1)], 'url(#fl)');
+  // 창문 (왼쪽 벽)
+  s += poly([P(0, .42, 50), P(0, .72, 50), P(0, .72, 98), P(0, .42, 98)], '#BFE3FF') + poly([P(0, .56, 50), P(0, .58, 50), P(0, .58, 98), P(0, .56, 98)], '#fff');
+  s += poly([P(0, .36, 46), P(0, .45, 46), P(0, .45, 102), P(0, .36, 102)], '#FFB3CF') + poly([P(0, .69, 46), P(0, .78, 46), P(0, .78, 102), P(0, .69, 102)], '#FFB3CF');
+  // 사진 액자 (오른쪽 벽)
+  s += poly([P(.18, 0, 58), P(.42, 0, 58), P(.42, 0, 98), P(.18, 0, 98)], '#fff') + poly([P(.21, 0, 62), P(.39, 0, 62), P(.39, 0, 94), P(.21, 0, 94)], sp ? sp.bg : '#FFE3EC');
+  const fc = P(.3, 0, 78); s += `<g transform="translate(${fc[0] - 9},${fc[1] - 8})">${HEART(18)}</g>`;
+  // 벽 장식: 꼬마전구 줄, 시계, 선반
+  for (let i = 0; i < 9; i++) { const v = .06 + i * .11, q = P(0, v, 110 - Math.sin(i * 1.1) * 3); s += `<circle class="tw" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="3" fill="${['#FF8FB1','#FFD66B','#7FD8E8','#B79CFF'][i % 4]}" style="animation-delay:${(i * .2).toFixed(1)}s"/>`; }
+  for (let i = 0; i < 9; i++) { const u = .06 + i * .11, q = P(u, 0, 110 - Math.sin(i * 1.1) * 3); s += `<circle class="tw" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="3" fill="${['#B79CFF','#FF8FB1','#FFD66B','#7FD8E8'][i % 4]}" style="animation-delay:${(i * .2 + .1).toFixed(1)}s"/>`; }
+  const ck = P(.88, 0, 92); s += `<ellipse cx="${ck[0]}" cy="${ck[1]}" rx="9" ry="11" fill="#fff" stroke="#7A3A55" stroke-width="1.5"/><path d="M${ck[0]} ${ck[1]} v-6 M${ck[0]} ${ck[1]} l4 3" stroke="#7A3A55" stroke-width="1.5"/>`;
+  s += isoBox(0, .52, .05, .34, 4, '#C99A66', '#9C6B42', '#8A5A33', 70);
+  const sh1 = P(.02, .6, 74), sh2 = P(.02, .76, 74);
+  s += `<rect x="${sh1[0] - 5}" y="${sh1[1] - 12}" width="10" height="12" fill="#FFF" stroke="#7A3A55"/><rect x="${sh1[0] - 3}" y="${sh1[1] - 10}" width="6" height="7" fill="#9AD4B0"/><circle cx="${sh2[0]}" cy="${sh2[1] - 9}" r="6" fill="#4FBF88" stroke="#2C7550"/><rect x="${sh2[0] - 4}" y="${sh2[1] - 5}" width="8" height="6" fill="#F08A4B" stroke="#7A3A55"/>`;
+  // 하트 러그
+  s += poly([P(.36, .34), P(.72, .34), P(.72, .7), P(.36, .7)], '#FFC8DC', 'opacity=".9"') + poly([P(.42, .4), P(.66, .4), P(.66, .64), P(.42, .64)], '#FFE3EC');
+  const rc = P(.54, .52); s += `<path d="M${rc[0]} ${rc[1] + 8} l-14 -8 a6 6 0 0 1 14 -6 a6 6 0 0 1 14 6z" fill="#F7A8C6"/>`;
+  // 책장, 옷장, 스탠드
+  s += isoBox(.02, .06, .12, .26, 72, '#F4D9B8', '#D9AE7E', '#C99A66');
+  [[18],[36],[54]].forEach(([hh]) => { s += poly([P(.14, .08, hh), P(.14, .30, hh), P(.14, .30, hh + 2), P(.14, .08, hh + 2)], '#8A5A33'); });
+  [['#F0558A',.1],['#5B8DEF',.15],['#F2C14E',.2],['#4FBF88',.25]].forEach(([col, vv]) => { s += poly([P(.14, vv, 38), P(.14, vv + .04, 38), P(.14, vv + .04, 52), P(.14, vv, 52)], col); });
+  [['#B79CFF',.1],['#FF9DB8',.16],['#7FD8E8',.22]].forEach(([col, vv]) => { s += poly([P(.14, vv, 20), P(.14, vv + .05, 20), P(.14, vv + .05, 34), P(.14, vv, 34)], col); });
+  s += isoBox(.56, .0, .2, .12, 100, '#FFE3EC', '#F7B8CF', '#F29BBC');
+  const kb = P(.66, .12, 50); s += `<circle cx="${kb[0] - 4}" cy="${kb[1]}" r="2" fill="#C8325F"/><circle cx="${kb[0] + 6}" cy="${kb[1] + 3}" r="2" fill="#C8325F"/>`;
+  const fl = P(.44, .06, 0), fl2 = P(.44, .06, 70); s += `<line x1="${fl[0]}" y1="${fl[1]}" x2="${fl2[0]}" y2="${fl2[1]}" stroke="#7A3A55" stroke-width="2"/><ellipse cx="${fl[0]}" cy="${fl[1]}" rx="7" ry="3" fill="#7A3A55"/><polygon points="${fl2[0] - 11},${fl2[1] + 6} ${fl2[0] + 11},${fl2[1] + 6} ${fl2[0] + 7},${fl2[1] - 8} ${fl2[0] - 7},${fl2[1] - 8}" fill="#FFF4C2" stroke="#7A3A55"/><circle cx="${fl2[0]}" cy="${fl2[1] + 8}" r="16" fill="#FFE59A" opacity=".35"/>`;
+  // 책상·모니터·책
+  s += isoBox(.78, .22, .2, .3, 32, '#FFF0F6', '#F7B8CF', '#F29BBC');
+  s += isoBox(.84, .28, .08, .14, 22, '#5B6B88', '#3E4F6B', '#2E3A5C', 32);
+  s += isoBox(.8, .44, .06, .06, 6, '#F0558A', '#C8325F', '#A8325C', 32) + isoBox(.8, .44, .06, .06, 5, '#5B8DEF', '#3F5FB0', '#2E4A90', 38);
+  // 협탁+조명, 침대
+  s += isoBox(.04, .36, .1, .12, 22, '#F4D9B8', '#D9AE7E', '#C99A66');
+  const lp = P(.09, .42, 22); s += `<rect x="${lp[0] - 2}" y="${lp[1] - 14}" width="4" height="14" fill="#7A3A55"/><polygon points="${lp[0] - 9},${lp[1] - 12} ${lp[0] + 9},${lp[1] - 12} ${lp[0] + 6},${lp[1] - 22} ${lp[0] - 6},${lp[1] - 22}" fill="#FFB3CF" stroke="#7A3A55"/>`;
+  s += isoBox(.04, .5, .3, .44, 20, '#FFF', '#F7B8CF', '#F29BBC') + isoBox(.04, .5, .3, .44, 4, '#FFB3CF', '#F48FB7', '#E46C98', 20) + isoBox(.05, .52, .1, .4, 8, '#FFFFFF', '#F1E4EA', '#E6D2DC', 24);
+  const cu = P(.1, .62, 32), cu2 = P(.1, .8, 32); s += `<path d="M${cu[0]} ${cu[1] + 4} l-7 -5 a3.5 3.5 0 0 1 7 -4 a3.5 3.5 0 0 1 7 4z" fill="#F0558A"/><circle cx="${cu2[0]}" cy="${cu2[1] - 2}" r="6" fill="#B79CFF" stroke="#7A3A55"/>`;
+  // 화분, 빈백, 곰인형
+  s += isoBox(.82, .6, .08, .08, 18, '#C99A66', '#9C6B42', '#8A5A33') + `<circle cx="${P(.86, .64, 30)[0]}" cy="${P(.86, .64, 30)[1]}" r="10" fill="#4FBF88" stroke="#2C7550"/>`;
+  const bb = P(.76, .84); s += `<ellipse cx="${bb[0]}" cy="${bb[1] - 6}" rx="20" ry="13" fill="#FFD66B" stroke="#7A3A55"/><ellipse cx="${bb[0] - 4}" cy="${bb[1] - 11}" rx="10" ry="5" fill="#FFE59A"/>`;
+  const tb = P(.42, .86); s += `<g transform="translate(${tb[0] - 11},${tb[1] - 26})"><circle cx="11" cy="17" r="9" fill="#C99A66" stroke="#7A3A55"/><circle cx="11" cy="7" r="7" fill="#C99A66" stroke="#7A3A55"/><circle cx="5" cy="2" r="3" fill="#C99A66" stroke="#7A3A55"/><circle cx="17" cy="2" r="3" fill="#C99A66" stroke="#7A3A55"/><circle cx="9" cy="6" r="1" fill="#1E2A44"/><circle cx="13" cy="6" r="1" fill="#1E2A44"/><circle cx="11" cy="9" r="1.5" fill="#7A3A55"/><path d="M8 17 l3 3 l3 -3" stroke="#F0558A" stroke-width="2" fill="none"/></g>`;
+  // 커플 캐릭터
+  const pa = P(.56, .6), pb = P(.66, .52);
+  s += sprite(c.a.look).replace('<svg ', `<svg x="${pa[0] - 18}" y="${pa[1] - 46}" `) + sprite(c.b.look).replace('<svg ', `<svg x="${pb[0] - 18}" y="${pb[1] - 46}" `);
+  const hc = P(.61, .56, 64); s += `<g class="bob" transform="translate(${hc[0] - 10},${hc[1]})">${HEART(20)}</g>`;
+  s += '</svg>';
+  return s;
+}
+let roomFor = null;
+function openRoom(h) {
+  const c = houseOwners().get(h.id); if (!c) return;
+  roomFor = { h, c };
+  const isMine = c.a.id === myId || c.b.id === myId;
+  const home = c.home;
+  $('roomT').textContent = `${c.a.nick} ♥ ${c.b.nick}의 집`;
+  $('roomUrl').textContent = `gunghap.village/home/${h.id}`;
+  $('roomStage').innerHTML = roomSVG(c, home.wall || 'pink');
+  const photos = [c.a, c.b].reduce((n, r) => n + (r.photos || []).filter((x) => x.with === (r === c.a ? c.b.id : c.a.id)).length, 0);
+  $('roomInfo').innerHTML = `<div>궁합<b>${c.score}점</b></div><div>호감도<b>${c.aff}/100</b></div><div>기념사진<b>${photos}장</b></div>`;
+  $('roomWalls').innerHTML = isMine ? '벽지 바꾸기: ' + Object.entries(WALLS).map(([k, v]) => `<button type="button" class="sw" data-wall="${k}" aria-pressed="${(home.wall || 'pink') === k}" style="background:${v[1]}">${v[0]}</button>`).join('') : `<span>${c.a.nick}♥${c.b.nick} 커플의 집에 놀러 왔어요 ✨</span>`;
+  try { $('room').showModal(); } catch (e) { $('room').setAttribute('open', ''); }
+}
+$('roomWalls').addEventListener('click', async (e) => {
+  const k = e.target.closest('[data-wall]')?.dataset.wall; if (!k || !roomFor) return;
+  const { c } = roomFor; const home = { ...c.home, with: partnerIdOf(myId), wall: k };
+  await write({ home }).catch(() => {});
+  $('roomStage').innerHTML = roomSVG(c, k);
+  $('roomWalls').querySelectorAll('[data-wall]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.wall === k));
 });
 
 /* ---------- 놀거리 ---------- */
@@ -811,7 +1227,7 @@ function takePhoto() {
   const sp = SPOTS.find((s) => Math.hypot(s.x - me.x, s.y - me.y) < s.r); if (!sp) return;
   L.photos = [{ spot: sp.id, with: pid, n1: m.nick, n2: p.nick, at: Date.now() }, ...L.photos].slice(0, 8);
   write({ photos: L.photos.map((x) => ({ ...x })) }).catch(() => {});
-  affAdd(3); misAdd('photo', 1);
+  affAdd(3);
   const fl = document.createElement('div'); fl.style.cssText = 'position:absolute;inset:0;background:#fff;z-index:9;opacity:.9;transition:opacity .6s'; vp.appendChild(fl); requestAnimationFrame(() => { fl.style.opacity = '0'; }); setTimeout(() => fl.remove(), 700);
   toast(`📸 ${sp.name}에서 찰칵! 커플 앨범에 저장했어요`);
 }
@@ -819,7 +1235,7 @@ function openAlbum() {
   const list = [...L.photos.map((p) => ({ ...p, a: myId, b: p.with }))];
   for (const r of residents.values()) if (!isMe(r.id) && Array.isArray(r.photos)) r.photos.forEach((p) => { if (p.with === myId) list.push({ ...p, a: r.id, b: myId }); });
   list.sort((x, y) => y.at - x.at);
-  $('albL').innerHTML = list.length ? list.slice(0, 12).map((p) => photoCard(p, residents.get(p.a), residents.get(p.b))).join('') : '<p class="empty" style="grid-column:1/-1">아직 사진이 없어요. 짝과 크리스마스트리, 얼음 연못, 모닥불, 소원 우물에 가면 기념사진을 찍을 수 있어요.</p>';
+  $('albL').innerHTML = list.length ? list.slice(0, 12).map((p) => photoCard(p, residents.get(p.a), residents.get(p.b))).join('') : '<p class="empty" style="grid-column:1/-1">아직 사진이 없어요. 짝과 크리스마스트리, 얼음 바다, 이글루, 얼음 연못, 모닥불에 가면 기념사진을 찍을 수 있어요.</p>';
   $('alb').showModal();
 }
 function openBag() {
@@ -850,7 +1266,7 @@ $('misL').addEventListener('click', (e) => {
   toast('미션 완료! 선물상자 1개를 받았어요 🎁'); updateMisDot(); openMis();
 });
 document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => b.closest('dialog').close()));
-['bag','mis','alb','cfm','dlg'].forEach((id) => $(id).addEventListener('close', () => setTimeout(showIncoming, 300)));
+['bag','mis','alb','cfm','dlg','ask','room'].forEach((id) => $(id).addEventListener('close', () => setTimeout(showIncoming, 300)));
 $('emopick').innerHTML = EMOS.map((e) => `<button type="button" data-emo="${e}" aria-label="${e}">${e}</button>`).join('');
 $('bEmo').addEventListener('click', () => { $('emopick').hidden = !$('emopick').hidden; $('chatbar').hidden = true; });
 $('emopick').addEventListener('click', (e) => {
@@ -872,7 +1288,7 @@ $('chatbar').addEventListener('submit', (e) => {
 let lastThrow = 0;
 $('bThrow').addEventListener('click', () => {
   if (Date.now() - lastThrow < 1200) return; lastThrow = Date.now();
-  let dx = me.fx, dy = me.fy; if (Math.hypot(dx, dy) < .1) { dx = me.left ? -1 : 1; dy = 0; }
+  let dx = me.fx, dy = me.fy; if (Math.hypot(dx, dy) < .1) { [dx, dy] = s2w(me.left ? -1 : 1, 0); }
   const tr = { at: Date.now(), x: Math.round(me.x), y: Math.round(me.y), dx: +dx.toFixed(2), dy: +dy.toFixed(2) };
   spawnBall(myId, tr); write({ throw: tr }).catch(() => {});
 });
@@ -889,15 +1305,18 @@ vp.addEventListener('pointermove', (e) => {
   if (!drag) return;
   const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
   if (!drag.moved && Math.hypot(dx, dy) > 8) { drag.moved = true; cam.free = true; }
-  if (drag.moved) { cam.x = drag.cx - dx; cam.y = drag.cy - dy / Math.cos(TILT * Math.PI / 180); }
+  if (drag.moved) { const [wx, wy] = s2w(dx / .9, dy / .9); cam.x = drag.cx - wx; cam.y = drag.cy - wy; }
 });
 window.addEventListener('pointerup', () => { setTimeout(() => { drag = null; }, 0); });
 world.addEventListener('click', (e) => {
   if (drag && drag.moved) return;
-  if (e.target.closest('[data-obj="well"]')) { wish++; sel = { obj: 'well' }; notice = ''; syncPeople(); renderCard(); misAdd('wish', 1); return; }
+  if (e.target.closest('[data-obj="well"]')) { wish++; sel = { obj: 'well' }; sheetOpen = true; notice = ''; syncPeople(); renderCard(); misAdd('wish', 1); return; }
+  const pt = e.target.closest('.pet'); if (pt) { const p = pets.find((x) => x.id === pt.dataset.pet); const b = document.createElement('span'); b.className = 'bub'; b.style.bottom = '40px'; b.textContent = p.say[Math.floor(Math.random() * p.say.length)]; pt.appendChild(b); setTimeout(() => b.remove(), 2500); return; }
   const b = e.target.closest('.res'); if (!b) return;
-  sel = isMe(b.dataset.id) ? null : { id: b.dataset.id }; notice = ''; breaking = false; uiKey = ''; syncPeople(); renderCard();
+  sel = isMe(b.dataset.id) ? null : { id: b.dataset.id }; notice = ''; breaking = false; uiKey = ''; sheetOpen = true; syncPeople(); renderCard();
 });
+$('tog').addEventListener('click', () => { sheetOpen = !sheetOpen; renderCard(); });
+new ResizeObserver(() => { $('app').style.setProperty('--sh', $('sheet').offsetHeight + 'px'); }).observe($('sheet'));
 $('tome').addEventListener('click', () => { cam.free = false; });
 const J = $('joy'), K = $('knob');
 function joyMove(e) {
@@ -920,7 +1339,7 @@ window.addEventListener('keyup', (e) => { keys.delete(e.key.length === 1 ? e.key
 window.addEventListener('blur', () => keys.clear());
 
 /* ---------- 입장 폼 ---------- */
-const look = [1, 0, 0];
+const look = [1, 0, 4];
 function drawPicker() {
   $('styS').innerHTML = STYLES.map((t, i) => `<button type="button" class="sw" aria-pressed="${look[2] === i}" data-g="2" data-i="${i}">${t}</button>`).join('');
   $('hairS').innerHTML = HAIR.map((c, i) => `<button type="button" class="sw" style="background:${c};width:36px" aria-label="머리 색 ${i + 1}" aria-pressed="${look[0] === i}" data-g="0" data-i="${i}"></button>`).join('');
@@ -954,7 +1373,7 @@ $('form').addEventListener('submit', async (e) => {
     else {
       me.x = SPAWN.x + Math.round((Math.random() - .5) * 140); me.y = SPAWN.y + Math.round((Math.random() - .5) * 40);
       me.savedX = me.x; me.savedY = me.y; me.init = true; me.movedAt = Date.now();
-      await api.create({ ...data, x: me.x, y: me.y, movedAt: me.movedAt, partner: null, confessTo: null, declined: null, auto: true });
+      await api.create({ ...data, x: me.x, y: me.y, movedAt: me.movedAt, partner: null, confessTo: null, declined: null, auto: true, ping: Date.now() });
       cam.free = false; toast('조이스틱으로 움직여 보세요! 오른쪽 버튼으로 놀 수 있어요');
     }
     $('dlg').close(); sel = null; renderCard();
@@ -967,6 +1386,7 @@ const okPair = (v) => Array.isArray(v) && v.length === 2 && Number.isInteger(v[0
 const okId = (v) => typeof v === 'string' && v.length > 0 && v.length <= 128 ? v : null;
 const okNum = (v) => typeof v === 'number' && isFinite(v);
 const okInt = (v) => Number.isInteger(v) && v >= 0 && v < 10000 ? v : 0;
+const obj = (v) => v && typeof v === 'object' && !Array.isArray(v);
 function clean(id, d) {
   if (!d || typeof d.nick !== 'string' || !d.p) return null;
   const nick = d.nick.trim().slice(0, 8); if (!nick) return null;
@@ -974,20 +1394,25 @@ function clean(id, d) {
   const Lk = Array.isArray(d.look) ? d.look : [];
   const lk = [Number.isInteger(Lk[0]) && Lk[0] >= 0 && Lk[0] < HAIR.length ? Lk[0] : 0, Number.isInteger(Lk[1]) && Lk[1] >= 0 && Lk[1] < SHIRT.length ? Lk[1] : 0, Number.isInteger(Lk[2]) && Lk[2] >= 0 && Lk[2] < STYLES.length ? Lk[2] : 0];
   let x, y;
-  if (okNum(d.x) && okNum(d.y)) { x = clamp(d.x, 30, MAPW - 30); y = clamp(d.y, 60, MAPH - 20); }
+  if (okNum(d.x) && okNum(d.y)) { x = clamp(d.x, 30, MAPW - 30); y = clamp(d.y, 470, MAPH - 20); }
   else { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 9973; x = SPAWN.x - 100 + (h % 200); y = SPAWN.y - 30 + (h % 50); }
-  const r = { id, nick, p: { y: p.y, m: p.m, d: p.d, h: p.h || null }, look: lk, x, y, movedAt: okNum(d.movedAt) ? d.movedAt : 0,
+  const r = { id, nick, p: { y: p.y, m: p.m, d: p.d, h: p.h || null }, look: lk, x, y, movedAt: okNum(d.movedAt) ? d.movedAt : 0, ping: okNum(d.ping) ? d.ping : 0,
     partner: okId(d.partner), confessTo: okId(d.confessTo), confessAt: okNum(d.confessAt) ? d.confessAt : 0, auto: d.auto !== false };
-  if (d.declined && typeof d.declined === 'object' && okId(d.declined.id)) r.declined = { id: d.declined.id, at: okNum(d.declined.at) ? d.declined.at : 0 };
-  if (d.emote && typeof d.emote === 'object' && EMOS.includes(d.emote.k) && okNum(d.emote.at)) r.emote = { k: d.emote.k, at: d.emote.at };
-  if (d.say && typeof d.say === 'object' && typeof d.say.t === 'string' && okNum(d.say.at)) r.say = { t: filt(d.say.t.slice(0, 40)), at: d.say.at };
-  if (d.throw && typeof d.throw === 'object' && [d.throw.at, d.throw.x, d.throw.y, d.throw.dx, d.throw.dy].every(okNum)) r.throw = { at: d.throw.at, x: d.throw.x, y: d.throw.y, dx: d.throw.dx, dy: d.throw.dy };
-  if (d.gift && typeof d.gift === 'object' && okId(d.gift.to) && ITEMS[d.gift.item] && okNum(d.gift.at)) r.gift = { to: d.gift.to, item: d.gift.item, at: d.gift.at };
-  if (d.aff && typeof d.aff === 'object' && okId(d.aff.with)) r.aff = { with: d.aff.with, pts: Math.min(50, okInt(d.aff.pts)) };
-  if (d.picked && typeof d.picked === 'object' && typeof d.picked.slot === 'string' && Array.isArray(d.picked.ids)) r.picked = { slot: d.picked.slot, ids: d.picked.ids.filter((i) => typeof i === 'string').slice(0, 30) };
-  if (d.inv && typeof d.inv === 'object') r.inv = { snow: okInt(d.inv.snow), cocoa: okInt(d.inv.cocoa), mitten: okInt(d.inv.mitten), gift: okInt(d.inv.gift) };
-  if (d.mis && typeof d.mis === 'object' && typeof d.mis.d === 'string') r.mis = { d: d.mis.d, c: typeof d.mis.c === 'object' && d.mis.c ? d.mis.c : {}, claimed: Array.isArray(d.mis.claimed) ? d.mis.claimed : [] };
-  if (Array.isArray(d.photos)) r.photos = d.photos.filter((ph) => ph && typeof ph === 'object' && okId(ph.with) && okNum(ph.at) && typeof ph.spot === 'string').slice(0, 8).map((ph) => ({ spot: ph.spot, with: ph.with, at: ph.at, n1: String(ph.n1 || '').slice(0, 8), n2: String(ph.n2 || '').slice(0, 8) }));
+  if (obj(d.declined) && okId(d.declined.id)) r.declined = { id: d.declined.id, at: okNum(d.declined.at) ? d.declined.at : 0 };
+  if (obj(d.emote) && EMOS.includes(d.emote.k) && okNum(d.emote.at)) r.emote = { k: d.emote.k, at: d.emote.at };
+  if (obj(d.say) && typeof d.say.t === 'string' && okNum(d.say.at)) r.say = { t: filt(d.say.t.slice(0, 40)), at: d.say.at };
+  if (obj(d.throw) && [d.throw.at, d.throw.x, d.throw.y, d.throw.dx, d.throw.dy].every(okNum)) r.throw = { at: d.throw.at, x: d.throw.x, y: d.throw.y, dx: d.throw.dx, dy: d.throw.dy };
+  if (obj(d.gift) && okId(d.gift.to) && ITEMS[d.gift.item] && okNum(d.gift.at)) r.gift = { to: d.gift.to, item: d.gift.item, at: d.gift.at };
+  if (obj(d.aff) && okId(d.aff.with)) r.aff = { with: d.aff.with, pts: Math.min(50, okInt(d.aff.pts)) };
+  if (obj(d.picked) && typeof d.picked.slot === 'string' && Array.isArray(d.picked.ids)) r.picked = { slot: d.picked.slot, ids: d.picked.ids.filter((i) => typeof i === 'string').slice(0, 30) };
+  if (obj(d.inv)) r.inv = { snow: okInt(d.inv.snow), cocoa: okInt(d.inv.cocoa), mitten: okInt(d.inv.mitten), gift: okInt(d.inv.gift) };
+  if (obj(d.mis) && typeof d.mis.d === 'string') r.mis = { d: d.mis.d, c: obj(d.mis.c) ? d.mis.c : {}, claimed: Array.isArray(d.mis.claimed) ? d.mis.claimed : [] };
+  if (Array.isArray(d.photos)) r.photos = d.photos.filter((ph) => obj(ph) && okId(ph.with) && okNum(ph.at) && typeof ph.spot === 'string').slice(0, 8).map((ph) => ({ spot: ph.spot, with: ph.with, at: ph.at, n1: String(ph.n1 || '').slice(0, 8), n2: String(ph.n2 || '').slice(0, 8) }));
+  if (obj(d.home) && HOUSES.some((h) => h.id === d.home.id) && okId(d.home.with) && okNum(d.home.at)) r.home = { id: d.home.id, with: d.home.with, at: d.home.at, wall: WALLS[d.home.wall] ? d.home.wall : 'pink' };
+  if (obj(d.date) && okId(d.date.with) && okNum(d.date.at)) r.date = { with: d.date.with, on: d.date.on === true, at: d.date.at };
+  if (obj(d.ddate) && typeof d.ddate.key === 'string' && okNum(d.ddate.at)) r.ddate = { key: d.ddate.key.slice(0, 260), on: d.ddate.on === true, at: d.ddate.at };
+  if (obj(d.ask) && okId(d.ask.to) && ACTS[d.ask.act] && okNum(d.ask.at)) r.ask = { to: d.ask.to, act: d.ask.act, at: d.ask.at };
+  if (obj(d.ans) && okId(d.ans.to) && ACTS[d.ans.act] && okNum(d.ans.at)) r.ans = { to: d.ans.to, act: d.ans.act, ok: d.ans.ok === true, at: d.ans.at };
   return r;
 }
 function onData(list, definitive) {
@@ -1011,16 +1436,17 @@ setInterval(() => { if (loaded) syncItems(); }, 15000);
 function startDemo() {
   showBanner('미리보기 모드예요. 예시 주민들과 이 화면에서만 놀아 볼 수 있어요.');
   const S = [['몽글',1996,3,2,10],['차차',1995,7,21,null],['보리',1993,11,9,22],['율무',1998,5,5,7],['단비',1990,12,25,15],['호두',1994,8,14,3],['콩떡',1997,1,30,12],['모카',1999,6,18,19],['누리',1992,9,9,8],['토리',2000,4,1,null]];
-  const spots = [[480,840],[620,850],[300,780],[360,780],[760,620],[820,660],[600,1010],[250,660],[700,1200],[400,1320]];
-  const SAY = ['안녕!', '눈 진짜 많이 온다', '같이 걸을래?', '핫초코 주운 사람?', '모닥불 따뜻해~', '궁합 몇 점 나왔어?'];
-  const npcs = S.map(([n, y, mo, d, h], i) => ({ id: 'n' + i, nick: n, p: pillars(y, mo, d, h), look: [i % HAIR.length, (i * 3) % SHIRT.length, i % 4], x: spots[i][0], y: spots[i][1], movedAt: i, partner: null, confessTo: null, auto: true }));
+  const spots = [[480,840],[620,850],[300,780],[360,780],[760,1000],[820,1040],[600,1010],[250,1040],[700,1200],[400,1320]];
+  const SAY = ['안녕!', '눈 진짜 많이 온다', '같이 걸을래?', '핫초코 주운 사람?', '물개 귀여워!', '이글루 들어가 보고 싶다'];
+  const npcs = S.map(([n, y, mo, d, h], i) => ({ id: 'n' + i, nick: n, p: pillars(y, mo, d, h), look: [i % HAIR.length, (i * 3) % SHIRT.length, i % 5], x: spots[i][0], y: spots[i][1], movedAt: i, partner: null, confessTo: null, auto: true, ping: Date.now() }));
   npcs[0].partner = 'n1'; npcs[1].partner = 'n0'; npcs[0].auto = npcs[1].auto = false; npcs[0].aff = { with: 'n1', pts: 50 }; npcs[1].aff = { with: 'n0', pts: 50 };
+  npcs[0].home = { id: 'h1', with: 'n1', at: 1, wall: 'pink' };
   let meDoc = null; myId = 'me';
   const all = () => npcs.concat(meDoc ? [meDoc] : []).map((r) => clean(r.id, r)).filter(Boolean);
   const emit = (def = true) => onData(all(), def);
   api = {
-    create: async (data) => { meDoc = { id: 'me', ...data }; emit(); setTimeout(npcConfess, 25000); },
-    update: async (f) => { if (!meDoc) return; Object.assign(meDoc, f); const quiet = Object.keys(f).every((k) => ['x','y','movedAt','emote','say','throw','inv','picked','mis','aff','photos'].includes(k)); if (!quiet) emit(); if (f.confessTo) setTimeout(() => npcReply(f.confessTo), 1800); },
+    create: async (data) => { meDoc = { id: 'me', ...data }; emit(); setTimeout(npcConfess, 40000); },
+    update: async (f) => { if (!meDoc) return; Object.assign(meDoc, f); const quiet = Object.keys(f).every((k) => ['x','y','movedAt','ping','emote','say','throw','inv','picked','mis','aff','photos'].includes(k)); if (!quiet) emit(); if (f.confessTo) setTimeout(() => npcReply(f.confessTo), 1800); if (f.ask) setTimeout(() => npcAnswer(f.ask), 1500); },
     remove: async () => { meDoc = null; npcs.forEach((n) => { if (n.partner === 'me') n.partner = null; if (n.confessTo === 'me') n.confessTo = null; }); emit(); }
   };
   function npcReply(id) {
@@ -1028,19 +1454,19 @@ function startDemo() {
     if (scoreOf({ id: 'me', p: meDoc.p }, { id: n.id, p: n.p }).score >= 62) { n.partner = 'me'; n.auto = false; } else n.declined = { id: 'me', at: Date.now() };
     emit();
   }
+  function npcAnswer(ask) { const n = npcs.find((x) => x.id === ask.to); if (!n) return; n.ans = { to: 'me', act: ask.act, ok: true, at: Date.now() }; emit(); }
   function npcConfess() { if (!meDoc || coupleOf.has('me') || meDoc.confessTo) return; const f = npcs.find((n) => !coupleOf.has(n.id)); if (f) { f.confessTo = 'me'; f.confessAt = Date.now(); emit(); } }
-  let tick = 0;
   setInterval(() => {
-    tick++;
     npcs.forEach((n, i) => {
-      if (Math.random() < .3) { n.x = clamp(spots[i][0] + (Math.random() - .5) * 160, 40, MAPW - 40); n.y = clamp(spots[i][1] + (Math.random() - .5) * 120, 80, MAPH - 40); n.movedAt = Date.now(); }
+      n.ping = Date.now();
+      if (partnerIdOf(n.id) !== 'me' && Math.random() < .3) { n.x = clamp(spots[i][0] + (Math.random() - .5) * 160, 40, MAPW - 40); n.y = clamp(spots[i][1] + (Math.random() - .5) * 120, 500, MAPH - 40); n.movedAt = Date.now(); }
       if (Math.random() < .06) n.emote = { k: EMOS[Math.floor(Math.random() * EMOS.length)], at: Date.now() + i };
       if (Math.random() < .04) n.say = { t: SAY[Math.floor(Math.random() * SAY.length)], at: Date.now() + i };
     });
-    if (tick === 4 && meDoc) { const n = npcs[6]; n.throw = { at: Date.now(), x: n.x, y: n.y, dx: Math.sign(me.x - n.x) || 1, dy: 0 }; }
     emit(false);
   }, 3000);
   emit();
+  window.__demo = { npcs, emit };
 }
 
 /* ---------- Firebase 모드 ---------- */
@@ -1069,8 +1495,8 @@ async function startLive() {
   });
 }
 
-buildWorld();
-if (DEMO) window.__dbg = { me, L, items: () => itemList, sel: (id) => { sel = { id }; uiKey = ''; renderCard(); } };
+buildWorld(); buildPets();
+if (DEMO) window.__dbg = { me, L, cam, items: () => itemList, sel: (id) => { sel = { id }; uiKey = ''; sheetOpen = true; renderCard(); }, snooze };
 cam.x = 550; cam.y = 800;
 renderCard();
 requestAnimationFrame(frame);
