@@ -254,6 +254,20 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .mmap.big{width:min(230px,62vw);height:min(230px,62vw)}
 .mmap svg{width:100%;height:100%;display:block}
 .mmap:focus-visible{outline:3px solid #2457C5;outline-offset:2px}
+
+.nbar,.gchip.sb,.datebar,.toast{left:10px!important;right:108px!important;margin:0 auto;width:fit-content;max-width:calc(100% - 118px);transform:none!important}
+.nbar{position:absolute;top:calc(98px + env(safe-area-inset-top));z-index:11;display:flex;flex-direction:column;align-items:center;gap:5px;background:#fff;border:2.5px solid #E8578A;border-radius:16px;padding:6px 12px 9px;text-align:center;box-shadow:0 4px 0 rgba(232,87,138,.35);overflow:hidden}
+.nbar.pop{animation:nin .35s ease-out}
+@keyframes nin{0%{opacity:0;translate:0 -12px}100%{opacity:1;translate:0 0}}
+.nbar .nt{font:400 13.5px/1.35 'Jua',sans-serif;color:#7A1E3D}
+.nbar .nb{display:flex;gap:5px}
+.nbar button{min-height:32px;border-radius:999px;border:2px solid var(--line);background:#E8578A;color:#fff;font:400 13px 'Jua',sans-serif;padding:0 12px;cursor:pointer}
+.nbar button.ghost{background:#fff;color:var(--ink)}
+.nbar .np{position:absolute;left:0;bottom:0;height:3px;width:100%;background:#F7A8C6;transform-origin:left;animation:nprog linear forwards}
+@keyframes nprog{to{transform:scaleX(0)}}
+.datebar{top:calc(150px + env(safe-area-inset-top))!important}
+.gchip.sb{top:calc(184px + env(safe-area-inset-top))!important}
+.toast{top:calc(214px + env(safe-area-inset-top))!important}
 </style>
 </head>
 <body>
@@ -264,7 +278,7 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 <div class="fog" aria-hidden="true"></div><div class="vig" aria-hidden="true"></div>
 <div class="snow" id="snow" aria-hidden="true"></div>
 <div class="toast" id="toast" hidden></div>
-<div class="gchip" id="huntChip" hidden></div><div class="gchip sb" id="sbChip" hidden aria-live="polite"></div>
+<div class="nbar" id="nbar" hidden role="status" aria-live="polite"></div><div class="gchip" id="huntChip" hidden></div><div class="gchip sb" id="sbChip" hidden aria-live="polite"></div>
 <div class="fade" id="fade" aria-hidden="true"></div>
 <div class="datebar" id="datebar" hidden></div>
 <div class="joy" id="joy" hidden aria-label="이동 조이스틱"><div class="knob" id="knob"></div></div>
@@ -1458,25 +1472,17 @@ function datePrompts(dt) {
   // 1) 같이 걷다 보면 커플 데이트 제안
   if (!c.date && g && g.kind === 'couple' && me.togetherT > 6 && now > snooze.date) {
     me.togetherT = 0; const p = residents.get(partnerIdOf(myId));
-    showAsk('커플 데이트 하시겠습니까? 💕', `${p.nick}님과 함께 걷고 있어요. 데이트를 시작하면 어깨동무하고 걸어요.`, [['좋아요, 데이트할래요', 'startDate', ''], ['나중에', 'snoozeDate', 'ghost']]);
+    notify({ key: 'date', text: `💕 ${p.nick}님과 데이트할까요? 어깨동무하고 걸어요`, btns: [['데이트하기', 'startDate', ''], ['✕', 'snoozeDate', 'ghost']], ttl: 8000, expire: 'snoozeDate' });
     return;
   }
   // 2) 두 커플이 함께 다니면 더블데이트 제안
   if (g && g.kind !== 'double' && now > snooze.dd) {
     const myCx = disp.get(myId);
     const other = couples.find((o) => o !== c && !(groupOf.get(o.a.id) && groupOf.get(o.a.id).kind === 'double') && disp.get(o.a.id) && myCx && dist(disp.get(o.a.id), myCx) < 150);
-    if (other) { me.ddT += dt; if (me.ddT > 5) { me.ddT = 0; showAsk('더블 데이트 하시겠습니까? 💞', `${other.a.nick}♥${other.b.nick} 커플과 함께 다니고 있어요. 더블 데이트를 시작하면 네 명이 나란히 어깨동무하고 걸어요.`, [['좋아요!', 'startDD:' + other.key, ''], ['나중에', 'snoozeDD', 'ghost']]); return; } }
+    if (other) { me.ddT += dt; if (me.ddT > 5) { me.ddT = 0; notify({ key: 'dd', text: `💞 ${other.a.nick}♥${other.b.nick} 커플과 더블 데이트할까요?`, btns: [['좋아요', 'startDD:' + other.key, ''], ['✕', 'snoozeDD', 'ghost']], ttl: 8000, expire: 'snoozeDD' }); snooze.dd = Date.now() + 15000; return; } }
     else me.ddT = 0;
   }
-  // 3) 데이트 중이면 가끔 스킨십 제안 (짝이 접속 중일 때만)
-  if (g && g.kind !== 'couple') {
-    me.dateT += dt;
-    const p = residents.get(partnerIdOf(myId));
-    if (me.dateT > 40 && now > snooze.skin && online(p)) {
-      me.dateT = 0;
-      showAsk('분위기가 무르익었어요 💗', `${p.nick}님에게 무엇을 해 볼까요? 상대가 수락해야 동작해요.`, [...Object.entries(ACTS).map(([k, v]) => [`${v[1]} ${v[0]}`, 'skin:' + k, '']), ['나중에', 'snoozeSkin', 'ghost']], true);
-    }
-  }
+  // 스킨십은 아래 카드의 버튼으로만 해요
 }
 function endDouble(g, o) {
   ddSeen.ending = true; const now = Date.now(), pid = partnerIdOf(myId);
@@ -1594,7 +1600,7 @@ function omokIncoming(r) {
   const m = mine(); if (!m) return;
   if (r.omok.end || r.omok.decline || r.omok.color !== 'b' || r.omok.moves.length) return;
   if (m.omok && m.omok.gid === r.omok.gid) return;
-  const open = () => showAsk('♟ 오목 대결 신청', `${r.nick}님이 탑골공원에서 오목 한 판 하자고 해요! 흑돌이 먼저 둬요.`, [['좋아요, 한 판!', 'omokYes:' + r.id, ''], ['다음에', 'omokNo:' + r.id, 'ghost']]);
+  const open = () => notify({ key: 'omok' + r.omok.gid, text: `♟ ${r.nick}님이 오목 한 판 하재요`, btns: [['수락', 'omokYes:' + r.id, ''], ['거절', 'omokNo:' + r.id, 'ghost']], ttl: 15000, expire: 'omokNo:' + r.id });
   if (document.querySelector('dialog[open]')) setTimeout(() => { if (!document.querySelector('dialog[open]')) open(); }, 1500); else open();
 }
 let omokSig = '';
@@ -1635,7 +1641,7 @@ function duelIncoming(kind, r) {
   if ((v.words && v.words.length) || (v.bites && v.bites.length)) return;
   const m = mine(); if (!m || (m[kind] && m[kind].gid === v.gid)) return;
   const desc = kind === 'cho' ? `${r.nick}님이 초성게임을 하재요! 초성 '${v.q}'로 번갈아 단어를 말해요.` : `${r.nick}님이 빼빼로게임을 하재요! 번갈아 한 입씩, 먼저 고개를 돌리면 져요 🥢`;
-  whenFree(() => showAsk(`${kind === 'cho' ? '🔤' : '🥢'} ${DUELS[kind]} 신청`, desc, [['좋아요!', `dYes:${kind}:${r.id}`, ''], ['다음에', `dNo:${kind}:${r.id}`, 'ghost']]));
+  whenFree(() => notify({ key: kind + v.gid, text: `${kind === 'cho' ? '🔤' : '🥢'} ${r.nick}님이 ${DUELS[kind]}을 하재요`, btns: [['수락', `dYes:${kind}:${r.id}`, ''], ['거절', `dNo:${kind}:${r.id}`, 'ghost']], ttl: 15000, expire: `dNo:${kind}:${r.id}` }));
 }
 async function duelAnswer(kind, id, yes) {
   const r = residents.get(id); if (!r || !r[kind]) return;
@@ -1898,7 +1904,7 @@ async function sbStart() {
 function sbIncoming(r) {
   const v = r.sb; if (!v.join || v.done || v.host !== r.id || v.t0 < Date.now() + 1000 || SB.gid === v.gid || !mine()) return;
   if (!inArena(me) && Math.hypot(me.x - ARENA.x, me.y - ARENA.y) > ARENA.r + 200) return;
-  whenFree(() => { if (Date.now() < v.t0) showAsk('⛄ 눈싸움 대전!', `${r.nick}님이 눈싸움 대전을 열었어요. 60초 동안 눈덩이를 가장 많이 맞힌 사람이 이겨요!`, [['참가할래요!', 'sbJoin:' + r.id, ''], ['구경할게요', 'sbNo', 'ghost']]); });
+  notify({ key: 'sb' + v.gid, text: `⛄ ${r.nick}님이 눈싸움 대전을 열었어요!`, btns: [['참가', 'sbJoin:' + r.id, ''], ['구경', 'none', 'ghost']], ttl: Math.max(2500, v.t0 - Date.now() - 300) });
 }
 async function sbJoin(id) {
   const r = residents.get(id); if (!r || !r.sb || Date.now() > r.sb.t0 + SB_LEN) return;
@@ -2005,7 +2011,9 @@ function showAsk(title, desc, btns, grid = false) {
 }
 $('askB').addEventListener('click', async (e) => {
   const a = e.target.closest('[data-ask]')?.dataset.ask; if (!a) return;
-  $('ask').close();
+  $('ask').close(); doAsk(a);
+});
+async function doAsk(a) {
   const pid = partnerIdOf(myId), now = Date.now();
   if (a === 'startDate' && pid) { await write({ date: { with: pid, on: true, at: now } }).catch(() => {}); toast('커플 데이트 시작! 💕'); hearts(me.x, me.y); }
   if (a === 'snoozeDate') snooze.date = now + 3 * 60000;
@@ -2019,11 +2027,24 @@ $('askB').addEventListener('click', async (e) => {
   if (a.startsWith('omokNo:')) { const r = residents.get(a.slice(7)); if (r && r.omok) await write({ omok: { gid: r.omok.gid, opp: r.id, color: 'w', moves: [], decline: true, at: now } }).catch(() => {}); }
   if (a.startsWith('reply:')) { const [, act, ok, to] = a.split(':'); await write({ ans: { to, act, ok: ok === '1', at: now } }).catch(() => {}); if (ok === '1') affAdd(ACTS[act][3]); }
   renderCard();
-});
+}
+/* ---------- 위쪽 알림 바 (화면을 막지 않아요, 차례로 하나씩) ---------- */
+const nq = []; let nCur = null, nTimer = 0;
+function notify(o) { // o: { key, text, btns: [[label, action, cls]], ttl, expire }
+  if (o.key && (nCur && nCur.key === o.key || nq.some((q) => q.key === o.key))) return;
+  nq.push(o); if (!nCur) nNext();
+}
+function nNext() {
+  clearTimeout(nTimer); nCur = nq.shift() || null; const bar = $('nbar');
+  if (!nCur) { bar.hidden = true; return; }
+  bar.innerHTML = `<span class="nt">${esc(nCur.text)}</span><span class="nb">${nCur.btns.map(([l, a, c]) => `<button type="button" class="${c || ''}" data-na="${esc(a)}">${esc(l)}</button>`).join('')}</span><i class="np" style="animation-duration:${nCur.ttl}ms"></i>`;
+  bar.hidden = false; bar.classList.remove('pop'); void bar.offsetWidth; bar.classList.add('pop'); sfx('clink');
+  nTimer = setTimeout(() => { const c = nCur; if (c && c.expire) doAsk(c.expire); nNext(); }, nCur.ttl);
+}
+$('nbar').addEventListener('click', (e) => { const b = e.target.closest('[data-na]'); if (!b) return; const a = b.dataset.na; nNext(); if (a !== 'none') doAsk(a); });
 function askIncoming(r) {
   const [name, icon, q] = ACTS[r.ask.act];
-  const open = () => showAsk(`${r.nick}님의 마음 ${icon}`, `${r.nick}님이 "${q}" 하고 물어봐요.`, [[`좋아요 ${icon}`, `reply:${r.ask.act}:1:${r.id}`, ''], ['다음에', `reply:${r.ask.act}:0:${r.id}`, 'ghost']]);
-  if (document.querySelector('dialog[open]')) setTimeout(() => { if (!document.querySelector('dialog[open]')) open(); }, 1500); else open();
+  whenFree(() => notify({ key: 'ask' + r.ask.at, text: `${icon} ${r.nick}님: "${q}"`, btns: [['수락', `reply:${r.ask.act}:1:${r.id}`, ''], ['거절', `reply:${r.ask.act}:0:${r.id}`, 'ghost']], ttl: 15000, expire: `reply:${r.ask.act}:0:${r.id}` }));
 }
 function handleAnswer(r) {
   const to = residents.get(r.ans.to); if (!to) return;
@@ -2193,6 +2214,7 @@ function renderCard() {
       if (hs && hOwner) btn('enter', hOwner === myC ? '🏠 우리 집 들어가기' : `🏠 ${hOwner.a.nick}♥${hOwner.b.nick}네 구경하기`, 'home');
       if (inZone('pocha', me)) { cd.textContent = '포장마차에 왔어요. 떡볶이에 오뎅 국물, 소주 한잔 어때요? 🍶'; btn('soju', '🍶 소주 데이트', ''); }
       if (spot) btn('photo', '📸 기념사진', '');
+      if ((myC.date || (myG && myG.kind === 'double')) && online(pr)) Object.entries(ACTS).forEach(([k, v]) => btn('skin:' + k, `${v[1]} ${v[0]}`, ''));
       if (myC.date || (myG && myG.kind === 'double')) btn('endDate', '데이트 끝내기', 'ghost');
       else btn('startDateNow', '💕 데이트하기', '');
       btn('album', '앨범', 'ghost');
@@ -2232,6 +2254,7 @@ $('actions').addEventListener('click', async (e) => {
   if (a === 'movein') { const hs = nearHouse(), pid = partnerIdOf(myId); if (hs && pid) { await write({ home: { id: hs.id, with: pid, at: Date.now(), wall: 'pink' } }).catch(() => {}); notice = `통나무집에 입주했어요! 🏠 문 앞에서 '우리 집 들어가기'를 눌러 보세요.`; hearts(me.x, me.y, 6); } }
   if (a === 'enter') { const hs = nearHouse(); if (hs) openRoom(hs); }
   if (a === 'photo') takePhoto();
+  if (a.startsWith('skin:')) doAsk(a);
   if (a.startsWith('dInv:')) duelInvite(a.slice(5));
   if (a.startsWith('dOpen:')) openDuel(a.slice(6));
   if (a === 'fish') openFishing();
