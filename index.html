@@ -268,6 +268,10 @@ dialog::backdrop{background:rgba(20,28,50,.55)}
 .datebar{top:calc(150px + env(safe-area-inset-top))!important}
 .gchip.sb{top:calc(184px + env(safe-area-inset-top))!important}
 .toast{top:calc(214px + env(safe-area-inset-top))!important}
+.cull{display:none!important}
+.still .vp *{animation-play-state:paused!important}
+.gmk:not(.on) .ga,.gmk:not(.on) .gl{animation:none!important}
+@media (pointer:coarse){.tw{animation:none!important;opacity:.9}.item .bob{animation:none!important}.flame{animation-duration:1.6s!important}}
 </style>
 </head>
 <body>
@@ -1040,7 +1044,7 @@ function buildWorld() {
   o.push('<div id="items" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   o.push('<div id="people" style="position:absolute;left:0;top:0;transform-style:preserve-3d"></div>');
   $('world').innerHTML = o.join('');
-  $('snow').innerHTML = Array.from({ length: 64 }, (_, i) => { const s = 2 + (i % 5) * .9; return `<i style="left:${(i * 37 + (i % 3) * 11) % 100}%;width:${s.toFixed(1)}px;height:${s.toFixed(1)}px;opacity:${(.65 + (i % 4) * .1).toFixed(2)};animation-duration:${(7 + (i % 6) * 1.3).toFixed(1)}s;animation-delay:-${(i * 0.37 % 12).toFixed(2)}s"></i>`; }).join('');
+  $('snow').innerHTML = Array.from({ length: matchMedia('(pointer:coarse)').matches || innerWidth < 700 ? 28 : 64 }, (_, i) => { const s = 2 + (i % 5) * .9; return `<i style="left:${(i * 37 + (i % 3) * 11) % 100}%;width:${s.toFixed(1)}px;height:${s.toFixed(1)}px;opacity:${(.65 + (i % 4) * .1).toFixed(2)};animation-duration:${(7 + (i % 6) * 1.3).toFixed(1)}s;animation-delay:-${(i * 0.37 % 12).toFixed(2)}s"></i>`; }).join('');
 }
 
 /* ---------- 마을 동물 (각자 화면에서 돌아다님) ---------- */
@@ -1449,7 +1453,37 @@ function reportErr(e) { // 문제가 생겨도 멈추지 않고, 화면 위에 �
   showBanner('작은 오류가 있었어요: ' + String((e && e.message) || e).slice(0, 60) + ' · 이 문구를 캡처해 알려 주세요');
   setTimeout(() => { if ($('banner').textContent.startsWith('작은 오류')) showBanner(''); }, 12000);
 }
-function frame(t) { try { frameInner(t); } catch (e) { last = t; reportErr(e); } requestAnimationFrame(frame); }
+/* ---------- 성능: 화면 밖 장식은 숨기기, 창이 열리면 멈추기 ---------- */
+const LITE = matchMedia('(pointer:coarse)').matches || innerWidth < 700;
+let cullList = [], cullLast = 0, cullCam = { x: -9999, y: -9999 };
+function cullInit() {
+  cullList = [];
+  for (const el of $('world').children) {
+    if (!el.style || el.id === 'items' || el.id === 'people' || el.classList.contains('far') || el.classList.contains('ground')) continue;
+    const L2 = parseFloat(el.style.left), T = parseFloat(el.style.top), W = parseFloat(el.style.width) || parseFloat(el.getAttribute('width')) || 0, H = parseFloat(el.style.height) || parseFloat(el.getAttribute('height')) || 0;
+    if (!isFinite(L2) || !isFinite(T)) continue;
+    const bb = el.classList.contains('st');
+    cullList.push({ el, x: L2 + W / 2, y: bb ? T + H : T + H / 2, r: bb ? Math.max(W / 2, 30) : Math.hypot(W, H) / 2, h: bb ? H : 0, on: true });
+  }
+}
+function cullTick(now) {
+  if (now - cullLast < 220 || !cullList.length) return; cullLast = now;
+  if (Math.abs(cam.x - cullCam.x) + Math.abs(cam.y - cullCam.y) < 40) return; cullCam = { x: cam.x, y: cam.y };
+  const hw = (innerWidth / 2) / .9 + 160, ht = (innerHeight / 2) / .9 + 140;
+  for (const c of cullList) {
+    const dx = c.x - cam.x, dy = c.y - cam.y, sx = (dx - dy) * .7071, sy = (dx + dy) * .3536, rr = c.r;
+    const vis = sx > -hw - rr && sx < hw + rr && sy > -ht - rr && sy < ht + rr + c.h * .9;
+    if (vis !== c.on) { c.on = vis; c.el.classList.toggle('cull', !vis); }
+  }
+}
+const anyDialog = () => !!document.querySelector('dialog[open]');
+function frame(t) {
+  try {
+    if (anyDialog()) { last = t; $('app').classList.add('still'); gamesTick(); }
+    else { $('app').classList.remove('still'); frameInner(t); cullTick(t); }
+  } catch (e) { last = t; reportErr(e); }
+  requestAnimationFrame(frame);
+}
 window.addEventListener('error', (e) => reportErr(e.error || e.message));
 const nearHouse = () => HOUSES.find((h) => Math.hypot(h.x + 24 - me.x, (h.y + 112) - me.y) < 70);
 
@@ -2703,13 +2737,17 @@ async function startLive() {
   });
 }
 
-buildWorld(); buildPets();
+function boot() {
+buildWorld(); buildPets(); cullInit();
 if (DEMO) Object.assign(window, { SND, ai, omokBusy, partnerIdOf, $, SB, hunt, L, fishing, duelState, treasureSpots, weekId, SB_LEN });
 if (DEMO) window.__dbg = { me, L, cam, items: () => itemList, sel: (id) => { sel = { id }; uiKey = ''; sheetOpen = true; renderCard(); }, snooze };
 cam.x = 550; cam.y = 800;
 renderCard();
 requestAnimationFrame(frame);
 if (DEMO) startDemo(); else startLive();
+}
+renderCard();
+requestAnimationFrame(() => setTimeout(boot, 30));
 </script>
 </body>
 </html>
